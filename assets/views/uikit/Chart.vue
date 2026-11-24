@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import type { ChartData, ChartOptions } from 'chart.js';
+import ChartCanvas from '../../components/chart/ChartCanvas.vue';
 import { useLayout } from '../../layout/composables/layout';
 
 const { layoutConfig } = useLayout();
@@ -8,17 +10,17 @@ let textColor = documentStyle.getPropertyValue('--text-color');
 let textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
 let surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-const lineData = ref<any>(null);
-const pieData = ref<any>(null);
-const polarData = ref<any>(null);
-const barData = ref<any>(null);
-const radarData = ref<any>(null);
+const lineData = ref<ChartData>({ labels: [], datasets: [] });
+const pieData = ref<ChartData>({ labels: [], datasets: [] });
+const polarData = ref<ChartData>({ labels: [], datasets: [] });
+const barData = ref<ChartData>({ labels: [], datasets: [] });
+const radarData = ref<ChartData>({ labels: [], datasets: [] });
 
-const lineOptions = ref<any>(null);
-const pieOptions = ref<any>(null);
-const polarOptions = ref<any>(null);
-const barOptions = ref<any>(null);
-const radarOptions = ref<any>(null);
+const lineOptions = ref<ChartOptions>({});
+const pieOptions = ref<ChartOptions>({});
+const polarOptions = ref<ChartOptions>({});
+const barOptions = ref<ChartOptions>({});
+const radarOptions = ref<ChartOptions>({});
 
 const setColorOptions = (): void => {
     documentStyle = getComputedStyle(document.documentElement);
@@ -49,7 +51,7 @@ const setChart = (): void => {
         plugins: {
             legend: {
                 labels: {
-                    fontColor: textColor
+                    color: textColor
                 }
             }
         },
@@ -62,8 +64,10 @@ const setChart = (): void => {
                     }
                 },
                 grid: {
-                    display: false,
-                    drawBorder: false
+                    display: false
+                },
+                border: {
+                    display: false
                 }
             },
             y: {
@@ -71,8 +75,10 @@ const setChart = (): void => {
                     color: textColorSecondary
                 },
                 grid: {
-                    color: surfaceBorder,
-                    drawBorder: false
+                    color: surfaceBorder
+                },
+                border: {
+                    display: false
                 }
             }
         }
@@ -126,7 +132,7 @@ const setChart = (): void => {
         plugins: {
             legend: {
                 labels: {
-                    fontColor: textColor
+                    color: textColor
                 }
             }
         },
@@ -136,8 +142,10 @@ const setChart = (): void => {
                     color: textColorSecondary
                 },
                 grid: {
-                    color: surfaceBorder,
-                    drawBorder: false
+                    color: surfaceBorder
+                },
+                border: {
+                    display: false
                 }
             },
             y: {
@@ -145,8 +153,10 @@ const setChart = (): void => {
                     color: textColorSecondary
                 },
                 grid: {
-                    color: surfaceBorder,
-                    drawBorder: false
+                    color: surfaceBorder
+                },
+                border: {
+                    display: false
                 }
             }
         }
@@ -208,7 +218,7 @@ const setChart = (): void => {
         plugins: {
             legend: {
                 labels: {
-                    fontColor: textColor
+                    color: textColor
                 }
             }
         },
@@ -237,37 +247,37 @@ watch(
         <div class="col-12 xl:col-6">
             <div class="card">
                 <h5>Linear Chart</h5>
-                <Chart type="line" :data="lineData" :options="lineOptions"></Chart>
+                <ChartCanvas type="line" :data="lineData" :options="lineOptions"></ChartCanvas>
             </div>
         </div>
         <div class="col-12 xl:col-6">
             <div class="card">
                 <h5>Bar Chart</h5>
-                <Chart type="bar" :data="barData" :options="barOptions"></Chart>
+                <ChartCanvas type="bar" :data="barData" :options="barOptions"></ChartCanvas>
             </div>
         </div>
         <div class="col-12 xl:col-6">
             <div class="card flex flex-column align-items-center">
                 <h5 class="text-left w-full">Pie Chart</h5>
-                <Chart type="pie" :data="pieData" :options="pieOptions"></Chart>
+                <ChartCanvas type="pie" :data="pieData" :options="pieOptions"></ChartCanvas>
             </div>
         </div>
         <div class="col-12 xl:col-6">
             <div class="card flex flex-column align-items-center">
                 <h5 class="text-left w-full">Doughnut Chart</h5>
-                <Chart type="doughnut" :data="pieData" :options="pieOptions"></Chart>
+                <ChartCanvas type="doughnut" :data="pieData" :options="pieOptions"></ChartCanvas>
             </div>
         </div>
         <div class="col-12 xl:col-6">
             <div class="card flex flex-column align-items-center">
                 <h5 class="text-left w-full">Polar Area Chart</h5>
-                <Chart type="polarArea" :data="polarData" :options="polarOptions"></Chart>
+                <ChartCanvas type="polarArea" :data="polarData" :options="polarOptions"></ChartCanvas>
             </div>
         </div>
         <div class="col-12 xl:col-6">
             <div class="card flex flex-column align-items-center">
                 <h5 class="text-left w-full">Radar Chart</h5>
-                <Chart type="radar" :data="radarData" :options="radarOptions"></Chart>
+                <ChartCanvas type="radar" :data="radarData" :options="radarOptions"></ChartCanvas>
             </div>
         </div>
     </div>

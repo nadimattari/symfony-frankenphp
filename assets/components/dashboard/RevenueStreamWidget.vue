@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 import type { ChartData, ChartOptions } from 'chart.js';
-import Chart from 'primevue/chart';
+import ChartCanvas from '../chart/ChartCanvas.vue';
 import { useLayoutState } from '../../layout/composables/layout';
 
 const { layoutConfig, isDarkTheme } = useLayoutState();
@@ -79,7 +79,7 @@ onMounted(() => {
 <template>
     <div class="card">
         <div class="font-semibold text-xl mb-4">Revenue Stream</div>
-        <Chart type="bar" :data="chartData" :options="chartOptions" class="h-80" />
+        <ChartCanvas type="bar" :data="chartData" :options="chartOptions" class="h-80" />
     </div>
 </template>
 

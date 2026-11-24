@@ -155,10 +155,12 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 16
   - Scope: M
 
-- [ ] Task 18: Replace deprecated core `Chart`
+- [x] Task 18: Replace deprecated core `Chart`
   - Acceptance: `assets/views/uikit/Chart.vue` and dashboard chart usage no longer import `primevue/chart`; direct Chart.js (typed) or removal is implemented; decision documented.
+  - Decision 2026-11-24: **keep the charts using direct Chart.js** rather than removing them. The PRO replacement is out of scope for this Community port, and removing the demos/dashboard widget would lose existing functionality. `chart.js@4` and `chartjs-plugin-datalabels` are already dependencies. Added a typed `ChartCanvas` wrapper (`type: ChartType`, `data: ChartData`, `options?: ChartOptions`) that owns the Chart.js lifecycle and recreates the chart when props change; `assets/components/chart/chartjs.ts` registers `registerables` plus the datalabels plugin once. `app.ts` no longer imports/registers `primevue/chart` or sets up the plugin. `Chart.vue` also updates v3-era Chart.js option names (`fontColor`→`color`, `grid.drawBorder`→`border.display`) so the typed config is valid for v4.
+  - Verified 2026-11-24: `vue-tsc --noEmit`, build and lint (0 errors) pass; browser smoke of `/` and `/uikit/charts` shows 1 + 6 painted canvases at non-zero dimensions, no `.p-chart` remnants and no console errors/deprecation warnings.
   - Verify: build, typecheck; chart route renders with no deprecation warnings.
-  - Files: `assets/views/uikit/Chart.vue`, `assets/views/Dashboard.vue`, `assets/app.ts`
+  - Files: `assets/components/chart/ChartCanvas.vue`, `assets/components/chart/chartjs.ts`, `assets/views/uikit/Chart.vue`, `assets/components/dashboard/RevenueStreamWidget.vue`, `assets/app.ts`
   - Dependencies: Task 17
   - Scope: S
 
