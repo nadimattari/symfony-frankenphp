@@ -117,10 +117,11 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 12
   - Scope: L
 
-- [ ] Task 14: Verify Tailwind layer order and dark-mode alignment
+- [x] Task 14: Verify Tailwind layer order and dark-mode alignment
   - Acceptance: PrimeVue utilities override component styles without `!`; dark mode selector matches between PrimeVue and Tailwind; screenshots approximate pinned Sakai reference.
+  - Verified 2026-11-24: official PrimeVue/Tailwind guide and pinned upstream Sakai 5 CSS both use the `[class*="app-dark"]` custom variant, matching our `darkModeSelector: '.app-dark'`. Browser inspection found two cascade defects in the Encore setup: the legacy v3 `theme.css` wrapped its component rules in an undeclared `primevue` layer (appended after `utilities`), and PrimeVue injects `@layer primeui;` as the first `<head>` child (putting component styles below Tailwind's `base` reset). Fixed by declaring the full order in `tailwind.css` and passing `cssLayer: { name: 'primeui', order: 'primevue, theme, base, primeui, components, utilities' }` in `app.ts`. Runtime check: PrimeVue button base `border-radius` 6px, adding Tailwind `.rounded` yields 3.5px with no `!important`; layer statements resolve to `primevue → theme → base → primeui → components → utilities`. Dark toggle adds `.app-dark`, flips `color-scheme` light→dark, and `dark:text-surface-0` resolves `rgb(15,23,42)`→`rgb(255,255,255)`. Visual smoke: dashboard, form layout and overlay render expected markers with non-collapsed layout. Screenshot capture was unavailable (desktop browser window not visible in this environment), so visual checks used computed styles and DOM geometry.
   - Verify: visual smoke of dashboard, form, overlay, dark mode.
-  - Files: `assets/styles/**`, `assets/app.ts`, `assets/layout/AppConfig.vue`
+  - Files: `assets/assets/tailwind.css`, `assets/app.ts`
   - Dependencies: Tasks 5, 13
   - Scope: S
 

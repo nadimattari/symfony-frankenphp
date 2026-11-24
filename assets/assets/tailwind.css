@@ -1,7 +1,13 @@
 /* Tailwind 4 entry for the Sakai port. PrimeVue 5 emits component styles into
    the `primeui` layer when cssLayer is enabled, so utilities can override them.
-   Keep this layer between `base` and `components`. */
-@layer theme, base, primeui, components, utilities;
+   Keep this layer between `base` and `components`.
+
+   The legacy v3 `theme.css` still linked in base.html.twig wraps its component
+   styles in an undeclared `primevue` layer. Without declaring it here that
+   layer would be appended after `utilities` and its v3 rules would beat every
+   Tailwind utility. Keep it first as a transition bridge; Task 19 removes the
+   legacy theme entirely. */
+@layer primevue, theme, base, primeui, components, utilities;
 
 @import 'tailwindcss';
 @import 'tailwindcss-primeui';
