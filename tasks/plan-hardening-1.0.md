@@ -40,7 +40,7 @@ Implement the approved hardening initiative in risk-first order: `auth-rate-limi
 ### Phase 2: Close the auth module
 
 - [x] H7 — Update ADR 0003 and README; run secret/full-gate checks
-- [ ] H8 — Merge the auth increment back to `main` locally
+- [x] H8 — Merge the auth increment back to `main` locally
 
 ### Checkpoint: Auth module merged
 

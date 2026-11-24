@@ -155,13 +155,13 @@ Status: **approved** (2026-11-24)
 **Description:** Merge the short-lived branch without rewriting history; do not push until the user approves.
 
 **Acceptance criteria:**
-- [ ] `main` contains all H1–H7 commits with no force-push.
-- [ ] Working tree is clean (the formatting cleanup was committed before this branch).
-- [ ] No uncommitted production code remains.
+- [x] `main` contains all H1–H8 commits with no force-push (fast-forward to `5054133`).
+- [x] Working tree is clean (the formatting cleanup was committed before this branch).
+- [x] No uncommitted production code remains.
 
 **Verification:**
-- [ ] `git log --oneline --decorate -10`
-- [ ] `git status --short --branch`
+- [x] `git log --oneline --decorate -10`
+- [x] `git status --short --branch`
 
 **Dependencies:** H7
 
