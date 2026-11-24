@@ -208,16 +208,18 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 21
   - Scope: M
 
-- [ ] Task 23: Port generic formatting utilities
+- [x] Task 23: Port generic formatting utilities
   - Acceptance: `common.ts` uses configurable locale/timezone; domain-only portal helpers excluded unless needed.
+  - Decision 2026-11-24: ported only the generic Lamiral helpers (`isNumber`, `formatNumber`, `formatDate`) as typed functions, plus `formatCurrency`. `configureFormat()`/`getFormatConfig()`/`resetFormatConfig()` manage a `FormatConfig` (`locale`, `timeZone`, `currency`) with defaults `en-GB` / `UTC` / `USD` — no hard-coded Mauritius timezone. `formatDate` keeps Lamiral's `dd-mm-yyyy[ hh:mm]` display shape, returns `''` for null/undefined and the original text for unparseable input; per-call locale/timezone overrides are supported. Domain-only portal/report helpers are excluded. Existing Sakai components keep their own en-US display formatting for now; this task only supplies the reusable utility.
+  - Verified 2026-11-24: seven RED-first `node:test` cases in `tests/frontend/common.test.cjs` cover numeric detection, locale/fraction formatting, timezone conversion, UTC defaults, invalid input, currency formatting and config reset; `npm run test:fetch` 25/25 pass (script now compiles `assets/utils/*.ts`). `npm run typecheck`, build and lint (0 errors, 2588 pre-existing formatter warnings) pass.
   - Verify: typecheck; simple runtime checks.
-  - Files: `assets/utils/common.ts`
+  - Files: `assets/utils/common.ts`, `tests/frontend/common.test.cjs`, `package.json`
   - Dependencies: Task 20
   - Scope: S
 
 **Checkpoint: Reuse**
-- [ ] One real API-backed route works end-to-end
-- [ ] No Lamiral-domain endpoints copied verbatim
+- [x] One real API-backed route works end-to-end — Task 21 browser smoke: `/pages/crud` loads 30 products via `/api/demo/products`, no console errors (re-verified after Task 22 hook wiring).
+- [x] No Lamiral-domain endpoints copied verbatim — all services use local `/api/demo/*` endpoints through `FetchClient`; no `primefaces.org` or Lamiral URLs in frontend source.
 
 ## Phase 5 — Auth backend
 
