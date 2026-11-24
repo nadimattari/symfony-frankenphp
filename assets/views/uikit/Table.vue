@@ -248,7 +248,15 @@ const calculateCustomerTotal = (name: string): number => {
                             <i class="pi" :class="{ 'text-green-500 pi-check-circle': (slotProps as any).data.verified, 'text-pink-500 pi-times-circle': !(slotProps as any).data.verified }"></i>
                         </template>
                         <template #filter="slotProps">
-                            <TriStateCheckbox v-model="(slotProps as any).filterModel.value" />
+                            <div class="flex align-items-center gap-2">
+                                <Checkbox
+                                    v-model="(slotProps as any).filterModel.value"
+                                    :indeterminate="(slotProps as any).filterModel.value === null"
+                                    binary
+                                    inputId="verified-filter"
+                                />
+                                <label for="verified-filter" class="font-bold">Verified</label>
+                            </div>
                         </template>
                     </Column>
                 </DataTable>
