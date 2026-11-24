@@ -151,8 +151,32 @@ const searchCountry = (event: { query: string }): void => {
                         <Rating v-model="ratingValue" />
                     </div>
                     <div class="col-12 md:col-6">
-                        <h5>ColorPicker</h5>
-                        <ColorPicker style="width: 2rem" v-model="colorValue" />
+                        <h5>InputColor</h5>
+                        <InputColor v-model="colorValue" format="hex">
+                            <InputColorArea>
+                                <InputColorAreaBackground />
+                                <InputColorAreaHandle />
+                            </InputColorArea>
+                            <div class="flex align-items-center gap-2 mt-2">
+                                <div class="flex-1">
+                                    <InputColorSlider>
+                                        <InputColorTransparencyGrid />
+                                        <InputColorSliderTrack />
+                                        <InputColorSliderHandle />
+                                    </InputColorSlider>
+                                    <InputColorSlider channel="alpha">
+                                        <InputColorTransparencyGrid />
+                                        <InputColorSliderTrack />
+                                        <InputColorSliderHandle />
+                                    </InputColorSlider>
+                                </div>
+                                <InputColorSwatch>
+                                    <InputColorTransparencyGrid />
+                                    <InputColorSwatchBackground />
+                                </InputColorSwatch>
+                            </div>
+                            <InputColorInput channel="hex" class="mt-2" />
+                        </InputColor>
                     </div>
                     <div class="col-12">
                         <h5>Knob</h5>

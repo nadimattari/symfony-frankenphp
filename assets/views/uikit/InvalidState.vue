@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue';
 import AutoComplete from 'primevue/autocomplete';
 import InputNumber from 'primevue/inputnumber';
 import InputText from 'primevue/inputtext';
-import Password from 'primevue/password';
 import Textarea from 'primevue/textarea';
 import CountryService, { type Country } from '../../service/CountryService';
 
@@ -77,7 +76,7 @@ const searchCountry = (event: { query: string }): void => {
                         </div>
                         <div class="field">
                             <label for="password">Password</label>
-                            <Password id="password" v-model="value10" invalid />
+                            <InputPassword id="password" v-model="value10" invalid />
                         </div>
                     </div>
 
