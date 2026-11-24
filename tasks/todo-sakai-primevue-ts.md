@@ -15,7 +15,7 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 - [x] Task 2: Add `PRIMEUI_LICENSE_KEY` env plumbing
   - Acceptance: key read from env (gitignored `.env.local` for local dev), exposed to Twig and ready for frontend injection; no key value in tracked files; docs explain annual renewal, record the 2027-11-14 expiry (4 seats), and note that the key may appear in the bundle.
-  - Verified 2026-11-24: Twig lint passes in dev/test; `app.primeui_license_key` resolves from env; `GET /` returns HTTP 200 with `window.PRIMEUI_LICENSE_KEY = ''`; `git grep` shows variable names/docs only, no key value.
+  - Verified 2026-11-24: Twig lint passes in dev/test; `app.primeui_license_key` resolves from env; `GET /` returns HTTP 200 with `window.PRIMEUI_LICENSE_KEY = ''`; `git grep` shows variable names/docs only, no key value. Task 7 found and fixed a regression: Symfony treats the intentionally empty `.env` value as missing, so `config/services.yaml` now declares `env(PRIMEUI_LICENSE_KEY): ''`; PHPUnit passes again.
   - Files: `.env`, `config/services.yaml`, `config/packages/twig.yaml`, `templates/base.html.twig`, `README.md`
   - Dependencies: Task 1
   - Scope: S
@@ -54,10 +54,10 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Tasks 2, 5
   - Scope: S
 
-- [ ] Task 7: Document verification commands and lint script
+- [x] Task 7: Document verification commands and lint script
   - Acceptance: README lists build/typecheck/lint/test commands and license env setup; `npm run lint` works from Node container; Makefile targets added if needed.
-  - Verify: run commands from README.
-  - Files: `README.md`, `Makefile`, `package.json`
+  - Verified 2026-11-24: README now lists exact `sf-node` commands for `npm ci`, build, typecheck, lint and PHPUnit, plus the empty-key banner behavior. All were run successfully. Lint exits 0 with Prettier warnings only. No Makefile target was needed. Verification exposed a missing-env regression in test; fixed via the explicit empty default in `config/services.yaml`.
+  - Files: `README.md`, `config/services.yaml`, `tasks/todo-sakai-primevue-ts.md`
   - Dependencies: Task 4
   - Scope: S
 

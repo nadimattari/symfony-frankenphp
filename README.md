@@ -12,11 +12,12 @@ This repository is a starting point for projects using the Symfony framework wit
 - Maker Bundle
 - WebPack Encore
     - Sass/SCSS loader
-    - Typescript
+    - Tailwind 4 via PostCSS
+    - TypeScript via `ts-loader`
     - Vue loader
 - VueJS
-    - PrimeVue
-    - PrimeFlex
+    - PrimeVue 5
+    - PrimeFlex (legacy, being removed)
     - PrimeIcons
     - FontAwesome
     - MaterialIcons
@@ -32,18 +33,31 @@ This repository is a starting point for projects using the Symfony framework wit
 
 ## Commands
 
-- Start/build docker containers (dev)
-    - `$ docker compose up -d`
-- Stop docker containers
-    - `$ docker compose down`
-- Production
-    - `$ docker compose -f compose.yaml -f compose.prod.yaml up -d --build`
-- Compile JS/CSS
-    - `$ docker compose exec sf-node npm run [dev|watch|build]`
-- Run tests
-    - `$ docker compose exec -e APP_ENV=test sf-php vendor/bin/simple-phpunit`
-- Typecheck
-    - `$ docker compose exec sf-node npm run typecheck`
+Run frontend commands in `sf-node` (Node 20); the host does not need Node or npm installed.
+
+| Task | Command |
+|------|---------|
+| Start/build containers (dev) | `docker compose up -d` |
+| Stop containers | `docker compose down` |
+| Production stack | `docker compose -f compose.yaml -f compose.prod.yaml up -d --build` |
+| Install frontend dependencies | `docker compose exec sf-node npm ci` |
+| Compile JS/CSS (dev) | `docker compose exec sf-node npm run dev` |
+| Watch JS/CSS | `docker compose exec sf-node npm run watch` |
+| Production asset build | `docker compose exec sf-node npm run build` |
+| Typecheck (`vue-tsc --noEmit`) | `docker compose exec sf-node npm run typecheck` |
+| Lint (`eslint`) | `docker compose exec sf-node npm run lint` |
+| Run tests | `docker compose exec -e APP_ENV=test sf-php vendor/bin/simple-phpunit` |
+
+Run the frontend gates in order before committing asset changes:
+
+```bash
+docker compose exec sf-node npm ci
+docker compose exec sf-node npm run build
+docker compose exec sf-node npm run typecheck
+docker compose exec sf-node npm run lint
+```
+
+`npm run lint` currently reports Prettier formatting warnings but exits successfully with 0 errors.
 
 ### PrimeUI license key
 
@@ -53,7 +67,7 @@ PrimeVue 5 needs a PrimeUI license key. Set it only in the gitignored `.env.loca
 PRIMEUI_LICENSE_KEY=your-key-here
 ```
 
-The key is exposed to the frontend through Twig and may appear in the built JavaScript bundle; that is expected for PrimeUI licenses. Do not commit it. The held Community key has 4 seats and must be renewed before **2027-11-14**. A missing or invalid key may show a license notice in the browser.
+The container defines an empty default for this variable, so an unset key does not break tests. The key is exposed to the frontend through Twig and may appear in the built JavaScript bundle; that is expected for PrimeUI licenses. Do not commit it. The held Community key has 4 seats and must be renewed before **2027-11-14**. With an empty key, PrimeUI logs `[PrimeUI] PrimeUI license is not configured.` and displays an `Invalid PrimeUI License` banner. An invalid key shows the same banner; add the real key to `.env.local` to clear it.
 
 ## Services
 
