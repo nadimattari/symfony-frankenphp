@@ -10,7 +10,7 @@ Upgrade this Encore-based Symfony/Vue starter to a current, TypeScript-first fro
 - **Tailwind CSS 4** via PostCSS in Encore (replacing PrimeFlex and the legacy SCSS utility layer)
 - Reuse of Lamiral's frontend infrastructure (Tier A) plus its **auth** and **mail** backends only
 
-Lamiral is a completed project and is treated as **read-only reference only**. No changes will be made there.
+Lamiral is a completed (private) project and is treated as **read-only reference only**. No changes will be made there.
 
 Detailed analysis: `docs/analysis-lamiral-sakai-upgrade.md`.
 Decision record: `docs/adr/0002-primevue-version-and-sakai-strategy.md`.
@@ -138,16 +138,16 @@ All criteria above were verified on 2026-11-24 in Task 34 (see `tasks/todo-sakai
 
 ## Risks and mitigations
 
-| Risk | Impact | Mitigation |
-|---|---|---|
-| Community license expires / eligibility changes | Medium | Track renewal; MIT PrimeVue 4.5.x fallback. |
-| License key accidentally committed | Medium | Env-only injection, `.env.local` gitignored, secret scan before commits. |
-| Tailwind/PrimeVue layer or dark-mode mismatch | Medium | Follow official PrimeVue Tailwind guide; visual smoke per checkpoint. |
-| Upstream Sakai drift | Medium | Pin tag/commit, pristine reference, document local patches. |
-| Large all-SFC TS conversion | Medium | Port one slice at a time; `vue-tsc` gates each checkpoint. |
-| Auth `localStorage` XSS exposure | Medium | Accepted by decision; short TTL, httpOnly refresh cookie, CSRF cookie, XSS hygiene. |
-| Lamiral auth/mail scope creep into reports/invoices | Medium | Explicit exclusions in ADRs and task acceptance criteria. |
-| No frontend test suite | Medium | Build + typecheck + lint + browser smoke at each checkpoint. |
+| Risk                                                | Impact | Mitigation                                                                          |
+|-----------------------------------------------------|--------|-------------------------------------------------------------------------------------|
+| Community license expires / eligibility changes     | Medium | Track renewal; MIT PrimeVue 4.5.x fallback.                                         |
+| License key accidentally committed                  | Medium | Env-only injection, `.env.local` gitignored, secret scan before commits.            |
+| Tailwind/PrimeVue layer or dark-mode mismatch       | Medium | Follow official PrimeVue Tailwind guide; visual smoke per checkpoint.               |
+| Upstream Sakai drift                                | Medium | Pin tag/commit, pristine reference, document local patches.                         |
+| Large all-SFC TS conversion                         | Medium | Port one slice at a time; `vue-tsc` gates each checkpoint.                          |
+| Auth `localStorage` XSS exposure                    | Medium | Accepted by decision; short TTL, httpOnly refresh cookie, CSRF cookie, XSS hygiene. |
+| Lamiral auth/mail scope creep into reports/invoices | Medium | Explicit exclusions in ADRs and task acceptance criteria.                           |
+| No frontend test suite                              | Medium | Build + typecheck + lint + browser smoke at each checkpoint.                        |
 
 ## Sources
 

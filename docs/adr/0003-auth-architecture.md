@@ -89,15 +89,15 @@ Tasks 26–27 are implemented and the flow was verified at three levels:
 
 Risk register at sign-off — these are known gaps, not blockers for this starter:
 
-| Risk | Status | Mitigation / follow-up |
-|------|--------|------------------------|
-| Access-token theft via XSS | Accepted | Token lives in `localStorage`; short 3600s TTL, no inline scripts beyond Twig globals, no `eval`, vetted dependencies. **No CSP is configured yet** — adding one is a prerequisite before exposing the SPA to untrusted content. |
-| No rate limiting on `/api/login` or refresh | Open | Repeated credential attempts and refresh abuse are currently unbounded. Add Symfony login throttling backed by the shared cache before production. |
-| Stolen access token stays valid until expiry | Accepted | The stateless JWT cannot be revoked individually; logout revokes only the refresh token. Keep TTL short and move to httpOnly cookies (new ADR) if immediate revocation is required. |
-| Dev-only API Platform routes | Mitigated | All API Platform routes are registered under `when@dev` and `enable_docs: false` is the base config; `/api/demo/*` remains intentionally public for fixtures. |
-| SPA deep links | Open | The dev server serves only `/`, so `/auth/login` and `/pages/*` load through client-side navigation. A real deployment needs a host rewrite to `index.php`, otherwise direct links 404. |
-| Dependency advisories | Open | `npm audit --omit=dev` reports 0 vulnerabilities. The full dev/build toolchain reports 44 (3 critical, 20 high, 16 moderate, 5 low); triage by reachability before production, without forced upgrades. |
-| Test-environment secrets | Mitigated | PHPUnit boots the `.env` chain and reads the passphrase from gitignored `.env.test.local`; CI must provision that file (or an equivalent environment variable) before running tests. |
+| Risk                                         | Status    | Mitigation / follow-up                                                                                                                                                                                                           |
+|----------------------------------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Access-token theft via XSS                   | Accepted  | Token lives in `localStorage`; short 3600s TTL, no inline scripts beyond Twig globals, no `eval`, vetted dependencies. **No CSP is configured yet** — adding one is a prerequisite before exposing the SPA to untrusted content. |
+| No rate limiting on `/api/login` or refresh  | Open      | Repeated credential attempts and refresh abuse are currently unbounded. Add Symfony login throttling backed by the shared cache before production.                                                                               |
+| Stolen access token stays valid until expiry | Accepted  | The stateless JWT cannot be revoked individually; logout revokes only the refresh token. Keep TTL short and move to httpOnly cookies (new ADR) if immediate revocation is required.                                              |
+| Dev-only API Platform routes                 | Mitigated | All API Platform routes are registered under `when@dev` and `enable_docs: false` is the base config; `/api/demo/*` remains intentionally public for fixtures.                                                                    |
+| SPA deep links                               | Open      | The dev server serves only `/`, so `/auth/login` and `/pages/*` load through client-side navigation. A real deployment needs a host rewrite to `index.php`, otherwise direct links 404.                                          |
+| Dependency advisories                        | Open      | `npm audit --omit=dev` reports 0 vulnerabilities. The full dev/build toolchain reports 44 (3 critical, 20 high, 16 moderate, 5 low); triage by reachability before production, without forced upgrades.                          |
+| Test-environment secrets                     | Mitigated | PHPUnit boots the `.env` chain and reads the passphrase from gitignored `.env.test.local`; CI must provision that file (or an equivalent environment variable) before running tests.                                             |
 
 ## Revisit
 

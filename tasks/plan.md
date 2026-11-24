@@ -51,12 +51,12 @@ Migrate the starter from Apache/PHP 8.1 + Symfony 6.4 to FrankenPHP + Symfony 7.
 - [ ] Tests pass
 
 ## Risks and Mitigations
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| FrankenPHP Symfony compatibility | High | Use standard mode first; worker mode optional |
-| Symfony 7 breaking changes | Medium | Upgrade incrementally, run tests |
-| Docker network/ports | Low | Keep 8180 |
-| Large frontend bundle | Low | Defer optimization |
+| Risk                             | Impact  | Mitigation                                    |
+|----------------------------------|---------|-----------------------------------------------|
+| FrankenPHP Symfony compatibility | High    | Use standard mode first; worker mode optional |
+| Symfony 7 breaking changes       | Medium  | Upgrade incrementally, run tests              |
+| Docker network/ports             | Low     | Keep 8180                                     |
+| Large frontend bundle            | Low     | Defer optimization                            |
 
 ## Open Questions
 - Mercure usage scope (hub only vs features)

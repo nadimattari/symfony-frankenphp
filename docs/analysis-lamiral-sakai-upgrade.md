@@ -15,19 +15,19 @@ Official sources were used for version and migration facts (see [Sources](#10-so
 
 ## 2. Stack snapshot
 
-| Area | This project (current) | Lamiral | Upstream Sakai Vue 5.0.0 |
-|---|---|---|---|
-| PHP / Symfony | 8.2.35 / Symfony 7.4.21 | 8.2.35 / Symfony 7.4.x | n/a |
-| Bundler | Webpack Encore 4.6.1 | Webpack Encore 3.1.x | Vite 5 |
-| Vue | 3.4.21 (locked) | ^3.4 | ^3.4.34 |
-| PrimeVue | **3.51.0** | **3.51.0** | **^4.5.4** |
-| PrimeFlex | 3.3.1 | 3.3.1 | not used (Tailwind 4) |
-| Theming | v3 `theme.css` / SCSS layout | v3 `theme.css` / SCSS layout | `@primeuix/themes` ^2.0.0 |
-| CSS utility | PrimeFlex 3 + hand-written SCSS | PrimeFlex 3 + hand-written SCSS | Tailwind CSS 4 + `tailwindcss-primeui` |
-| State | none (no Pinia) | Pinia 4.1 | none |
-| TS tooling | TS 5.4.5, `tsc --noEmit` only | Same config as this repo | JS only (`main.js`, `layout.js`, `router/index.js`) |
-| Auth | none | Lexik JWT + refresh tokens + roles | none |
-| Mail/report | Symfony Mailer only | MailRun/EmailLog/report services | none |
+| Area          | This project (current)          | Lamiral                            | Upstream Sakai Vue 5.0.0                            |
+|---------------|---------------------------------|------------------------------------|-----------------------------------------------------|
+| PHP / Symfony | 8.2.35 / Symfony 7.4.21         | 8.2.35 / Symfony 7.4.x             | n/a                                                 |
+| Bundler       | Webpack Encore 4.6.1            | Webpack Encore 3.1.x               | Vite 5                                              |
+| Vue           | 3.4.21 (locked)                 | ^3.4                               | ^3.4.34                                             |
+| PrimeVue      | **3.51.0**                      | **3.51.0**                         | **^4.5.4**                                          |
+| PrimeFlex     | 3.3.1                           | 3.3.1                              | not used (Tailwind 4)                               |
+| Theming       | v3 `theme.css` / SCSS layout    | v3 `theme.css` / SCSS layout       | `@primeuix/themes` ^2.0.0                           |
+| CSS utility   | PrimeFlex 3 + hand-written SCSS | PrimeFlex 3 + hand-written SCSS    | Tailwind CSS 4 + `tailwindcss-primeui`              |
+| State         | none (no Pinia)                 | Pinia 4.1                          | none                                                |
+| TS tooling    | TS 5.4.5, `tsc --noEmit` only   | Same config as this repo           | JS only (`main.js`, `layout.js`, `router/index.js`) |
+| Auth          | none                            | Lexik JWT + refresh tokens + roles | none                                                |
+| Mail/report   | Symfony Mailer only             | MailRun/EmailLog/report services   | none                                                |
 
 Key baseline finding: this repository has **no `.ts` files**, `tsconfig.json` sets `allowJs: true`, and the typecheck script runs `tsc --noEmit`. Since `tsc` does not parse `.vue` SFC contents, the current "typecheck" is effectively a no-op. Vue's official guidance is to use `vue-tsc` for SFC checking. [Sources](#10-sources)
 
@@ -37,38 +37,38 @@ Key baseline finding: this repository has **no `.ts` files**, `tsconfig.json` se
 
 These files are mostly self-contained and can be adapted without changing the database or Symfony security model.
 
-| Lamiral file(s) | Value | Prerequisites / adaptation | Recommendation |
-|---|---|---|---|
-| `assets/utils/fetch.js` | Auth-aware `fetch` wrapper: JSON/PATCH/merge-patch, 401 refresh with single-flight, CSRF cookie header, error extraction, blob download helper | Imports `useAuthStore` and `router`; expects `/api/login`, `/api/token/refresh`, `/api/logout` and a `csrf` cookie. Generalize endpoints/options before copying. | **Port, as TS, parameterized.** Highest-value reusable code in Lamiral. |
-| `assets/utils/common.js` | `formatNumber`, `formatDate` | Hard-coded `Indian/Mauritius` timezone and `en-EN`/`en-GB` locales. Make locale/timezone parameters or config. | Port as TS; small. |
-| `assets/service/*.js` (`customers`, `products`, `sales`, `users`, `contacts`, `portal`, `mail`, `reference`) | Consistent CRUD/service pattern, `URLSearchParams`, promise caching (`reference.js`, `mail.js`) | Endpoints are Lamiral-domain. Reuse the pattern, not the literal URLs. | Port the pattern; replace current Sakai mock services with API-backed typed services. |
-| `assets/store/pinia.js` | Pinia instance | Add `pinia` dependency; register in app entry. | Port. |
-| `assets/store/auth.js` | Roles, login/logout, localStorage persistence, `isAuthorisedFor` | Depends on `AuthService` and the fetch wrapper. Access token in `localStorage` is XSS-exposed; decision confirms keeping it with an httpOnly refresh cookie. | Port as typed TS; document XSS risk acceptance. |
-| `assets/store/portal.js` | Profile loading/caching | Lamiral-domain (`/api/portal/me`). | Skip unless portal feature is in scope. |
-| `assets/utils/portal.js` | Meal/status labels, money/date/quantity formatting | Domain-specific. | Skip unless portal feature is in scope. |
+| Lamiral file(s)                                                                                              | Value                                                                                                                                          | Prerequisites / adaptation                                                                                                                                       | Recommendation                                                                        |
+|--------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| `assets/utils/fetch.js`                                                                                      | Auth-aware `fetch` wrapper: JSON/PATCH/merge-patch, 401 refresh with single-flight, CSRF cookie header, error extraction, blob download helper | Imports `useAuthStore` and `router`; expects `/api/login`, `/api/token/refresh`, `/api/logout` and a `csrf` cookie. Generalize endpoints/options before copying. | **Port, as TS, parameterized.** Highest-value reusable code in Lamiral.               |
+| `assets/utils/common.js`                                                                                     | `formatNumber`, `formatDate`                                                                                                                   | Hard-coded `Indian/Mauritius` timezone and `en-EN`/`en-GB` locales. Make locale/timezone parameters or config.                                                   | Port as TS; small.                                                                    |
+| `assets/service/*.js` (`customers`, `products`, `sales`, `users`, `contacts`, `portal`, `mail`, `reference`) | Consistent CRUD/service pattern, `URLSearchParams`, promise caching (`reference.js`, `mail.js`)                                                | Endpoints are Lamiral-domain. Reuse the pattern, not the literal URLs.                                                                                           | Port the pattern; replace current Sakai mock services with API-backed typed services. |
+| `assets/store/pinia.js`                                                                                      | Pinia instance                                                                                                                                 | Add `pinia` dependency; register in app entry.                                                                                                                   | Port.                                                                                 |
+| `assets/store/auth.js`                                                                                       | Roles, login/logout, localStorage persistence, `isAuthorisedFor`                                                                               | Depends on `AuthService` and the fetch wrapper. Access token in `localStorage` is XSS-exposed; decision confirms keeping it with an httpOnly refresh cookie.     | Port as typed TS; document XSS risk acceptance.                                       |
+| `assets/store/portal.js`                                                                                     | Profile loading/caching                                                                                                                        | Lamiral-domain (`/api/portal/me`).                                                                                                                               | Skip unless portal feature is in scope.                                               |
+| `assets/utils/portal.js`                                                                                     | Meal/status labels, money/date/quantity formatting                                                                                             | Domain-specific.                                                                                                                                                 | Skip unless portal feature is in scope.                                               |
 
 ### 3.2 Tier B — authentication backend (in scope, medium/high effort)
 
 Porting these creates a real user model and API security layer in a starter that currently has only `Kernel.php` and `AppController.php`.
 
-| Lamiral piece | Dependencies | Notes |
-|---|---|---|
-| `src/Service/Auth/RefreshTokenService.php` | `RefreshToken` entity + repository, `User` entity, Doctrine migration | Good design: SHA-256 hashed tokens, rotation in one flush, revoke-all, 30-day TTL. Worth porting if auth is desired. |
-| `src/Security/*`, `src/EventListener/AuthenticationSuccessListener.php` | Lexik JWT bundle, security config | Needed for the cookie/CSRF flow used by `fetch.js`. |
-| `src/Controller/AuthController.php`, `TokenController.php` | JWT, refresh service, CSRF cookie | Provides `/api/login`, `/api/token/refresh`, `/api/logout`. |
-| `config/packages/security.yaml`, `config/packages/lexik_jwt_authentication.yaml`, `config/jwt/*` | Composer package `lexik/jwt-authentication-bundle` | Keys must be generated per environment and never committed. |
-| `config/packages/api_platform.yaml` hardening | API Platform 4 | Lamiral disables docs in prod/test and enables only in dev; useful regardless of auth. |
+| Lamiral piece                                                                                    | Dependencies                                                          | Notes                                                                                                                |
+|--------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| `src/Service/Auth/RefreshTokenService.php`                                                       | `RefreshToken` entity + repository, `User` entity, Doctrine migration | Good design: SHA-256 hashed tokens, rotation in one flush, revoke-all, 30-day TTL. Worth porting if auth is desired. |
+| `src/Security/*`, `src/EventListener/AuthenticationSuccessListener.php`                          | Lexik JWT bundle, security config                                     | Needed for the cookie/CSRF flow used by `fetch.js`.                                                                  |
+| `src/Controller/AuthController.php`, `TokenController.php`                                       | JWT, refresh service, CSRF cookie                                     | Provides `/api/login`, `/api/token/refresh`, `/api/logout`.                                                          |
+| `config/packages/security.yaml`, `config/packages/lexik_jwt_authentication.yaml`, `config/jwt/*` | Composer package `lexik/jwt-authentication-bundle`                    | Keys must be generated per environment and never committed.                                                          |
+| `config/packages/api_platform.yaml` hardening                                                    | API Platform 4                                                        | Lamiral disables docs in prod/test and enables only in dev; useful regardless of auth.                               |
 
 ### 3.3 Mail backend + out-of-scope report layers
 
 The **mail backend is in scope** (MailRouter, MailRun lifecycle/dispatcher, mail settings endpoint, Mailpit in dev). The report/invoice layers it depends on are **out of scope** except where minimally required to make mail compile and send a simple test message; they must not be ported wholesale.
 
-| Lamiral piece | Dependencies | Notes |
-|---|---|---|
-| `src/Service/Mail/MailRouter.php` | Env params `MAIL_FROM`, `MAIL_REPLY_TO`, `MAIL_REDIRECT_TO`, `MAIL_FACTORS_RECIPIENTS`, `MAIL_THROTTLE_SECONDS` | **Reusable pattern** (test redirect, `[TEST]` subject rewrite, `X-Original-Recipient`). Port this if report mail is wanted. |
-| `src/Service/Mail/MailRunManager.php`, `MailRunDispatcher.php`, `ActiveMailRunException.php` | `MailRun` entity/repository, `symfony/process`, console commands, detached workers | Complex lifecycle; only port if queued report sends are required. |
-| `src/Service/Mail/ReportMailer.php` | PhpSpreadsheet, report services, Twig email templates | Lamiral-domain (statements, factors, XLSX attachments). |
-| `src/Service/Report/*`, `src/Service/Invoice/*`, `src/Service/Pricing/*` | `phpoffice/phpspreadsheet`, `dompdf/dompdf`, Dropbox sync, etc. | Do not port for a generic starter. |
+| Lamiral piece                                                                                | Dependencies                                                                                                    | Notes                                                                                                                       |
+|----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| `src/Service/Mail/MailRouter.php`                                                            | Env params `MAIL_FROM`, `MAIL_REPLY_TO`, `MAIL_REDIRECT_TO`, `MAIL_FACTORS_RECIPIENTS`, `MAIL_THROTTLE_SECONDS` | **Reusable pattern** (test redirect, `[TEST]` subject rewrite, `X-Original-Recipient`). Port this if report mail is wanted. |
+| `src/Service/Mail/MailRunManager.php`, `MailRunDispatcher.php`, `ActiveMailRunException.php` | `MailRun` entity/repository, `symfony/process`, console commands, detached workers                              | Complex lifecycle; only port if queued report sends are required.                                                           |
+| `src/Service/Mail/ReportMailer.php`                                                          | PhpSpreadsheet, report services, Twig email templates                                                           | Lamiral-domain (statements, factors, XLSX attachments).                                                                     |
+| `src/Service/Report/*`, `src/Service/Invoice/*`, `src/Service/Pricing/*`                     | `phpoffice/phpspreadsheet`, `dompdf/dompdf`, Dropbox sync, etc.                                                 | Do not port for a generic starter.                                                                                          |
 
 ### 3.4 Do not copy verbatim from Lamiral
 
@@ -95,29 +95,29 @@ The **mail backend is in scope** (MailRouter, MailRun lifecycle/dispatcher, mail
 
 The current app is a PrimeVue 3 Sakai fork. At least 55 usages of v3-era components exist in `assets/` (counted via grep). Official mapping:
 
-| v3 / early v4 API | Target | Status |
-|---|---|---|
-| `Calendar` | `DatePicker` | Removed in v5 |
-| `Dropdown` | `Select` | Removed in v5 |
-| `InputSwitch` | `ToggleSwitch` | Removed in v5 |
-| `OverlayPanel` | `Popover` | Removed in v5 |
-| `Sidebar` | `Drawer` | Renamed in v4 |
-| `TabView` / `TabPanel` | `Tabs` / `TabList` / `Tab` / `TabPanels` | Removed in v5 |
-| `AccordionTab` | `AccordionPanel` + `AccordionHeader` + `AccordionContent` | Removed in v5 |
-| `BadgeDirective` (`v-badge`) | `OverlayBadge` | Removed in v4 |
-| `Chips` | `AutoComplete multiple` (v4) or `InputTags` (v5) | Removed in v5 |
-| `InlineMessage` | `Message` | Removed in v4/v5 |
-| `TabMenu`, `Steps` | `Tabs`, `Stepper` | Removed in v5 |
-| `TriStateCheckbox` | `Checkbox` with indeterminate | Removed in v4 |
-| `DataViewLayoutOptions` | `SelectButton` | Removed in v4 |
-| `InputMask` component | `Mask` directive | Deprecated/removed in v5 |
-| `Password` | `InputPassword` | Deprecated in v5 |
-| `Galleria`, `Image`, `ColorPicker`, `ScrollPanel` | `Gallery`, `InputColor`, `ScrollArea` | Deprecated in v5 |
-| `MultiSelect` | `Select multiple` | Deprecated in v5 |
-| `primevue/api` imports | `@primevue/core/api` | Relocated in v4 |
-| v3 `theme.css`, `primevue/resources` | `@primeuix/themes` presets | Removed in v4 |
-| `inputStyle` config | `inputVariant` | Removed in v4 |
-| PrimeFlex 3 | Tailwind 4 (PrimeFlex removed) | Chosen CSS pipeline; PrimeFlex 3 is incompatible with v4+ |
+| v3 / early v4 API                                 | Target                                                    | Status                                                    |
+|---------------------------------------------------|-----------------------------------------------------------|-----------------------------------------------------------|
+| `Calendar`                                        | `DatePicker`                                              | Removed in v5                                             |
+| `Dropdown`                                        | `Select`                                                  | Removed in v5                                             |
+| `InputSwitch`                                     | `ToggleSwitch`                                            | Removed in v5                                             |
+| `OverlayPanel`                                    | `Popover`                                                 | Removed in v5                                             |
+| `Sidebar`                                         | `Drawer`                                                  | Renamed in v4                                             |
+| `TabView` / `TabPanel`                            | `Tabs` / `TabList` / `Tab` / `TabPanels`                  | Removed in v5                                             |
+| `AccordionTab`                                    | `AccordionPanel` + `AccordionHeader` + `AccordionContent` | Removed in v5                                             |
+| `BadgeDirective` (`v-badge`)                      | `OverlayBadge`                                            | Removed in v4                                             |
+| `Chips`                                           | `AutoComplete multiple` (v4) or `InputTags` (v5)          | Removed in v5                                             |
+| `InlineMessage`                                   | `Message`                                                 | Removed in v4/v5                                          |
+| `TabMenu`, `Steps`                                | `Tabs`, `Stepper`                                         | Removed in v5                                             |
+| `TriStateCheckbox`                                | `Checkbox` with indeterminate                             | Removed in v4                                             |
+| `DataViewLayoutOptions`                           | `SelectButton`                                            | Removed in v4                                             |
+| `InputMask` component                             | `Mask` directive                                          | Deprecated/removed in v5                                  |
+| `Password`                                        | `InputPassword`                                           | Deprecated in v5                                          |
+| `Galleria`, `Image`, `ColorPicker`, `ScrollPanel` | `Gallery`, `InputColor`, `ScrollArea`                     | Deprecated in v5                                          |
+| `MultiSelect`                                     | `Select multiple`                                         | Deprecated in v5                                          |
+| `primevue/api` imports                            | `@primevue/core/api`                                      | Relocated in v4                                           |
+| v3 `theme.css`, `primevue/resources`              | `@primeuix/themes` presets                                | Removed in v4                                             |
+| `inputStyle` config                               | `inputVariant`                                            | Removed in v4                                             |
+| PrimeFlex 3                                       | Tailwind 4 (PrimeFlex removed)                            | Chosen CSS pipeline; PrimeFlex 3 is incompatible with v4+ |
 
 Also note the v4 CSS class removals (`.p-link`, `.p-highlight`, `.p-fluid`) and the v5 16px root-font-size assumption (compat variants exist for 14px layouts).
 
@@ -160,12 +160,12 @@ This project deliberately keeps Webpack Encore (see `docs/adr/0001-bundler.md`),
 
 ### 5.2 Two viable strategies
 
-| | **A. Rebase/port upstream Sakai 5.0.0** | **B. Upgrade the current Encore Sakai fork in place** |
-|---|---|---|
+|              | **A. Rebase/port upstream Sakai 5.0.0**                                                                                                | **B. Upgrade the current Encore Sakai fork in place**                                 |
+|--------------|----------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
 | What happens | Vendor 5.0.0 as a reference, port `src/` to `assets/`, JS → TS, replace Vite auto-import with explicit imports, adapt Tailwind or SCSS | Keep current file layout/SCSS, apply PrimeVue 4→5 migration directly to existing SFCs |
-| Pros | Gets current upstream layout/components; clear upstream sync point; TS from day one | Smaller diff; preserves existing Encore/SCSS setup; lower regression risk |
-| Cons | Large port; CSS pipeline decision (Tailwind vs SCSS) is unavoidable; future upstream merges still need care | Does not deliver new upstream Sakai 5 UI; keeps an old fork shape |
-| Effort | Large | Medium–Large |
+| Pros         | Gets current upstream layout/components; clear upstream sync point; TS from day one                                                    | Smaller diff; preserves existing Encore/SCSS setup; lower regression risk             |
+| Cons         | Large port; CSS pipeline decision (Tailwind vs SCSS) is unavoidable; future upstream merges still need care                            | Does not deliver new upstream Sakai 5 UI; keeps an old fork shape                     |
+| Effort       | Large                                                                                                                                  | Medium–Large                                                                          |
 
 ### 5.3 Recommendation
 
@@ -211,17 +211,17 @@ See `tasks/plan-sakai-primevue-ts.md` and `tasks/todo-sakai-primevue-ts.md`. The
 
 ## 8. Risks
 
-| Risk | Impact | Mitigation |
-|---|---|---|
-| Community license expires / eligibility lost | Medium | Track annual renewal; MIT PrimeVue 4.5.x remains the fallback. |
-| License key missing in an environment | Medium | Inject from `PRIMEUI_LICENSE_KEY`; verify in each environment; a missing key may show a license notice. |
-| Big-bang UI regression | High | Port one route/layout slice at a time; visual smoke after each checkpoint. |
-| Tailwind/PrimeVue cascade or dark-mode mismatch | Medium | Follow official PrimeVue Tailwind guide (layer order, `darkModeSelector` alignment); visual smoke. |
-| Future Sakai upstream merges become painful | Medium | Pin tag/commit, keep reference copy, document local patches. |
-| Auth token storage (localStorage) | Medium | **Accepted risk** per decision 6; mitigate with short TTL, httpOnly refresh cookie, CSRF cookie, and XSS hygiene. |
-| `vue-tsc` strictness on all SFCs | Medium | Convert incrementally per route; `vue-tsc` is a required gate at each checkpoint. |
-| Encore remains in maintenance mode | Low | Already accepted in ADR 0001; revisit only with Symfony 8/PHP 8.4. |
-| No frontend test suite | Medium | At minimum add build + `vue-tsc` + lint + browser smoke checks per checkpoint. |
+| Risk                                            | Impact | Mitigation                                                                                                        |
+|-------------------------------------------------|--------|-------------------------------------------------------------------------------------------------------------------|
+| Community license expires / eligibility lost    | Medium | Track annual renewal; MIT PrimeVue 4.5.x remains the fallback.                                                    |
+| License key missing in an environment           | Medium | Inject from `PRIMEUI_LICENSE_KEY`; verify in each environment; a missing key may show a license notice.           |
+| Big-bang UI regression                          | High   | Port one route/layout slice at a time; visual smoke after each checkpoint.                                        |
+| Tailwind/PrimeVue cascade or dark-mode mismatch | Medium | Follow official PrimeVue Tailwind guide (layer order, `darkModeSelector` alignment); visual smoke.                |
+| Future Sakai upstream merges become painful     | Medium | Pin tag/commit, keep reference copy, document local patches.                                                      |
+| Auth token storage (localStorage)               | Medium | **Accepted risk** per decision 6; mitigate with short TTL, httpOnly refresh cookie, CSRF cookie, and XSS hygiene. |
+| `vue-tsc` strictness on all SFCs                | Medium | Convert incrementally per route; `vue-tsc` is a required gate at each checkpoint.                                 |
+| Encore remains in maintenance mode              | Low    | Already accepted in ADR 0001; revisit only with Symfony 8/PHP 8.4.                                                |
+| No frontend test suite                          | Medium | At minimum add build + `vue-tsc` + lint + browser smoke checks per checkpoint.                                    |
 
 ## 9. Confirmed decisions (2026-11-24)
 

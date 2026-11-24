@@ -62,18 +62,18 @@ Constraints:
 
 ## Lamiral reference mapping
 
-| Lamiral (read-only) | This starter | Reason |
-|---|---|---|
-| `MailRouter.php` (config helper, redirect/subject/headers, `factorsRecipients()`) | Port the helper; drop `factorsRecipients()` and `MAIL_FACTORS_RECIPIENTS` | Domain-specific recipient list |
-| `MailRunManager.php` (create/claim/counters/markFailed/reap) | Port minimal version with a generic `test` type and re-check on claim | Keep lifecycle, remove report types |
-| `MailRunDispatcher.php` (`Process`, `setsid nohup ... &`, log files) | Replace with a synchronous dispatcher using `MailerInterface`; no `symfony/process` | No worker supervision; deterministic tests |
-| `ActiveMailRunException.php` | Port, with a generic message | One active run per type |
-| `MailRun.php` / `EmailLog.php` + repositories | Minimal entities: no `Customer` FK, no period/report-specific dedupe formats | Domain decoupling |
-| `ReportMailer.php` (only class calling `MailerInterface`) | Fold its generic redirect/header logic into the dispatcher | Attachments and report services excluded |
-| `MailController.php` (7 report routes, `ROLE_ADMIN`) | Only `GET /api/mail/settings` and `POST /api/mail/test`, `ROLE_USER` | Starter scope; auth already uses `ROLE_USER` for `/api` |
-| `EmailStatementsCommand.php`, `EmailFactorsCommand.php` | Not ported | Domain selection, workbooks, QS validation, report copy |
-| Dev `smtp://lamiral-mailer:1025`, test `null://null`, Mailpit UI `:8125` | Same shape with `sf-mailer` | Proven dev/test setup |
-| `docs/email-reports.md` UAT/deployment phases | Not ported | Lamiral operational detail |
+| Lamiral (read-only)                                                               | This starter                                                                        | Reason                                                  |
+|-----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|---------------------------------------------------------|
+| `MailRouter.php` (config helper, redirect/subject/headers, `factorsRecipients()`) | Port the helper; drop `factorsRecipients()` and `MAIL_FACTORS_RECIPIENTS`           | Domain-specific recipient list                          |
+| `MailRunManager.php` (create/claim/counters/markFailed/reap)                      | Port minimal version with a generic `test` type and re-check on claim               | Keep lifecycle, remove report types                     |
+| `MailRunDispatcher.php` (`Process`, `setsid nohup ... &`, log files)              | Replace with a synchronous dispatcher using `MailerInterface`; no `symfony/process` | No worker supervision; deterministic tests              |
+| `ActiveMailRunException.php`                                                      | Port, with a generic message                                                        | One active run per type                                 |
+| `MailRun.php` / `EmailLog.php` + repositories                                     | Minimal entities: no `Customer` FK, no period/report-specific dedupe formats        | Domain decoupling                                       |
+| `ReportMailer.php` (only class calling `MailerInterface`)                         | Fold its generic redirect/header logic into the dispatcher                          | Attachments and report services excluded                |
+| `MailController.php` (7 report routes, `ROLE_ADMIN`)                              | Only `GET /api/mail/settings` and `POST /api/mail/test`, `ROLE_USER`                | Starter scope; auth already uses `ROLE_USER` for `/api` |
+| `EmailStatementsCommand.php`, `EmailFactorsCommand.php`                           | Not ported                                                                          | Domain selection, workbooks, QS validation, report copy |
+| Dev `smtp://lamiral-mailer:1025`, test `null://null`, Mailpit UI `:8125`          | Same shape with `sf-mailer`                                                         | Proven dev/test setup                                   |
+| `docs/email-reports.md` UAT/deployment phases                                     | Not ported                                                                          | Lamiral operational detail                              |
 
 ## Alternatives considered
 
