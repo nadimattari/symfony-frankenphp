@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+const activeStep = ref('1');
 const menu = ref<any>(null);
 const contextMenu = ref<any>(null);
 
@@ -464,18 +467,41 @@ const onContextRightClick = (event: MouseEvent): void => {
 
         <div class="col-12 md:col-6">
             <div class="card card-w-title">
-                <h5>Steps</h5>
-                <p>Steps and TabMenu are integrated with the same child routes.</p>
-                <Steps :model="nestedRouteItems" :readonly="false" />
+                <h5>Stepper</h5>
+                <p>Stepper and Tabs are integrated with the same child routes.</p>
+                <Stepper v-model="activeStep">
+                    <StepList>
+                        <Step
+                            v-for="(item, index) in nestedRouteItems"
+                            :key="item.to"
+                            :value="String(index + 1)"
+                            @click="router.push(item.to)"
+                        >
+                            {{ item.label }}
+                        </Step>
+                    </StepList>
+                </Stepper>
                 <router-view />
             </div>
         </div>
 
         <div class="col-12 md:col-6">
             <div class="card card-w-title">
-                <h5>TabMenu</h5>
-                <p>Steps and TabMenu are integrated with the same child routes.</p>
-                <TabMenu :model="nestedRouteItems" />
+                <h5>Tabs</h5>
+                <p>Stepper and Tabs are integrated with the same child routes.</p>
+                <Tabs :value="activeStep">
+                    <TabList>
+                        <Tab
+                            v-for="(item, index) in nestedRouteItems"
+                            :key="item.to"
+                            :value="String(index + 1)"
+                            as="div"
+                            @click="router.push(item.to)"
+                        >
+                            {{ item.label }}
+                        </Tab>
+                    </TabList>
+                </Tabs>
                 <router-view />
             </div>
         </div>
