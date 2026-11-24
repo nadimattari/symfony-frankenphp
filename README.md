@@ -125,6 +125,14 @@ curl -sS -X POST -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application
 
 Open http://localhost:8125 to see the captured message. With no redirect configured the recipient is used as given; omitting it sends to `test@example.test`. Dev uses Mailpit and `test` uses the null transport, so both are safe without a redirect. In any other environment `/api/mail/test` returns `503` unless `MAIL_REDIRECT_TO` is set; enable it there only with a real `MAILER_DSN`, `MAIL_FROM` and a dedicated redirect inbox. Sends are synchronous — there is no detached worker. Report, invoice and pricing mail endpoints are intentionally not ported; see [ADR 0004](docs/adr/0004-mail-architecture.md).
 
+## Releases
+
+`main` is the current release line: **v0.2.0** (PrimeVue 5 / Sakai 5 / TypeScript / Tailwind 4 plus auth and mail). The previous starter baseline is frozen on branch `release/v0.1` and tagged **v0.1.0** (commit `84550eb`); it is not receiving further changes. The older `pre-migration` tag (`c2e19cd`) is historical only.
+
+- [CHANGELOG.md](CHANGELOG.md) — human-readable release notes.
+- [docs/releases/version-inventory.md](docs/releases/version-inventory.md) — resolved framework, library and infrastructure versions for each release.
+- [ADR 0005](docs/adr/0005-release-and-branch-strategy.md) — why the baseline is a frozen branch and why `main` was fast-forwarded instead of rewritten.
+
 ## Services
 
 ### Development

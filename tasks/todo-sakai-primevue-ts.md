@@ -2,7 +2,7 @@
 
 Companion to `tasks/plan-sakai-primevue-ts.md`. Analysis: `docs/analysis-lamiral-sakai-upgrade.md`. ADR: `docs/adr/0002-primevue-version-and-sakai-strategy.md`.
 
-Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
+Branch: work was done on `feature/primevue-sakai-ts` and promoted to `main` as v0.2.0; the pre-port baseline is frozen on `release/v0.1` / `v0.1.0` (ADR 0005). Lamiral is read-only reference.
 
 ## Phase 0 — Baseline and reference
 

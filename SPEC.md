@@ -92,6 +92,7 @@ The PrimeUI Community license key is read only from `PRIMEUI_LICENSE_KEY` (gitig
 - [x] Auth login/refresh/logout and mail test send work in dev (ADRs 0003/0004).
 - [x] PHPUnit passes (`OK (50 tests, 254 assertions)`).
 - [x] Bundler decision documented: keep Encore; Reprise deferred to a separate platform decision (ADR 0001).
+- [x] Baseline preserved as `release/v0.1` / `v0.1.0`; feature line promoted to `main` as `v0.2.0` with CHANGELOG and version inventory (ADR 0005).
 - [x] README, SPEC, ADRs and task docs match the implemented choices.
 
 ## Deferred / Resolved
