@@ -5,7 +5,7 @@
  */
 import { defineStore } from "pinia";
 
-import { apiClient } from "../service/api";
+import { authService } from "../service/auth";
 import type { AuthResponse, LoginRequest, Role } from "../types/api";
 
 export const ROLE_ADMIN: Role = "ROLE_ADMIN";
@@ -77,10 +77,7 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     async login(credentials: LoginRequest): Promise<AuthResponse> {
-      const response = await apiClient.post<AuthResponse>(
-        "/login",
-        credentials,
-      );
+      const response = await authService.login(credentials);
       this.applyAuthResponse(response);
       return response;
     },
@@ -97,7 +94,7 @@ export const useAuthStore = defineStore("auth", {
       if (remote && this.token) {
         // Best effort: local state is cleared immediately, never waiting on
         // the network. The refresh cookie is revoked server-side.
-        apiClient.post("/logout").catch(() => undefined);
+        authService.logout().catch(() => undefined);
       }
       this.saveToken(null);
       this.saveRoles([]);

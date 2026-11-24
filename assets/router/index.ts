@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import AppLayout from '../layout/AppLayout.vue';
+import { useAuthStore } from '../store/auth';
+import { createAuthGuard } from './guards';
 
 const routes: RouteRecordRaw[] = [
     {
@@ -132,7 +134,8 @@ const routes: RouteRecordRaw[] = [
                 {
                     path: '/pages/crud',
                     name: 'crud',
-                    component: () => import('../views/pages/Crud.vue')
+                    component: () => import('../views/pages/Crud.vue'),
+                    meta: { requiresAuth: true, requiresRole: 'ROLE_USER' }
                 },
                 {
                     path: '/documentation',
@@ -173,5 +176,9 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 });
+
+// Resolve the store inside the callback: Pinia is installed before the first
+// navigation, but the router module itself is imported before that happens.
+router.beforeEach((to) => createAuthGuard(useAuthStore())(to));
 
 export default router;

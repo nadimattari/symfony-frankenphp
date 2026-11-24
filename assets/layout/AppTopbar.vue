@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '../store/auth';
 import { useLayoutState } from './composables/layout';
 
 const { layoutConfig, toggleMenu } = useLayoutState();
@@ -8,11 +9,17 @@ const { layoutConfig, toggleMenu } = useLayoutState();
 const outsideClickListener = ref<EventListener | null>(null);
 const topbarMenuActive = ref(false);
 const router = useRouter();
+const auth = useAuthStore();
+
+async function onLogout(): Promise<void> {
+    auth.logout();
+    await router.push({ name: 'login' });
+}
 
 onMounted(bindOutsideClickListener);
 onBeforeUnmount(unbindOutsideClickListener);
 
-const logoUrl = computed(() => `layout/images/${layoutConfig.darkTheme ? 'logo-white' : 'logo-dark'}.svg`);
+const logoUrl = computed(() => `/layout/images/${layoutConfig.darkTheme ? 'logo-white' : 'logo-dark'}.svg`);
 
 const topbarMenuClasses = computed(() => ({
     'layout-topbar-menu-mobile-active': topbarMenuActive.value
@@ -90,12 +97,20 @@ function isOutsideClicked(event: Event): boolean {
             </button>
             <button type="button" class="bg-transparent border-0 cursor-pointer select-none text-left layout-topbar-button" @click="onTopBarMenuButton">
                 <i class="pi pi-user"></i>
-                <span>Profile</span>
+                <span>{{ auth.user || 'Guest' }}</span>
             </button>
             <button type="button" class="bg-transparent border-0 cursor-pointer select-none text-left layout-topbar-button" @click="onSettingsClick">
                 <i class="pi pi-cog"></i>
                 <span>Settings</span>
             </button>
+            <button v-if="auth.isAuthenticated" type="button" class="bg-transparent border-0 cursor-pointer select-none text-left layout-topbar-button" aria-label="Log out" @click="onLogout">
+                <i class="pi pi-power-off"></i>
+                <span>Logout</span>
+            </button>
+            <router-link v-else to="/auth/login" class="layout-topbar-button" aria-label="Sign in">
+                <i class="pi pi-sign-in"></i>
+                <span>Login</span>
+            </router-link>
         </div>
     </div>
 </template>
