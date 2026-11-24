@@ -134,6 +134,8 @@ Execution slices (added 2026-11-24):
 - PHPUnit smoke test still passes; prod image still builds.
 - Docs and ADRs reflect the implemented choices.
 
+All criteria above were verified on 2026-11-24 in Task 34 (see `tasks/todo-sakai-primevue-ts.md` for commands and results). Remaining known warnings: Tailwind `postcss-calc` build warning, PHPUnit XML `source` element warning, indirect `eraseCredentials()` deprecation, and Prettier formatting warnings from `npm run lint` (0 errors).
+
 ## Risks and mitigations
 
 | Risk | Impact | Mitigation |

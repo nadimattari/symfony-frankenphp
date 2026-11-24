@@ -101,6 +101,10 @@ The displayed type `dev` is treated as a store label, not a usage restriction: t
 - Mail adds `MailRun`/mail entities, MailRouter configuration, and dev-only Mailpit integration.
 - Future Sakai upgrades require re-applying the local TS/Encore/Tailwind patch set; document it.
 
+## Verification (2026-11-24)
+
+Installed/pinned: PrimeVue 5.0.5, Vue 3.5.46, TypeScript 5.9.3, `@primeuix/themes` 3.1.1, Tailwind 4.3.5. `npm run typecheck` (`vue-tsc --noEmit`, `strict: true`) passes; no `.js` frontend modules, removed v3 PrimeVue APIs, v3 theme imports or PrimeFlex imports remain. PrimeUI PRO Charts are not used: the two chart demos import Chart.js directly with `ChartDataLabels` registered. The license key is supplied through `PRIMEUI_LICENSE_KEY` in gitignored `.env.local`; a tracked-file scan confirmed no key value is committed and browser smoke showed no license notice. Task 34 records the full final gate results.
+
 ## Revisit
 
 Re-evaluate when:

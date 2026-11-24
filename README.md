@@ -16,8 +16,7 @@ This repository is a starting point for projects using the Symfony framework wit
     - TypeScript via `ts-loader`
     - Vue loader
 - VueJS 3.5 (required by PrimeVue 5)
-    - PrimeVue 5
-    - PrimeFlex (legacy, being removed)
+    - PrimeVue 5 (Community license key required)
     - PrimeIcons
     - FontAwesome
     - MaterialIcons

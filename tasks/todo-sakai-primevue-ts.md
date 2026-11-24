@@ -313,17 +313,18 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 ## Phase 7 — Final verification
 
-- [ ] Task 34: Final verification and docs update
+- [x] Task 34: Final verification and docs update
   - Acceptance: all success criteria in the plan are checked; README/SPEC/ADR/task docs reflect final versions, commands, and license setup.
   - Verify: `npm run build`, `npm run typecheck`, `npm run lint`, PHPUnit, prod image build, browser smoke of all routes.
-  - Files: `README.md`, `SPEC.md`, `docs/**`, `tasks/**`
+  - Verified 2026-11-24: `npm ci`; `test:fetch` 36/36; `typecheck` clean; `build` (one known harmless `postcss-calc` warning); `lint` 0 errors; PHPUnit `OK (50 tests, 254 assertions)`; prod image `symfonyfrankenphp-sf-php` built; all 31 Sakai routes rendered with zero console errors and zero failed resource requests after making demo image paths root-absolute (`Misc.vue`, `Overlay.vue`, `Media.vue`, `Timeline.vue`, `photos.json`); secret/license-key scan clean; no `.js` modules, removed v3 APIs, v3 theme imports or PrimeFlex imports; no license notice in browser.
+  - Files: `README.md`, `SPEC.md`, `docs/**`, `tasks/**`, `assets/views/uikit/{Misc,Overlay,Media}.vue`, `assets/views/pages/Timeline.vue`, `public/demo/data/photos.json`
   - Dependencies: Tasks 14, 19, 23, 28, 33
   - Scope: S
 
 **Checkpoint: Complete**
-- [ ] Build, typecheck, lint, PHPUnit, and prod build pass
-- [ ] ADR status and docs match implemented choices
-- [ ] Ready for review
+- [x] Build, typecheck, lint, PHPUnit, and prod build pass
+- [x] ADR status and docs match implemented choices
+- [x] Ready for review
 
 ## Phase 8 — Future (not in scope)
 

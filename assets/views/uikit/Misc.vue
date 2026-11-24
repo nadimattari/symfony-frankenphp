@@ -85,11 +85,11 @@ onBeforeUnmount(() => {
                 <h4>Avatar</h4>
                 <h5>Avatar Group</h5>
                 <AvatarGroup class="mb-3">
-                    <Avatar :image="'demo/images/avatar/amyelsner.png'" size="large" shape="circle"></Avatar>
-                    <Avatar :image="'demo/images/avatar/asiyajavayant.png'" size="large" shape="circle"></Avatar>
-                    <Avatar :image="'demo/images/avatar/onyamalimba.png'" size="large" shape="circle"></Avatar>
-                    <Avatar :image="'demo/images/avatar/ionibowcher.png'" size="large" shape="circle"></Avatar>
-                    <Avatar :image="'demo/images/avatar/xuxuefeng.png'" size="large" shape="circle"></Avatar>
+                    <Avatar :image="'/demo/images/avatar/amyelsner.png'" size="large" shape="circle"></Avatar>
+                    <Avatar :image="'/demo/images/avatar/asiyajavayant.png'" size="large" shape="circle"></Avatar>
+                    <Avatar :image="'/demo/images/avatar/onyamalimba.png'" size="large" shape="circle"></Avatar>
+                    <Avatar :image="'/demo/images/avatar/ionibowcher.png'" size="large" shape="circle"></Avatar>
+                    <Avatar :image="'/demo/images/avatar/xuxuefeng.png'" size="large" shape="circle"></Avatar>
                     <Avatar label="+2" shape="circle" size="large" :style="{ 'background-color': '#9c27b0', color: '#ffffff' }"></Avatar>
                 </AvatarGroup>
 
@@ -170,9 +170,9 @@ onBeforeUnmount(() => {
 
                 <h5>Image</h5>
                 <div class="flex items-center flex-col sm:flex-row">
-                    <Chip label="Amy Elsner" :image="'demo/images/avatar/amyelsner.png'" class="mr-2 mb-2"></Chip>
-                    <Chip label="Asiya Javayant" :image="'demo/images/avatar/asiyajavayant.png'" class="mr-2 mb-2"></Chip>
-                    <Chip label="Onyama Limba" :image="'demo/images/avatar/onyamalimba.png'" class="mr-2 mb-2"></Chip>
+                    <Chip label="Amy Elsner" :image="'/demo/images/avatar/amyelsner.png'" class="mr-2 mb-2"></Chip>
+                    <Chip label="Asiya Javayant" :image="'/demo/images/avatar/asiyajavayant.png'" class="mr-2 mb-2"></Chip>
+                    <Chip label="Onyama Limba" :image="'/demo/images/avatar/onyamalimba.png'" class="mr-2 mb-2"></Chip>
                 </div>
             </div>
 

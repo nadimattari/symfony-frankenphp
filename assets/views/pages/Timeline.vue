@@ -103,7 +103,7 @@ const horizontalEvents = ref<string[]>(['2020', '2021', '2022', '2023']);
                         {{ (slotProps as any).item.date }}
                     </template>
                     <template #content>
-                        <img v-if="(slotProps as any).item.image" :src="'demo/images/product/' + (slotProps as any).item.image" :alt="(slotProps as any).item.status" width="200" class="shadow-md mb-3" />
+                        <img v-if="(slotProps as any).item.image" :src="'/demo/images/product/' + (slotProps as any).item.image" :alt="(slotProps as any).item.status" width="200" class="shadow-md mb-3" />
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate
                             neque quas!

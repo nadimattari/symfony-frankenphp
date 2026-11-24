@@ -31,7 +31,7 @@ onMounted(() => {
                     <template #item="{ data }: { data: Product }">
                         <div class="rounded m-2 text-center p-2" style="border: 1px solid var(--p-content-border-color)">
                             <div class="my-5">
-                                <img :src="'demo/images/product/' + data.image" :alt="data.name" class="product-image" />
+                                <img :src="'/demo/images/product/' + data.image" :alt="data.name" class="product-image" />
                             </div>
                             <div>
                                 <h5 class="mb-1">
