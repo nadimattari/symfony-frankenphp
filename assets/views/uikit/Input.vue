@@ -54,7 +54,7 @@ const multiselectValues = ref<Country[]>([
     { name: 'United States', code: 'US' }
 ]);
 
-const multiselectValue = ref<Country[] | null>(null);
+const multiselectValue = ref<Country[]>([]);
 const toggleValue = ref(false);
 const selectButtonValue1 = ref<OptionItem | null>(null);
 const selectButtonValues1 = ref<OptionItem[]>([{ name: 'Option 1' }, { name: 'Option 2' }, { name: 'Option 3' }]);
@@ -219,8 +219,8 @@ const searchCountry = (event: { query: string }): void => {
                 <h5>Dropdown</h5>
                 <Select v-model="dropdownValue" :options="dropdownValues" optionLabel="name" placeholder="Select" />
 
-                <h5>MultiSelect</h5>
-                <MultiSelect v-model="multiselectValue" :options="multiselectValues" optionLabel="name" placeholder="Select Countries" :filter="true">
+                <h5>Select (multiple)</h5>
+                <Select multiple v-model="multiselectValue" :options="multiselectValues" optionLabel="name" placeholder="Select Countries" :filter="true">
                     <template #value="slotProps">
                         <div class="inline-flex align-items-center py-1 px-2 bg-primary text-primary border-round mr-2" v-for="option of (slotProps as any).value" :key="option.code">
                             <span :class="'mr-2 flag flag-' + option.code.toLowerCase()" style="width: 18px; height: 12px" />
@@ -236,7 +236,7 @@ const searchCountry = (event: { query: string }): void => {
                             <div>{{ (slotProps as any).option.name }}</div>
                         </div>
                     </template>
-                </MultiSelect>
+                </Select>
 
                 <h5>TreeSelect</h5>
                 <TreeSelect v-model="selectedNode" :options="treeSelectNodes" placeholder="Select Item"></TreeSelect>

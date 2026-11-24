@@ -189,14 +189,14 @@ const calculateCustomerTotal = (name: string): number => {
                         </template>
                         <template #filter="slotProps">
                             <div class="mb-3 text-bold">Agent Picker</div>
-                            <MultiSelect v-model="(slotProps as any).filterModel.value" :options="representatives" optionLabel="name" placeholder="Any" class="p-column-filter">
+                            <Select multiple v-model="(slotProps as any).filterModel.value" :options="representatives" optionLabel="name" placeholder="Any" class="p-column-filter">
                                 <template #option="slotProps">
                                     <div class="p-multiselect-representative-option">
                                         <img :alt="(slotProps as any).option.name" :src="'/demo/images/avatar/' + (slotProps as any).option.image" width="32" style="vertical-align: middle" />
                                         <span style="margin-left: 0.5em; vertical-align: middle" class="image-text">{{ (slotProps as any).option.name }}</span>
                                     </div>
                                 </template>
-                            </MultiSelect>
+                            </Select>
                         </template>
                     </Column>
                     <Column header="Date" filterField="date" dataType="date" style="min-width: 10rem">

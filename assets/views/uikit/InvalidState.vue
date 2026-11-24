@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue';
 import AutoComplete from 'primevue/autocomplete';
 import InputNumber from 'primevue/inputnumber';
 import InputText from 'primevue/inputtext';
-import MultiSelect from 'primevue/multiselect';
 import Password from 'primevue/password';
 import Textarea from 'primevue/textarea';
 import CountryService, { type Country } from '../../service/CountryService';
@@ -22,7 +21,7 @@ const value4 = ref<string[]>([]);
 const value5 = ref<string | null>(null);
 const value6 = ref<number | null>(null);
 const value7 = ref<City | null>(null);
-const value8 = ref<City[] | null>(null);
+const value8 = ref<City[]>([]);
 const value9 = ref<string | null>(null);
 const value10 = ref<string | null>(null);
 const cities = ref<City[]>([
@@ -96,8 +95,8 @@ const searchCountry = (event: { query: string }): void => {
                             <Select id="dropdown" v-model="value7" :options="cities" optionLabel="name" invalid />
                         </div>
                         <div class="field">
-                            <label for="multiselect">MultiSelect</label>
-                            <MultiSelect id="multiselect" v-model="value8" :options="cities" optionLabel="name" invalid />
+                            <label for="multiselect">Select (multiple)</label>
+                            <Select id="multiselect" multiple v-model="value8" :options="cities" optionLabel="name" invalid />
                         </div>
                         <div class="field">
                             <label for="textarea">Textarea</label>

@@ -6,7 +6,6 @@ import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import InputNumber from 'primevue/inputnumber';
 import InputText from 'primevue/inputtext';
-import MultiSelect from 'primevue/multiselect';
 import Textarea from 'primevue/textarea';
 import CountryService, { type Country } from '../../service/CountryService';
 
@@ -32,7 +31,7 @@ const value5 = ref<string | null>(null);
 const value6 = ref<number | null>(null);
 const value7 = ref<string | null>(null);
 const value8 = ref<City | null>(null);
-const value9 = ref<City[] | null>(null);
+const value9 = ref<City[]>([]);
 const value10 = ref<string | null>(null);
 const countryService = new CountryService();
 
@@ -112,8 +111,8 @@ const searchCountry = (event: { query: string }): void => {
             </div>
             <div class="field col-12 md:col-4">
                 <FloatLabel>
-                    <MultiSelect id="multiselect" :options="cities" v-model="value9" optionLabel="name" :filter="false"></MultiSelect>
-                    <label for="multiselect">MultiSelect</label>
+                    <Select id="multiselect" multiple :options="cities" v-model="value9" optionLabel="name" :filter="false"></Select>
+                    <label for="multiselect">Select (multiple)</label>
                 </FloatLabel>
             </div>
             <div class="field col-12 md:col-4">
