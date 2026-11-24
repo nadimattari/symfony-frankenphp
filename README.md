@@ -15,7 +15,7 @@ This repository is a starting point for projects using the Symfony framework wit
     - Tailwind 4 via PostCSS
     - TypeScript via `ts-loader`
     - Vue loader
-- VueJS
+- VueJS 3.5 (required by PrimeVue 5)
     - PrimeVue 5
     - PrimeFlex (legacy, being removed)
     - PrimeIcons

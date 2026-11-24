@@ -5,7 +5,7 @@ This project uses skills installed under `.opencode/skills/` (or a compatible pa
 ## Project Context
 
 - Backend: Symfony 6.4 (PHP >=8.1), Doctrine ORM, API Platform, Twig, Webpack Encore bundle.
-- Frontend: Vue 3.4 SPA (Sakai/PrimeVue) mounted at `#vue-app`, built with Webpack Encore (Sass/SCSS, TypeScript loader).
+- Frontend: Vue 3.5 SPA (Sakai/PrimeVue 5 requires Vue ≥3.5) mounted at `#vue-app`, built with Webpack Encore (Sass/SCSS, TypeScript loader, Tailwind 4 PostCSS).
 - Infra: Docker Compose (MariaDB 11.3.2, PHP 8.1 Apache, Mailpit).
 - No test suite yet (PHPUnit not installed); CI/CD not set up (see TODO in README).
 

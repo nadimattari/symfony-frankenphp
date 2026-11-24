@@ -1,10 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import AppLayout from '../layout/AppLayout.vue';
 
-const router = createRouter({
-    history: createWebHistory(),
-    routes: [
-        {
+const routes: RouteRecordRaw[] = [
+    {
             path: '/',
             component: AppLayout,
             children: [
@@ -169,7 +167,11 @@ const router = createRouter({
             name: 'error',
             component: () => import('../views/pages/auth/Error.vue')
         }
-    ]
+];
+
+const router = createRouter({
+    history: createWebHistory(),
+    routes
 });
 
 export default router;

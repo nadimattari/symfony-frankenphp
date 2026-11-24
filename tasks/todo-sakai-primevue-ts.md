@@ -28,7 +28,7 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 - [x] Task 3: Update frontend dependencies
   - Acceptance: `primevue@5.0.5`, `@primeuix/themes`, `tailwindcss@^4`, `@tailwindcss/postcss`, `tailwindcss-primeui`, `postcss`, `pinia`, `vue-tsc`, TS ESLint packages installed; `primeflex` and `@babel/*` legacy packages removed if unused; lockfile updated.
-  - Verified 2026-11-24: `npm ci`, `npm run build` and `npm run typecheck` pass. Keeping Encore 4 requires ESLint 8.57.1 (Encore peer is `^8`) and postcss-loader 8 with Encore bumped to 4.7.0. PrimeVue 5 removed several v3 modules, so the current entry now maps removed components/directives to v5 equivalents and `primevue/api` imports moved to `@primevue/core/api`; these aliases are temporary until the Sakai port replaces them. `primeflex` and `@babel/*` remain because PrimeFlex classes are still used by current templates and Encore 4 declares Babel as a peer.
+  - Verified 2026-11-24: `npm ci`, `npm run build` and `npm run typecheck` pass. Keeping Encore 4 requires ESLint 8.57.1 (Encore peer is `^8`) and postcss-loader 8 with Encore bumped to 4.7.0. Vue is locked to 3.5.46 because PrimeVue 5 declares a `vue@^3.5.0` peer; the old 3.4 baseline is incompatible. PrimeVue 5 removed several v3 modules, so the current entry now maps removed components/directives to v5 equivalents and `primevue/api` imports moved to `@primevue/core/api`; these aliases are temporary until the Sakai port replaces them. `primeflex` and `@babel/*` remain because PrimeFlex classes are still used by current templates and Encore 4 declares Babel as a peer.
   - Files: `package.json`, `package-lock.json`, `assets/app.js`, `assets/views/pages/Crud.vue`, `assets/views/uikit/Table.vue`
   - Dependencies: Task 2
   - Scope: M
@@ -67,11 +67,10 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 ## Phase 2 — Port Sakai 5 onto Encore (TypeScript)
 
-- [ ] Task 8: Port app entry and router to TypeScript
+- [x] Task 8: Port app entry and router to TypeScript
   - Acceptance: `assets/app.ts` registers PrimeVue 5, Pinia, services, directives; router typed with `RouteRecordRaw`; Encore entry updated from `app.js` to `app.ts`.
-  - Note: the entry rename and Encore update were completed in Task 6; Task 8 finishes the typed router and remaining registrations.
-  - Verify: build, typecheck.
-  - Files: `assets/app.ts`, `assets/router/index.ts`, `webpack.config.js`
+  - Verified 2026-11-24: entry and Encore update were completed in Task 6; Task 8 adds `createPinia()` and converts `assets/router/index.js` to `index.ts` with a `RouteRecordRaw[]` route table. `npm ci`, build, typecheck and lint pass; browser smoke shows the app mounted with 30 router links and no console errors. Vue is locked to 3.5.46 because PrimeVue 5 requires `vue@^3.5.0`.
+  - Files: `assets/app.ts`, `assets/router/index.ts`, `package.json`, `package-lock.json`, `AGENTS.md`, `README.md`, `docs/adr/0002-primevue-version-and-sakai-strategy.md`
   - Dependencies: Task 7
   - Scope: M
 

@@ -110,6 +110,7 @@ import VirtualScroller       from 'primevue/virtualscroller';
 import BlockViewer from './components/BlockViewer.vue';
 
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import App from './App.vue';
 import router from './router';
 
@@ -131,6 +132,7 @@ app.use(PrimeVue, {
         }
     }
 });
+app.use(createPinia());
 app.use(router);
 app.use(ToastService);
 app.use(DialogService);

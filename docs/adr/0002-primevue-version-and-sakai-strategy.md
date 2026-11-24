@@ -27,6 +27,7 @@ Relevant upstream facts (verified against official sources):
 - The **PrimeUI Community License** includes the full core libraries (PrimeVue, PrimeReact, PrimeNG, PrimeIcons) — not a stripped-down version. It excludes PrimeUI PRO components (Scheduler, Charts, Task Board, Text Editor, Diagram), PrimeBlocks, Theme Designer, and premium support.
 - Community licenses are per developer (max 4 seats), valid 12 months, renewable free while eligibility continues, and verified offline with no telemetry.
 - v3-era component names were removed in v4/v5 and must all be migrated.
+- PrimeVue 5.0.5 declares a peer dependency on Vue `^3.5.0`, so the previous Vue 3.4 baseline cannot be retained with the accepted v5 target.
 - Upstream Sakai 5.0.0 is still JavaScript and is built with Vite + Tailwind 4, not Encore.
 
 Full analysis: `docs/analysis-lamiral-sakai-upgrade.md`.
@@ -91,6 +92,7 @@ The displayed type `dev` is treated as a store label, not a usage restriction: t
 ## Consequences
 
 - Every v3-era PrimeVue component usage must be renamed or rewritten; removed APIs cannot be carried forward.
+- Vue moves from 3.4 to 3.5 because PrimeVue 5 requires it; Pinia is pinned to a release compatible with that Vue range.
 - Theming moves to `@primeuix/themes`; PrimeFlex classes are removed in favour of Tailwind utilities; PrimeVue/Tailwind cascade layers must be ordered per official guidance.
 - The license key becomes a required environment value in every environment (including CI/prod builds or runtime). A missing/invalid key may display a license notice.
 - Community license eligibility and renewal (12 months) must be tracked.
@@ -115,6 +117,7 @@ Re-evaluate when:
 - <https://primeui.dev/pricing> — Community vs Commercial feature matrix and PRO component list
 - <https://primeuipro.dev/> — PRO component families
 - <https://primevue.org/configuration/#license> and <https://primevue.org/llms/pages/configuration.md> — `license` config option
+- <https://registry.npmjs.org/@primevue/core/5.0.5> — package peer dependency on Vue `^3.5.0`
 - <https://tailwindcss.com/docs/installation/using-postcss> — Tailwind 4 PostCSS installation
 - <https://symfony.com/doc/current/frontend/encore/postcss.html> — Encore `enablePostCssLoader()`
 - <https://primevue.org/tailwind/> — `tailwindcss-primeui`, CSS layers, dark-mode alignment
