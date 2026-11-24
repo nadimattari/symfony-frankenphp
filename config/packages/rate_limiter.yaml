@@ -1,0 +1,14 @@
+framework:
+    rate_limiter:
+        auth_refresh:
+            policy: fixed_window
+            limit: 30
+            interval: '15 minutes'
+            cache_pool: cache.rate_limiter
+            lock_factory: null
+        auth_logout:
+            policy: fixed_window
+            limit: 30
+            interval: '15 minutes'
+            cache_pool: cache.rate_limiter
+            lock_factory: null
