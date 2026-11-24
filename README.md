@@ -158,7 +158,7 @@ Production exposes **only** ports 80 and 443. The database and Mailpit are not p
 
 ## Notes
 
-- Webpack Encore is in maintenance mode. Symfony Reprise is the modern replacement but requires PHP 8.4+, Node 22.18+/24.11+ and Symfony 7.4 or 8; this project stays on Symfony 7.4 LTS / PHP 8.2 / Node 20 for now. Re-evaluation is tracked in ADR 0001 and Task 35.
+- Webpack Encore is in maintenance mode. Symfony Reprise is the modern replacement but requires PHP 8.4+, Node 22.18+/24.11+ and Symfony 7.4 or 8; this project stays on Symfony 7.4 LTS / PHP 8.2 / Node 20 for now. Symfony 8 has no LTS branch available yet (8.4 LTS is due in November 2027), so Reprise re-evaluation is targeted for **November 2027** — see ADR 0001 and Task 35.
 - Authentication decisions, verification results and residual risks are in ADR 0003 (`docs/adr/0003-auth-architecture.md`).
 - FrankenPHP worker mode is enabled in production via `docker/caddy/Caddyfile.prod`.
 - Production HTTPS currently uses Caddy's internal CA (`tls internal`). Replace it with a publicly-trusted certificate (or a real domain) before deploying.

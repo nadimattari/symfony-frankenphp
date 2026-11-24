@@ -111,7 +111,7 @@ Re-evaluate when:
 
 - The Community license expires or eligibility changes (fall back to MIT PrimeVue 4, or buy Commercial).
 - PRO components (Scheduler, Charts, Text Editor, Task Board, Diagram) become a product requirement.
-- Symfony 8 / PHP 8.4 makes Vite/Reprise viable again (supersedes ADR 0001).
+- Symfony 8.4 LTS (target November 2027) / PHP 8.4 makes Vite/Reprise viable again (supersedes ADR 0001).
 - The `localStorage` token risk is no longer acceptable (move to memory-only + refresh-cookie bootstrap).
 
 ## Sources

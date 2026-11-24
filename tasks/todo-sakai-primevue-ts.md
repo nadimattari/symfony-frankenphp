@@ -328,9 +328,9 @@ Branch: work was done on `feature/primevue-sakai-ts` and promoted to `main` as v
 
 ## Phase 8 — Future (not in scope)
 
-- [ ] Task 35: Re-evaluate Symfony Reprise as an Encore replacement
-  - Acceptance: a new ADR superseding ADR 0001 records the platform decision (PHP 8.4+, Node 22.18+/24.11+, Symfony LTS 7.4 vs 8, Vite 7/8 or Rsbuild) and a separate migration plan exists before any code changes.
-  - Verify: ADR status links ADR 0001 as superseded; Encore removal is a dedicated commit/PR, not part of the Sakai/PrimeVue work.
+- [ ] Task 35: Re-evaluate Symfony Reprise as an Encore replacement — **target November 2027 (Symfony 8.4 LTS)**
+  - Acceptance: a new ADR superseding ADR 0001 records the platform decision (PHP 8.4+, Node 22.18+/24.11+, Symfony 8.4 LTS rather than a non-LTS 8.x branch, Vite 7/8 or Rsbuild) and a separate migration plan exists before any code changes.
+  - Verify: ADR status links ADR 0001 as superseded; Encore removal is a dedicated commit/PR, not part of the Sakai/PrimeVue or 1.0 hardening work.
   - Files: `docs/adr/0001-bundler.md`, new ADR, new task plan
-  - Dependencies: platform-upgrade decision; not part of this branch's success criteria
+  - Dependencies: Symfony 8.4 LTS release (November 2027) and platform-upgrade decision; not part of this release's success criteria
   - Scope: S (decision only; migration scope to be estimated separately)

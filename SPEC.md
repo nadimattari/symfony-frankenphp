@@ -8,7 +8,7 @@ Modernize this Symfony + Vue starter template:
 2. Make containers **dev / test / prod ready** (profiles, env-specific config, optimized builds). Mailpit is **dev-only**.
 3. Upgrade **Symfony 6.4 → 7.4 LTS** (PHP 8.2).
 4. Fix configuration bugs/inconsistencies across Symfony, TS, Docker, and tooling.
-5. Port upstream **Sakai Vue 5.0.0** on **PrimeVue 5.0.5** using **strict TypeScript** and **Tailwind 4**, keeping Webpack Encore. A Reprise migration is explicitly **deferred** (ADR 0001, Task 35).
+5. Port upstream **Sakai Vue 5.0.0** on **PrimeVue 5.0.5** using **strict TypeScript** and **Tailwind 4**, keeping Webpack Encore. A Reprise migration is explicitly **deferred to November 2027**, when the Symfony 8.4 LTS line is expected (ADR 0001, Task 35).
 6. Add bearer-token authentication and a small, safe mail test flow as reusable starter infrastructure (ADRs 0003 and 0004). Domain-specific Lamiral features (reports, invoices, pricing, Dropbox, portal) stay out of scope.
 
 Primary user: developers using this repo as a starting point. Success = `docker compose up` works in dev, tests pass, prod image builds, Symfony 7.4 boots, and all Sakai routes render with a clean browser console.
@@ -98,5 +98,5 @@ The PrimeUI Community license key is read only from `PRIMEUI_LICENSE_KEY` (gitig
 ## Deferred / Resolved
 
 - Mercure: hub enabled; feature usage is optional.
-- Reprise: not part of this branch; revisit only after a deliberate PHP 8.4+/Node 22.18+/Symfony LTS decision (Task 35).
+- Reprise: not part of this release; revisit in November 2027 after a deliberate PHP 8.4+/Node 22.18+/Symfony 8.4 LTS decision (Task 35, ADR 0001).
 - Dev/test are safe for the mail test endpoint; non-dev requires an explicit `MAIL_REDIRECT_TO` (ADR 0004).

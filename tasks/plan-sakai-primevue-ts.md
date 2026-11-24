@@ -118,7 +118,7 @@ Execution slices (added 2026-11-24):
 
 ### Phase 8 — Future (not in scope)
 
-- Reprise migration: after a deliberate PHP/Node platform upgrade and a fresh Symfony LTS/8 decision, replace Encore with Symfony Reprise + Vite or Rsbuild. See ADR 0001 and Task 35 in `tasks/todo-sakai-primevue-ts.md`. This phase is tracked but does not affect the success criteria above.
+- Reprise migration: targeted for November 2027 with the Symfony 8.4 LTS line, after a deliberate PHP 8.4+/Node 22+/platform upgrade and a fresh superseding ADR. There is no Symfony 8 LTS available today, so non-LTS 8.x branches are rejected. See ADR 0001 and Task 35 in `tasks/todo-sakai-primevue-ts.md`. This phase is tracked but does not affect the success criteria above.
 
 ## Success criteria
 
