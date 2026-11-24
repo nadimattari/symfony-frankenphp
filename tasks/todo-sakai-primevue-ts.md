@@ -180,10 +180,12 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 ## Phase 4 — Lamiral Tier A reuse
 
-- [ ] Task 20: Add typed fetch wrapper and API types
+- [x] Task 20: Add typed fetch wrapper and API types
   - Acceptance: `fetch.ts` supports single-flight refresh, CSRF cookie header, merge-patch, typed errors, blob downloads, configurable endpoints; DTOs in `assets/types/api.ts`.
+  - Decision 2026-11-24: ported the Lamiral pattern as a **framework-agnostic `FetchClient`** — auth storage, refresh/login/logout URLs, CSRF cookie name, fetch implementation and the unauthorized hook are injected, so Pinia/router stay out of the wrapper (Task 22 supplies those hooks). `baseUrl` plus `endpoints` are configurable; absolute URLs are passed through. Includes JSON verbs, `application/merge-patch+json` for PATCH, typed `ApiError` extraction (`errors`/`detail`/`hydra:description`/`message`/plain text), 204 → `null`, `download()` returning a `Blob` and `saveBlob()`/filename helpers, proactive expiry refresh (60s skew), one-shot 401 refresh retry, and a shared in-flight refresh promise for concurrent 401s. `assets/types/api.ts` holds type-only DTOs (auth, JWT, Hydra/plain collections, demo entities).
+  - Verified 2026-11-24: 11 RED-first `node:test` cases in `tests/frontend/fetch.test.cjs` pass via `npm run test:fetch` (compiles the wrapper with `tsc` into gitignored `var/test-build/`; no new test dependency). `npm run typecheck`, build, lint (0 errors, 2673 pre-existing formatter warnings) pass.
   - Verify: typecheck; manual request smoke.
-  - Files: `assets/utils/fetch.ts`, `assets/types/api.ts`
+  - Files: `assets/utils/fetch.ts`, `assets/types/api.ts`, `tests/frontend/fetch.test.cjs`, `package.json`
   - Dependencies: Task 7
   - Scope: M
 

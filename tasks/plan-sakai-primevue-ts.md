@@ -79,6 +79,15 @@ Tasks are tracked in `tasks/todo-sakai-primevue-ts.md`.
 - Task 22: Add Pinia stores (app + auth shell)
 - Task 23: Port generic formatting utilities with configurable locale/timezone
 
+Execution slices (added 2026-11-24):
+
+1. **20a — contract + HTTP core:** `assets/types/api.ts` DTO/error contracts, then `FetchClient` JSON verbs, merge-patch, configurable base URL/endpoints, typed `ApiError`, 204 handling and blob download. RED-first with `node:test` (`tests/frontend/*.test.cjs`) against the `tsc`-compiled module in gitignored `var/test-build/`.
+2. **20b — auth-aware wrapper:** bearer injection, CSRF cookie header on mutations/refresh/logout, single-flight refresh with one retry, proactive expiry refresh, and an `onUnauthorized` hook (framework-agnostic — no Pinia/router import in the wrapper). Tests use injected `fetchImpl`/cookie/token stubs.
+3. **21 — API services:** port the Lamiral service pattern onto the typed client, point at local Symfony endpoints, wire one route to live data; keep any remaining demo fixtures explicitly marked demo-only.
+4. **22 — Pinia:** install typed stores in `app.ts`; auth store owns `localStorage` token + roles and supplies the client hooks; document the accepted XSS trade-off.
+5. **23 — common utils:** configurable locale/timezone formatting with focused tests.
+6. **24 — ADR 0003:** record the auth architecture before backend work starts.
+
 **Checkpoint: Reuse** — one real API-backed route works; no Lamiral-domain endpoints copied verbatim.
 
 ### Phase 5 — Auth backend
