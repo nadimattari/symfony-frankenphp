@@ -3,19 +3,12 @@ import { onMounted, ref } from 'vue';
 import Button from 'primevue/button';
 import Column from 'primevue/column';
 import DataTable from 'primevue/datatable';
-import ProductService from '../../service/ProductService';
-
-interface Product {
-    id: number;
-    name: string;
-    image: string;
-    price: number;
-}
+import ProductService, { type Product } from '../../service/ProductService';
 
 const products = ref<Product[]>([]);
 
-function formatCurrency(value: number): string {
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+function formatCurrency(value: number | undefined): string {
+    return (value ?? 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 }
 
 onMounted(() => {

@@ -1,22 +1,24 @@
-<script setup>
-import { ref, reactive } from 'vue';
+<script setup lang="ts">
+import { reactive, ref } from 'vue';
 
-const props = defineProps({
-    header: {
-        type: String,
-        default: null
-    },
-    code: null,
-    recent: {
-        type: Boolean,
-        default: false
-    },
-    free: {
-        type: Boolean,
-        default: false
-    },
-    containerClass: null,
-    previewStyle: null
+import type { HTMLAttributes, StyleValue } from 'vue';
+
+interface Props {
+    header?: string;
+    code?: string;
+    recent?: boolean;
+    free?: boolean;
+    containerClass?: HTMLAttributes['class'];
+    previewStyle?: StyleValue;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    header: undefined,
+    code: undefined,
+    recent: false,
+    free: false,
+    containerClass: undefined,
+    previewStyle: undefined
 });
 
 const BlockView = reactive({
@@ -25,13 +27,13 @@ const BlockView = reactive({
 });
 const blockView = ref(0);
 
-function activateView(event, blockViewValue) {
+function activateView(event: Event, blockViewValue: number): void {
     blockView.value = blockViewValue;
     event.preventDefault();
 }
 
-async function copyCode(event) {
-    await navigator.clipboard.writeText(props.code);
+async function copyCode(event: Event): Promise<void> {
+    await navigator.clipboard.writeText(props.code ?? '');
     event.preventDefault();
 }
 </script>
@@ -57,7 +59,7 @@ async function copyCode(event) {
                 <slot></slot>
             </div>
             <div v-if="blockView === BlockView.CODE">
-                <pre class="app-code"><code>{{code}}</code></pre>
+                <pre class="app-code"><code>{{ code }}</code></pre>
             </div>
         </div>
     </div>
