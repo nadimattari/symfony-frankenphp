@@ -24,6 +24,11 @@ security:
                 password_path: password
                 success_handler: App\Security\LoginSuccessHandler
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            login_throttling:
+                max_attempts: '%app.login_rate_limit_max_attempts%'
+                interval: '15 minutes'
+                cache_pool: cache.rate_limiter
+                lock_factory: null
             jwt: ~
 
     access_control:

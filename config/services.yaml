@@ -9,6 +9,7 @@ parameters:
     env(JWT_PASSPHRASE): ''
     app.primeui_license_key: '%env(PRIMEUI_LICENSE_KEY)%'
     app.access_token_ttl: '%env(int:ACCESS_TOKEN_TTL)%'
+    app.login_rate_limit_max_attempts: 10
     # Mail settings. Empty defaults keep an unset variable harmless; real
     # values belong in the environment (or gitignored .env.local), not here.
     env(MAIL_FROM): ''
