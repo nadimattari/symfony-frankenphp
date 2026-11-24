@@ -94,6 +94,38 @@ docker compose exec -T sf-php php bin/console lexik:jwt:generate-keypair
 
 The accepted XSS trade-off, verification results and residual risks (no CSP yet, no auth rate limiting, non-revocable access tokens, dev dependency advisories) are recorded in [ADR 0003](docs/adr/0003-auth-architecture.md). Do not expose this authentication setup to untrusted content until those items are resolved.
 
+### Mail
+
+Mail settings come from environment variables. Put real values in the gitignored `.env.local` (or the deployment environment), never in tracked files.
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `MAILER_DSN` | `smtp://sf-mailer:1025` (`.env`), `null://null` (`.env.test`) | Transport; override in real deployments |
+| `MAIL_FROM` | empty | From address; the dispatcher falls back to `no-reply@example.test` |
+| `MAIL_REPLY_TO` | empty | Optional `Reply-To` header |
+| `MAIL_REDIRECT_TO` | empty | When set, all messages go here, with `[TEST] ... (for <original>)` subject and `X-Original-Recipient` header |
+| `MAIL_THROTTLE_SECONDS` | `0` | Integer pause between consecutive messages |
+
+Two bearer-authenticated endpoints are available:
+
+| Endpoint | Purpose |
+|----------|---------|
+| `GET /api/mail/settings` | `{from, replyTo, redirectTo, throttleSeconds, isRedirecting, testMode}`; drives the `TEST MODE` banner |
+| `POST /api/mail/test` | Optional `{recipient}`; sends one message and returns `{runId, status, recipient, effectiveRecipient, message}` |
+
+To verify delivery in dev (start Mailpit with `docker compose up -d sf-mailer` if the `dev` profile service is not running):
+
+```bash
+TOKEN=$(curl -sS -X POST http://localhost:8180/api/login \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"<dev-user>","password":"<dev-password>"}' | jq -r .token)
+curl -sS -H "Authorization: Bearer $TOKEN" http://localhost:8180/api/mail/settings
+curl -sS -X POST -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' \
+  -d '{"recipient":"someone@example.test"}' http://localhost:8180/api/mail/test
+```
+
+Open http://localhost:8125 to see the captured message. With no redirect configured the recipient is used as given; omitting it sends to `test@example.test`. Dev uses Mailpit and `test` uses the null transport, so both are safe without a redirect. In any other environment `/api/mail/test` returns `503` unless `MAIL_REDIRECT_TO` is set; enable it there only with a real `MAILER_DSN`, `MAIL_FROM` and a dedicated redirect inbox. Sends are synchronous — there is no detached worker. Report, invoice and pricing mail endpoints are intentionally not ported; see [ADR 0004](docs/adr/0004-mail-architecture.md).
+
 ## Services
 
 ### Development

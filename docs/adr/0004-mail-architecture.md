@@ -53,7 +53,7 @@ Constraints:
 ### Endpoints and dev verification
 
 12. `GET /api/mail/settings` (requires `ROLE_USER`) returns the from/reply-to/redirect/throttle values needed by the typed frontend to show a test-mode banner.
-13. `POST /api/mail/test` (requires `ROLE_USER`) creates a `test` run, dispatches one short message, and returns the run id/status. In dev with no redirect configured it sends to a non-routable `test@example.test` address so Mailpit can still prove delivery. **Outside dev the endpoint refuses to send unless `MAIL_REDIRECT_TO` is set**, avoiding accidental real delivery from a starter endpoint.
+13. `POST /api/mail/test` (requires `ROLE_USER`) creates a `test` run, dispatches one short message, and returns the run id/status. The recipient is the supplied address, or `test@example.test` when omitted. Dev and `test` are safe without a redirect: dev sends to Mailpit and `test` uses the null transport. **Outside `dev`/`test` the endpoint returns 503 unless `MAIL_REDIRECT_TO` is set**, avoiding accidental real delivery from a starter endpoint. Enabling the endpoint there requires a real `MAILER_DSN`, a configured `MAIL_FROM`, and a dedicated redirect inbox set in the environment (or gitignored `.env.local`).
 14. Dev sends go to Mailpit and are inspected at `http://localhost:8125`. Tests use `MAILER_DSN=null://null` and can replace the transport with a recording spy.
 
 ### Explicit exclusions
@@ -101,8 +101,14 @@ Constraints:
 
 - Two new tables, four environment parameters, one `MAILER_DSN` fix, and two authenticated API endpoints.
 - Tests can assert redirect, subject rewrite and original-recipient headers before the transport sees a message, that a claimed run cannot be claimed twice, and that a test send lands in Mailpit in dev.
-- Non-dev sends are only possible through explicitly configured `MAILER_DSN` and `MAIL_REDIRECT_TO`; the starter's test endpoint refuses to send without a redirect outside dev.
+- Non-dev/test sends are only possible through explicitly configured `MAILER_DSN` and `MAIL_REDIRECT_TO`; the starter's test endpoint refuses to send without a redirect outside `dev`/`test`.
 - Real recipient lists, attachments, templates and domain workers remain absent by design; adding them requires a new decision.
+
+## Verification (2026-11-24)
+
+- Dev: `GET /api/mail/settings` returned 200 with `testMode: true`; an authenticated `POST /api/mail/test` returned `status: completed` and `sent=1`. The message appeared in Mailpit at `http://localhost:8125` with subject `Mail smoke test`, from `no-reply@example.test`, addressed to the requested recipient.
+- Database: one `mail_run` row (`test`, `completed`, `sent=1`) and one `email_log` row (`sent`, `attempts=1`, generated `Message-ID`); no message body was persisted.
+- PHPUnit covers redirect subject/header rewriting, dedupe upserts, run claim/reaping and both API endpoints; PHP tests use the null transport and a recording spy, never SMTP.
 
 ## Revisit
 

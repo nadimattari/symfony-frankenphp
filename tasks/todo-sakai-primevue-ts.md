@@ -301,7 +301,7 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Tasks 20, 31
   - Scope: S
 
-- [ ] Task 33: Verify mail delivery
+- [x] Task 33: Verify mail delivery
   - Acceptance: test email appears in Mailpit in dev; redirect config documented for non-dev.
   - Verify: Mailpit UI; curl API trigger.
   - Files: `README.md`, ADR 0004
@@ -309,7 +309,7 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Scope: S
 
 **Checkpoint: Mail**
-- [ ] Mail test send works in dev; no report/invoice code ported
+- [x] Mail test send works in dev; no report/invoice code ported
 
 ## Phase 7 — Final verification
 
