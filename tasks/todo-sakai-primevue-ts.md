@@ -139,10 +139,11 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 14
   - Scope: M
 
-- [ ] Task 16: Migrate removed table, panel, and list components
+- [x] Task 16: Migrate removed table, panel, and list components
   - Acceptance: TriStateCheckbox→Checkbox indeterminate, DataViewLayoutOptions→SelectButton, AccordionTab→AccordionPanel structure, TabView/TabPanel→Tabs structure.
+  - Verified 2026-11-24 in four slices (commits `9668ca6`, `75fa48e`, `503604c`): followed upstream Sakai 5 `TableDoc`, `ListDoc` and `PanelsDoc` structures. Table's Verified filter is a binary `Checkbox` with `indeterminate` bound to a null filter value; DataView layout uses `SelectButton` with grid/list icons and `:allowEmpty="false"`; accordion and tabs use the `AccordionPanel`/`AccordionHeader`/`AccordionContent` and `Tabs`/`TabList`/`Tab`/`TabPanels` trees. `vue-tsc --noEmit` and build pass. Browser smoke: Verified filter renders an indeterminate checkbox, DataView switches to `p-dataview-list`, accordion panels expand, and tabs switch content — all with no unresolved-component warnings.
   - Verify: typecheck; table/panel smoke.
-  - Files: `assets/views/uikit/Table.vue`, `Panels.vue`, `List.vue`
+  - Files: `assets/app.ts`, `assets/views/uikit/Table.vue`, `assets/views/uikit/List.vue`, `assets/views/uikit/Panels.vue`
   - Dependencies: Task 15
   - Scope: M
 
