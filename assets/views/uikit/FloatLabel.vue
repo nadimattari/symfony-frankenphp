@@ -4,7 +4,6 @@ import AutoComplete from 'primevue/autocomplete';
 import FloatLabel from 'primevue/floatlabel';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
-import InputMask from 'primevue/inputmask';
 import InputNumber from 'primevue/inputnumber';
 import InputText from 'primevue/inputtext';
 import MultiSelect from 'primevue/multiselect';
@@ -84,8 +83,8 @@ const searchCountry = (event: { query: string }): void => {
             </div>
             <div class="field col-12 md:col-4">
                 <FloatLabel>
-                    <InputMask id="inputmask" mask="99/99/9999" v-model="value5"></InputMask>
-                    <label for="inputmask">InputMask</label>
+                    <InputText id="mask" v-model="value5" v-mask="{ mask: '99/99/9999', slotChar: 'mm/dd/yyyy' }" />
+                    <label for="mask">Mask</label>
                 </FloatLabel>
             </div>
             <div class="field col-12 md:col-4">

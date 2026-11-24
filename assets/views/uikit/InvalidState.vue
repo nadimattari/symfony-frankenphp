@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import AutoComplete from 'primevue/autocomplete';
-import InputMask from 'primevue/inputmask';
 import InputNumber from 'primevue/inputnumber';
 import InputText from 'primevue/inputtext';
 import MultiSelect from 'primevue/multiselect';
@@ -85,8 +84,8 @@ const searchCountry = (event: { query: string }): void => {
 
                     <div class="col-12 md:col-6">
                         <div class="field">
-                            <label for="inputmask">InputMask</label>
-                            <InputMask id="inputmask" v-model="value5" mask="99/99/9999" slotChar="mm/dd/yyyy" invalid />
+                            <label for="mask">Mask</label>
+                            <InputText id="mask" v-model="value5" v-mask="{ mask: '99/99/9999', slotChar: 'mm/dd/yyyy' }" invalid />
                         </div>
                         <div class="field">
                             <label for="inputnumber">InputNumber</label>
