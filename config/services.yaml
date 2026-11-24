@@ -25,3 +25,13 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+when@test:
+    services:
+        _defaults:
+            autowire: true
+        # Functional tests fetch these directly from the test container.
+        App\Repository\RefreshTokenRepository:
+            public: true
+        App\Service\Auth\RefreshTokenService:
+            public: true

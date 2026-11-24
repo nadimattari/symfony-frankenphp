@@ -231,10 +231,12 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 1 decision (auth in scope)
   - Scope: S
 
-- [ ] Task 25: User/RefreshToken entities and migration
+- [x] Task 25: User/RefreshToken entities and migration
   - Acceptance: Doctrine entities, repository, unique indexes, migration generated; raw tokens hashed (SHA-256) as in Lamiral.
+  - Notes 2026-11-24: added `User` (`app_user`, unique username, JSON roles, `active`, password hash hidden from serialisation) and `RefreshToken` (`refresh_token`, unique `token_hash`, user FK with `ON DELETE CASCADE`, immutable created/expiry/revoked timestamps). `RefreshTokenRepository` finds active hashes and bulk-revokes a user's sessions; `RefreshTokenService` issues/rotates/revokes with SHA-256 hashes only, 30-day TTL and atomic rotation in one flush. Generated migration `Version20261124113630` creates both tables with the unique indexes and cascade FK. Test container exposes the service/repository as public services in `when@test`.
+  - Verified 2026-11-24: RED-first — 9 new tests failed with missing classes, then passed after implementation. Nine new cases cover entity defaults/roles/expiry plus hashing, rotation/replay rejection, revocation, bulk revocation and expiry via the real test DB. `doctrine:migrations:migrate` applied cleanly on `sf-db_test`; `doctrine:schema:validate` reports mapping and schema in sync; full PHPUnit `OK (12 tests, 35 assertions)`.
   - Verify: `doctrine:migrations:migrate` on test DB; schema validate.
-  - Files: `src/Entity/`, `src/Repository/`, `migrations/`
+  - Files: `src/Entity/`, `src/Repository/`, `src/Service/Auth/`, `migrations/`, `config/services.yaml`, `tests/Unit/`, `tests/Functional/RefreshTokenServiceTest.php`
   - Dependencies: Task 24
   - Scope: L
 
