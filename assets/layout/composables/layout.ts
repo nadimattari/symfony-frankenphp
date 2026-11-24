@@ -28,6 +28,7 @@ export interface LayoutState {
     configSidebarVisible: boolean;
     staticMenuMobileActive: boolean;
     menuHoverActive: boolean;
+    activePath: string | null;
 }
 
 export type ActiveMenuItem = string | Ref<string | null> | null;
@@ -51,10 +52,15 @@ const layoutState = reactive<LayoutState>({
     profileSidebarVisible: false,
     configSidebarVisible: false,
     staticMenuMobileActive: false,
-    menuHoverActive: false
+    menuHoverActive: false,
+    activePath: null
 });
 
-export function useLayout() {
+/**
+ * Raw reactive API matching the upstream Sakai 5 composable. Used by components
+ * that have been ported to the v5 layout shape.
+ */
+export function useLayoutState() {
     const isDesktop = (): boolean => window.innerWidth > 991;
 
     const executeDarkModeToggle = (): void => {
@@ -118,13 +124,12 @@ export function useLayout() {
     const hasOpenOverlay = computed(() => layoutState.overlayMenuActive);
 
     return {
-        // toRefs preserves the `.value` access used by the still-unported shell components.
-        layoutConfig: toRefs(layoutConfig),
-        layoutState: toRefs(layoutState),
+        layoutConfig,
+        layoutState,
         setScale,
         setActiveMenuItem,
-        onMenuToggle: toggleMenu,
         toggleMenu,
+        onMenuToggle: toggleMenu,
         toggleDarkMode,
         setDarkMode,
         toggleConfigSidebar,
@@ -134,5 +139,20 @@ export function useLayout() {
         isSidebarActive,
         isDarkTheme,
         hasOpenOverlay
+    };
+}
+
+/**
+ * Compatibility view for the components and views not yet ported to the v5
+ * layout shape. Their templates still read `layoutConfig.foo.value`, which
+ * toRefs preserves. Remove this wrapper when Tasks 11-13 finish the port.
+ */
+export function useLayout() {
+    const state = useLayoutState();
+
+    return {
+        ...state,
+        layoutConfig: toRefs(layoutConfig) as { [K in keyof LayoutConfig]: Ref<LayoutConfig[K]> },
+        layoutState: toRefs(layoutState) as { [K in keyof LayoutState]: Ref<LayoutState[K]> }
     };
 }

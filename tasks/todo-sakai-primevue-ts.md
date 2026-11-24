@@ -49,7 +49,7 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 - [x] Task 6: Wire license key and PrimeVue 5 configuration
   - Acceptance: `assets/app.ts` passes `license` from exposed global into `PrimeVue` plugin; `@primeuix/themes` preset configured; no license notice in browser; key absent from source.
-  - Verified 2026-11-24: entry renamed to TypeScript, `AuraCompat` configured with `.app-dark` dark selector and `cssLayer: true`; `license` comes from `window.PRIMEUI_LICENSE_KEY`. Build/typecheck/lint pass. Browser shows the app mounted, 29 PrimeVue style tags in the `primeui` layer, and `window.PRIMEUI_LICENSE_KEY === ''`. Because no valid key is present in this environment, PrimeUI correctly warns "license is not configured" and shows its banner; the no-banner check requires putting the real key in gitignored `.env.local`. `git grep` shows only variable names/docs, no key value.
+  - Verified 2026-11-24: entry renamed to TypeScript, `AuraCompat` configured with `.app-dark` dark selector and `cssLayer: true`; `license` comes from `window.PRIMEUI_LICENSE_KEY`. Build/typecheck/lint pass. Browser shows the app mounted and 29 PrimeVue style tags in the `primeui` layer. With an empty key PrimeUI correctly warned "license is not configured" and showed its banner; after the real key was placed in gitignored `.env.local`, the page receives it (length 262 only, value never printed), no license notice is rendered, and no PrimeUI console warning appears. `.env.local` is confirmed ignored by git, and `git grep`/`git log -S` show only variable names/docs, never a key value. Official PrimeUI guidance confirms the plugin `license` option is correct for PrimeVue 5.0.0+ and that no separate Pro key is required for this app: https://blog.primeui.dev/blog/setting-up-a-primeui-license-key/
   - Files: `assets/app.ts`, `assets/shims-vue.d.ts`, `assets/types/window.d.ts`, `assets/assets/tailwind.css`, `webpack.config.js`, `tsconfig.json`, `eslint.config.mjs`
   - Dependencies: Tasks 2, 5
   - Scope: S
@@ -63,7 +63,7 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 **Checkpoint: Tooling**
 - [x] Build, typecheck, lint pass on the unchanged UI (verified 2026-11-24)
-- [ ] No license notice; Encore still 4.x; Vite not introduced (license notice still awaits a valid local key)
+- [x] No license notice; Encore still 4.x; Vite not introduced (valid key verified in gitignored `.env.local` on 2026-11-24)
 
 ## Phase 2 — Port Sakai 5 onto Encore (TypeScript)
 
@@ -82,11 +82,13 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 8
   - Scope: M
 
-- [ ] Task 10: Port primary layout shell components
+- [x] Task 10: Port primary layout shell components
   - Acceptance: AppLayout/AppSidebar/AppTopbar use `<script setup lang="ts">`; slots/menu toggles typed.
-  - Note: also adopt the non-`toRefs` layout API, drop the dead `layout-theme-light/dark` classes, and retire the legacy v3 `theme.css` link plus the `color-scheme` override once the Sakai SCSS uses v5 tokens.
-  - Verify: typecheck; browser smoke of `/` and `/dashboard`.
-  - Files: `assets/layout/AppLayout.vue`, `assets/layout/AppSidebar.vue`, `assets/layout/AppTopbar.vue`
+  - Note: the legacy v3 `theme.css` link and `color-scheme` override stay until the Sakai SCSS moves to v5 tokens (Tasks 14/18). `useLayout()` remains the `toRefs` bridge for the not-yet-ported menu/views; remove it after Tasks 11-13.
+  - Verified 2026-11-24: added `useLayoutState()` as the raw reactive API matching upstream Sakai 5 (`https://github.com/primefaces/sakai-vue/tree/5.0.0/src/layout`); the shell uses it while `useLayout()` keeps the compatibility bridge. `AppLayout` drops the dead `layout-theme-light/dark` classes and delegates mask clicks to `hideMobileMenu`. `AppSidebar` now owns the `.layout-sidebar` root, watches `route.path` to set `activePath`/clear menu state, and binds its desktop outside-click listener only while the overlay is open. `AppTopbar` has typed handlers and null-safe outside-click detection. Adding upstream's `state.activeMenuItem` early broke the still-JS `AppMenuItem.vue` (`startsWith` called on a Ref), so that field is deferred to Task 11.
+  - Browser smoke: `/` renders the dashboard; static menu toggles; overlay opens and closes on outside click; topbar menu toggles and closes on outside click; client-side navigation to `/uikit/formlayout` keeps the shell and active route; 0 console errors. `/dashboard` is not a route in this app (the dashboard is `/`, and Symfony has no SPA catch-all), so nested views were checked through client-side navigation instead.
+  - Also disabled base `no-undef`/`no-unused-vars` for TS/Vue files in `eslint.config.mjs`; TypeScript and `@typescript-eslint` handle type identifiers correctly. Build, typecheck, lint (0 errors) and PHPUnit pass.
+  - Files: `assets/layout/AppLayout.vue`, `assets/layout/AppSidebar.vue`, `assets/layout/AppTopbar.vue`, `assets/layout/composables/layout.ts`, `eslint.config.mjs`
   - Dependencies: Task 9
   - Scope: M
 
@@ -161,7 +163,7 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 **Checkpoint: PrimeVue 5**
 - [ ] No removed v3 APIs or v3 theme imports remain
-- [ ] No PRO component required; no license notice
+- [x] No PRO component required; no license notice (verified with the Community key in `.env.local`)
 
 ## Phase 4 — Lamiral Tier A reuse
 

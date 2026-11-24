@@ -41,7 +41,10 @@ export default tseslint.config(
       "@typescript-eslint": tseslint.plugin
     },
     rules: {
-      ...tseslint.configs.recommended.rules
+      ...tseslint.configs.recommended.rules,
+      // TypeScript resolves identifiers in type positions; these base rules misfire.
+      "no-undef": "off",
+      "no-unused-vars": "off"
     }
   },
   {
@@ -50,7 +53,10 @@ export default tseslint.config(
       parser: tseslint.parser
     },
     rules: {
-      ...tseslint.configs.recommended.rules
+      ...tseslint.configs.recommended.rules,
+      // TypeScript resolves identifiers in type positions; these base rules misfire.
+      "no-undef": "off",
+      "no-unused-vars": "off"
     }
   },
   {
