@@ -131,10 +131,11 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 ## Phase 3 — PrimeVue 3→5 migration cleanup
 
-- [ ] Task 15: Migrate removed form and overlay components
+- [x] Task 15: Migrate removed form and overlay components
   - Acceptance: Calendar→DatePicker, Dropdown→Select, InputSwitch→ToggleSwitch, Chips→InputTags, InputMask→Mask directive, OverlayPanel→Popover, InlineMessage→Message.
+  - Verified 2026-11-24 in four slices (commits `6a57ab3`, `024500a`, `ddd60c3`, `503a165`): all seven v3 names removed from templates and global registrations; v5 names/directive registered globally; tag models are `string[]`; `showCloseIcon` dropped from the popovers. `vue-tsc --noEmit` and Encore build pass. Browser smoke: form layout, input, invalid state, float label, table, list, CRUD, messages and overlay routes render the expected v5 components; `v-mask` formats `12345678` → `12/34/5678` with invalid state preserved; both popovers open; no unresolved component/directive warnings (only pre-existing demo-data 404s).
   - Verify: build, typecheck; form/overlay smoke.
-  - Files: `assets/views/uikit/*`, `assets/layout/*`
+  - Files: `assets/app.ts`, `assets/views/uikit/*`, `assets/layout/AppConfig.vue`
   - Dependencies: Task 14
   - Scope: M
 
