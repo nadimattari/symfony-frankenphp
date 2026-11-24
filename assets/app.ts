@@ -217,6 +217,7 @@ app.component('MultiSelect',           MultiSelect);
 app.component('OrderList',             OrderList);
 app.component('OrganizationChart',     OrganizationChart);
 app.component('OverlayPanel',          Popover);
+app.component('Popover',               Popover);
 app.component('Paginator',             Paginator);
 app.component('Panel',                 Panel);
 app.component('PanelMenu',             PanelMenu);

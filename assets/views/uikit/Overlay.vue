@@ -90,17 +90,17 @@ const confirm = (event: Event): void => {
                 <Button label="Show" icon="pi pi-external-link" style="width: auto" @click="open" />
             </div>
             <div class="card p-fluid">
-                <h5>Overlay Panel</h5>
+                <h5>Popover</h5>
                 <div class="flex flex-wrap gap-2">
                     <div>
                         <Button type="button" label="Image" @click="toggle" class="p-button-success" />
-                        <OverlayPanel ref="op" appendTo="body" :showCloseIcon="true">
+                        <Popover ref="op" appendTo="body">
                             <img src="/demo/images/nature/nature9.jpg" alt="Nature 9" />
-                        </OverlayPanel>
+                        </Popover>
                     </div>
                     <div>
                         <Button type="button" label="DataTable" @click="toggleDataTable" class="p-button-success" />
-                        <OverlayPanel ref="op2" appendTo="body" :showCloseIcon="true" id="overlay_panel" style="width: 450px">
+                        <Popover ref="op2" appendTo="body" id="overlay_panel" style="width: 450px">
                             <DataTable :value="products" v-model:selection="selectedProduct" selectionMode="single" :paginator="true" :rows="5" @row-select="onProductSelect" responsiveLayout="scroll">
                                 <Column field="name" header="Name" :sortable="true" headerStyle="min-width:12rem;"></Column>
                                 <Column header="Image" headerStyle="min-width:5rem;">
@@ -114,7 +114,7 @@ const confirm = (event: Event): void => {
                                     </template>
                                 </Column>
                             </DataTable>
-                        </OverlayPanel>
+                        </Popover>
                     </div>
                 </div>
             </div>
