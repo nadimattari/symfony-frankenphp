@@ -1,90 +1,107 @@
-<script setup>
-import { ref, onBeforeMount, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { useLayout } from './composables/layout';
+<script setup lang="ts">
+import { computed, withDefaults } from 'vue';
+import { useLayoutState } from './composables/layout';
+import type { MenuItem } from './types/menu';
 
-const route = useRoute();
-
-const { layoutConfig, layoutState, setActiveMenuItem, onMenuToggle } = useLayout();
-
-const props = defineProps({
-    item: {
-        type: Object,
-        default: () => ({})
-    },
-    index: {
-        type: Number,
-        default: 0
-    },
-    root: {
-        type: Boolean,
-        default: true
-    },
-    parentItemKey: {
-        type: String,
-        default: null
-    }
-});
-
-const isActiveMenu = ref(false);
-const itemKey = ref(null);
-
-onBeforeMount(() => {
-    itemKey.value = props.parentItemKey ? props.parentItemKey + '-' + props.index : String(props.index);
-
-    const activeItem = layoutState.activeMenuItem;
-
-    isActiveMenu.value = activeItem === itemKey.value || activeItem ? activeItem.startsWith(itemKey.value + '-') : false;
-});
-
-watch(
-    () => layoutConfig.activeMenuItem.value,
-    (newVal) => {
-        isActiveMenu.value = newVal === itemKey.value || newVal.startsWith(itemKey.value + '-');
+const props = withDefaults(
+    defineProps<{
+        item: MenuItem;
+        root?: boolean;
+        parentPath?: string | null;
+    }>(),
+    {
+        root: true,
+        parentPath: null
     }
 );
-const itemClick = (event, item) => {
+
+const { layoutState, isDesktop } = useLayoutState();
+
+const fullPath = computed(() => {
+    if (!props.item.path) {
+        return null;
+    }
+
+    return props.parentPath ? props.parentPath + props.item.path : props.item.path;
+});
+
+const isActive = computed(() => {
+    if (props.item.path) {
+        return layoutState.activePath !== null && fullPath.value !== null && layoutState.activePath.startsWith(fullPath.value);
+    }
+
+    return layoutState.activePath === props.item.to;
+});
+
+function itemClick(event: Event, item: MenuItem): void {
     if (item.disabled) {
         event.preventDefault();
         return;
     }
 
-    const { overlayMenuActive, staticMenuMobileActive } = layoutState;
+    item.command?.({ originalEvent: event, item });
 
-    if ((item.to || item.url) && (staticMenuMobileActive.value || overlayMenuActive.value)) {
-        onMenuToggle();
+    if (item.items) {
+        if (isActive.value) {
+            layoutState.activePath = layoutState.activePath?.replace(item.path ?? '', '') ?? null;
+        } else {
+            layoutState.activePath = fullPath.value;
+            layoutState.menuHoverActive = true;
+        }
+
+        return;
     }
 
-    if (item.command) {
-        item.command({ originalEvent: event, item: item });
+    layoutState.overlayMenuActive = false;
+    layoutState.staticMenuMobileActive = false;
+    layoutState.menuHoverActive = false;
+}
+
+function onMouseEnter(): void {
+    if (isDesktop() && props.root && props.item.items && layoutState.menuHoverActive) {
+        layoutState.activePath = fullPath.value;
     }
-
-    const foundItemKey = item.items ? (isActiveMenu.value ? props.parentItemKey : itemKey) : itemKey.value;
-
-    setActiveMenuItem(foundItemKey);
-};
-
-const checkActiveRoute = (item) => {
-    return route.path === item.to;
-};
+}
 </script>
 
 <template>
-    <li :class="{ 'layout-root-menuitem': root, 'active-menuitem': isActiveMenu }">
+    <li :class="{ 'layout-root-menuitem': root, 'active-menuitem': isActive }">
         <div v-if="root && item.visible !== false" class="layout-menuitem-root-text">{{ item.label }}</div>
-        <a v-if="(!item.to || item.items) && item.visible !== false" :href="item.url" @click="itemClick($event, item, index)" :class="item.class" :target="item.target" tabindex="0">
+        <a
+            v-if="(!item.to || item.items) && item.visible !== false"
+            :href="item.url"
+            @click="itemClick($event, item)"
+            @mouseenter="onMouseEnter"
+            :class="item.class"
+            :target="item.target"
+            tabindex="0"
+        >
             <i :class="item.icon" class="layout-menuitem-icon"></i>
             <span class="layout-menuitem-text">{{ item.label }}</span>
-            <i class="pi pi-fw pi-angle-down layout-submenu-toggler" v-if="item.items"></i>
+            <i v-if="item.items" class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
         </a>
-        <router-link v-if="item.to && !item.items && item.visible !== false" @click="itemClick($event, item, index)" :class="[item.class, { 'active-route': checkActiveRoute(item) }]" tabindex="0" :to="item.to">
+        <router-link
+            v-if="item.to && !item.items && item.visible !== false"
+            @click="itemClick($event, item)"
+            @mouseenter="onMouseEnter"
+            exact-active-class="active-route"
+            :class="item.class"
+            tabindex="0"
+            :to="item.to"
+        >
             <i :class="item.icon" class="layout-menuitem-icon"></i>
             <span class="layout-menuitem-text">{{ item.label }}</span>
-            <i class="pi pi-fw pi-angle-down layout-submenu-toggler" v-if="item.items"></i>
+            <i v-if="item.items" class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
         </router-link>
         <Transition v-if="item.items && item.visible !== false" name="layout-submenu">
-            <ul v-show="root ? true : isActiveMenu" class="layout-submenu">
-                <app-menu-item v-for="(child, i) in item.items" :key="child" :index="i" :item="child" :parentItemKey="itemKey" :root="false"></app-menu-item>
+            <ul v-show="root ? true : isActive" class="layout-submenu">
+                <AppMenuItem
+                    v-for="child in item.items"
+                    :key="child.label + '_' + String(child.to ?? child.path ?? '')"
+                    :item="child"
+                    :root="false"
+                    :parentPath="fullPath"
+                />
             </ul>
         </Transition>
     </li>

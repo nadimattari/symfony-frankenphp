@@ -12,7 +12,9 @@ let outsideClickListener: EventListener | null = null;
 watch(
     () => route.path,
     (newPath) => {
-        layoutState.activePath = isDesktop() ? null : newPath;
+        // Keep the active branch in sync on desktop too; upstream only tracks it on
+        // mobile because its desktop navigation is hover-driven.
+        layoutState.activePath = newPath;
         layoutState.overlayMenuActive = false;
         layoutState.staticMenuMobileActive = false;
         layoutState.menuHoverActive = false;

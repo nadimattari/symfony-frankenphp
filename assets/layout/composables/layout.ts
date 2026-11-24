@@ -1,4 +1,4 @@
-import { computed, reactive, toRefs, unref, type Ref } from 'vue';
+import { computed, reactive, toRefs, type Ref } from 'vue';
 
 export type MenuMode = 'static' | 'overlay';
 export type InputVariant = 'outlined' | 'filled';
@@ -13,7 +13,6 @@ export interface LayoutConfig {
     primary: string;
     surface: string | null;
     scale: number;
-    activeMenuItem: string | null;
     /**
      * Legacy change signal watched by views that still derive chart colours from the
      * v3 theme name (see Chart.vue). Updated whenever a v5 preset/palette changes.
@@ -31,8 +30,6 @@ export interface LayoutState {
     activePath: string | null;
 }
 
-export type ActiveMenuItem = string | Ref<string | null> | null;
-
 const layoutConfig = reactive<LayoutConfig>({
     ripple: true,
     darkTheme: false,
@@ -42,7 +39,6 @@ const layoutConfig = reactive<LayoutConfig>({
     primary: 'emerald',
     surface: null,
     scale: 14,
-    activeMenuItem: null,
     theme: 'AuraCompat-emerald'
 });
 
@@ -115,10 +111,6 @@ export function useLayoutState() {
         layoutConfig.scale = scale;
     };
 
-    const setActiveMenuItem = (item: ActiveMenuItem): void => {
-        layoutConfig.activeMenuItem = unref(item);
-    };
-
     const isSidebarActive = computed(() => layoutState.overlayMenuActive || layoutState.staticMenuMobileActive);
     const isDarkTheme = computed(() => layoutConfig.darkTheme);
     const hasOpenOverlay = computed(() => layoutState.overlayMenuActive);
@@ -127,7 +119,6 @@ export function useLayoutState() {
         layoutConfig,
         layoutState,
         setScale,
-        setActiveMenuItem,
         toggleMenu,
         onMenuToggle: toggleMenu,
         toggleDarkMode,

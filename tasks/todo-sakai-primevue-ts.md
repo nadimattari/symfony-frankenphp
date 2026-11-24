@@ -92,10 +92,11 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 9
   - Scope: M
 
-- [ ] Task 11: Port menu/sidebar/footer components
+- [x] Task 11: Port menu/sidebar/footer components
   - Acceptance: AppMenu/AppMenuItem/AppFooter converted; menu model typed as `MenuItem[]`.
-  - Verify: typecheck; navigation smoke.
-  - Files: `assets/layout/AppMenu.vue`, `assets/layout/AppMenuItem.vue`, `assets/layout/AppFooter.vue`
+  - Verified 2026-11-24: added `assets/layout/types/menu.ts`, extending PrimeVue's official `MenuItem` with Sakai's `path` field (`https://github.com/primefaces/sakai-vue/blob/5.0.0/src/layout/AppMenu.vue`). Ported the menu to upstream's path-based activation: `fullPath`/`isActive`, hover expansion, and `activePath`-driven submenu visibility. Route paths were kept local (`/pages/timeline`, `/documentation`, etc.) rather than copied verbatim from upstream. `AppSidebar` now syncs `activePath` on desktop as well as mobile so the active branch tracks navigation. Removed the obsolete `activeMenuItem` config field, `setActiveMenuItem`, and `ActiveMenuItem` type; `useLayout()` is now only needed by AppConfig and the remaining views. `AppFooter` uses upstream's simplified markup.
+  - Browser smoke: `/` highlights Dashboard; clicking Pages/Auth expands their submenus; client-side navigation to `/uikit/formlayout` highlights both the UI Components branch and the Form Layout leaf; `/auth/login` correctly renders outside AppLayout; 0 console errors. Build, typecheck, lint (0 errors) and PHPUnit pass.
+  - Files: `assets/layout/AppMenu.vue`, `assets/layout/AppMenuItem.vue`, `assets/layout/AppFooter.vue`, `assets/layout/AppSidebar.vue`, `assets/layout/composables/layout.ts`, `assets/layout/types/menu.ts`
   - Dependencies: Task 10
   - Scope: S
 
