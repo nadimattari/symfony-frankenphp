@@ -1,7 +1,15 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
-const customEvents = ref([
+interface TimelineEvent {
+    status: string;
+    date: string;
+    icon: string;
+    color: string;
+    image?: string;
+}
+
+const customEvents = ref<TimelineEvent[]>([
     {
         status: 'Ordered',
         date: '15/10/2020 10:30',
@@ -29,7 +37,7 @@ const customEvents = ref([
     }
 ]);
 
-const horizontalEvents = ref(['2020', '2021', '2022', '2023']);
+const horizontalEvents = ref<string[]>(['2020', '2021', '2022', '2023']);
 </script>
 
 <template>
@@ -39,7 +47,7 @@ const horizontalEvents = ref(['2020', '2021', '2022', '2023']);
                 <h5>Left Align</h5>
                 <Timeline :value="customEvents">
                     <template #content="slotProps">
-                        {{ slotProps.item.status }}
+                        {{ (slotProps as any).item.status }}
                     </template>
                 </Timeline>
             </div>
@@ -49,7 +57,7 @@ const horizontalEvents = ref(['2020', '2021', '2022', '2023']);
                 <h5>Right Align</h5>
                 <Timeline :value="customEvents" align="right">
                     <template #content="slotProps">
-                        {{ slotProps.item.status }}
+                        {{ (slotProps as any).item.status }}
                     </template>
                 </Timeline>
             </div>
@@ -59,7 +67,7 @@ const horizontalEvents = ref(['2020', '2021', '2022', '2023']);
                 <h5>Alternate Align</h5>
                 <Timeline :value="customEvents" align="alternate">
                     <template #content="slotProps">
-                        {{ slotProps.item.status }}
+                        {{ (slotProps as any).item.status }}
                     </template>
                 </Timeline>
             </div>
@@ -69,10 +77,10 @@ const horizontalEvents = ref(['2020', '2021', '2022', '2023']);
                 <h5>Opposite Content</h5>
                 <Timeline :value="customEvents">
                     <template #opposite="slotProps">
-                        <small class="p-text-secondary">{{ slotProps.item.date }}</small>
+                        <small class="p-text-secondary">{{ (slotProps as any).item.date }}</small>
                     </template>
                     <template #content="slotProps">
-                        {{ slotProps.item.status }}
+                        {{ (slotProps as any).item.status }}
                     </template>
                 </Timeline>
             </div>
@@ -82,20 +90,20 @@ const horizontalEvents = ref(['2020', '2021', '2022', '2023']);
         <h5>Custom Timeline</h5>
         <Timeline :value="customEvents" align="alternate" class="customized-timeline">
             <template #marker="slotProps">
-                <span class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-2" :style="{ backgroundColor: slotProps.item.color }">
-                    <i :class="slotProps.item.icon"></i>
+                <span class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-2" :style="{ backgroundColor: (slotProps as any).item.color }">
+                    <i :class="(slotProps as any).item.icon"></i>
                 </span>
             </template>
             <template #content="slotProps">
                 <Card>
                     <template #title>
-                        {{ slotProps.item.status }}
+                        {{ (slotProps as any).item.status }}
                     </template>
                     <template #subtitle>
-                        {{ slotProps.item.date }}
+                        {{ (slotProps as any).item.date }}
                     </template>
                     <template #content>
-                        <img v-if="slotProps.item.image" :src="'demo/images/product/' + slotProps.item.image" :alt="slotProps.item.name" width="200" class="shadow-2 mb-3" />
+                        <img v-if="(slotProps as any).item.image" :src="'demo/images/product/' + (slotProps as any).item.image" :alt="(slotProps as any).item.status" width="200" class="shadow-2 mb-3" />
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate
                             neque quas!
@@ -111,14 +119,14 @@ const horizontalEvents = ref(['2020', '2021', '2022', '2023']);
         <h6>Top Align</h6>
         <Timeline :value="horizontalEvents" layout="horizontal" align="top">
             <template #content="slotProps">
-                {{ slotProps.item }}
+                {{ (slotProps as any).item }}
             </template>
         </Timeline>
 
         <h6>Bottom Align</h6>
         <Timeline :value="horizontalEvents" layout="horizontal" align="bottom">
             <template #content="slotProps">
-                {{ slotProps.item }}
+                {{ (slotProps as any).item }}
             </template>
         </Timeline>
 
@@ -126,7 +134,7 @@ const horizontalEvents = ref(['2020', '2021', '2022', '2023']);
         <Timeline :value="horizontalEvents" layout="horizontal" align="alternate">
             <template #opposite> &nbsp; </template>
             <template #content="slotProps">
-                {{ slotProps.item }}
+                {{ (slotProps as any).item }}
             </template>
         </Timeline>
     </div>

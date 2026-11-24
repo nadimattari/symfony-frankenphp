@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useLayout } from '../../layout/composables/layout';
 
@@ -8,26 +8,26 @@ let textColor = documentStyle.getPropertyValue('--text-color');
 let textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
 let surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-const lineData = ref(null);
-const pieData = ref(null);
-const polarData = ref(null);
-const barData = ref(null);
-const radarData = ref(null);
+const lineData = ref<any>(null);
+const pieData = ref<any>(null);
+const polarData = ref<any>(null);
+const barData = ref<any>(null);
+const radarData = ref<any>(null);
 
-const lineOptions = ref(null);
-const pieOptions = ref(null);
-const polarOptions = ref(null);
-const barOptions = ref(null);
-const radarOptions = ref(null);
+const lineOptions = ref<any>(null);
+const pieOptions = ref<any>(null);
+const polarOptions = ref<any>(null);
+const barOptions = ref<any>(null);
+const radarOptions = ref<any>(null);
 
-const setColorOptions = () => {
+const setColorOptions = (): void => {
     documentStyle = getComputedStyle(document.documentElement);
     textColor = documentStyle.getPropertyValue('--text-color');
     textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 };
 
-const setChart = () => {
+const setChart = (): void => {
     barData.value = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [

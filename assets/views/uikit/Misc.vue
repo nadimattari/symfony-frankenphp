@@ -1,10 +1,10 @@
-<script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+<script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 
 const value = ref(0);
-let interval = null;
+let interval: ReturnType<typeof setInterval> | null = null;
 
-const startProgress = () => {
+const startProgress = (): void => {
     interval = setInterval(() => {
         let newValue = value.value + Math.floor(Math.random() * 10) + 1;
         if (newValue >= 100) {
@@ -13,9 +13,11 @@ const startProgress = () => {
         value.value = newValue;
     }, 2000);
 };
-const endProgress = () => {
-    clearInterval(interval);
-    interval = null;
+const endProgress = (): void => {
+    if (interval) {
+        clearInterval(interval);
+        interval = null;
+    }
 };
 
 onMounted(() => {

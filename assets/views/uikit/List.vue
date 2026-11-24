@@ -1,8 +1,18 @@
-<script setup>
-import { ref, onMounted } from 'vue';
-import ProductService from '../../service/ProductService';
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import ProductService, { type Product } from '../../service/ProductService';
 
-const picklistValue = ref([
+interface City {
+    name: string;
+    code: string;
+}
+
+interface SortOption {
+    label: string;
+    value: string;
+}
+
+const picklistValue = ref<City[][]>([
     [
         { name: 'San Francisco', code: 'SF' },
         { name: 'London', code: 'LDN' },
@@ -15,7 +25,7 @@ const picklistValue = ref([
     []
 ]);
 
-const orderlistValue = ref([
+const orderlistValue = ref<City[]>([
     { name: 'San Francisco', code: 'SF' },
     { name: 'London', code: 'LDN' },
     { name: 'Paris', code: 'PRS' },
@@ -25,12 +35,12 @@ const orderlistValue = ref([
     { name: 'Rome', code: 'RM' }
 ]);
 
-const dataviewValue = ref(null);
-const layout = ref('grid');
-const sortKey = ref(null);
-const sortOrder = ref(null);
-const sortField = ref(null);
-const sortOptions = ref([
+const dataviewValue = ref<Product[] | null>(null);
+const layout = ref<'grid' | 'list'>('grid');
+const sortKey = ref<SortOption | null>(null);
+const sortOrder = ref<number | null>(null);
+const sortField = ref<string | null>(null);
+const sortOptions = ref<SortOption[]>([
     { label: 'Price High to Low', value: '!price' },
     { label: 'Price Low to High', value: 'price' }
 ]);
@@ -41,7 +51,7 @@ onMounted(() => {
     productService.getProductsSmall().then((data) => (dataviewValue.value = data));
 });
 
-const onSortChange = (event) => {
+const onSortChange = (event: { value: SortOption }): void => {
     const value = event.value.value;
     const sortValue = event.value;
 
@@ -56,21 +66,20 @@ const onSortChange = (event) => {
     }
 };
 
-const getSeverity = (product) => {
+const getSeverity = (product: Product): string | undefined => {
     switch (product.inventoryStatus) {
         case 'INSTOCK':
             return 'success';
-
         case 'LOWSTOCK':
             return 'warning';
-
         case 'OUTOFSTOCK':
             return 'danger';
-
         default:
-            return null;
+            return undefined;
     }
 };
+
+const getSlotItem = (slotProps: any): any => slotProps.item;
 </script>
 
 <template>
@@ -90,9 +99,9 @@ const getSeverity = (product) => {
                         </div>
                     </template>
 
-                    <template #list="slotProps">
+                    <template #list="{ items }: { items: any[] }">
                         <div class="grid grid-nogutter">
-                            <div v-for="(item, index) in slotProps.items" :key="index" class="col-12">
+                            <div v-for="(item, index) in items" :key="index" class="col-12">
                                 <div class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3" :class="{ 'border-top-1 surface-border': index !== 0 }">
                                     <div class="md:w-10rem relative">
                                         <img class="block xl:block mx-auto border-round w-full" :src="`https://primefaces.org/cdn/primevue/images/product/${item.image}`" :alt="item.name" />
@@ -124,9 +133,9 @@ const getSeverity = (product) => {
                         </div>
                     </template>
 
-                    <template #grid="slotProps">
+                    <template #grid="{ items }: { items: any[] }">
                         <div class="grid grid-nogutter">
-                            <div v-for="(item, index) in slotProps.items" :key="index" class="col-12 sm:col-6 md:col-4 p-2">
+                            <div v-for="(item, index) in items" :key="index" class="col-12 sm:col-6 md:col-4 p-2">
                                 <div class="p-4 border-1 surface-border surface-card border-round flex flex-column">
                                     <div class="surface-50 flex justify-content-center border-round p-3">
                                         <div class="relative mx-auto">
@@ -169,8 +178,8 @@ const getSeverity = (product) => {
                 <PickList v-model="picklistValue" listStyle="height:250px" dataKey="code">
                     <template #sourceheader> From </template>
                     <template #targetheader> To </template>
-                    <template #item="slotProps">
-                        <div>{{ slotProps.item.name }}</div>
+                    <template #option="{ option }: any">
+                        <div>{{ option.name }}</div>
                     </template>
                 </PickList>
             </div>
@@ -181,8 +190,8 @@ const getSeverity = (product) => {
                 <h5>OrderList</h5>
                 <OrderList v-model="orderlistValue" listStyle="height:250px" dataKey="code" :rows="10">
                     <template #header> Cities </template>
-                    <template #item="slotProps">
-                        <div>{{ slotProps.item.name }}</div>
+                    <template #option="{ option }: any">
+                        <div>{{ option.name }}</div>
                     </template>
                 </OrderList>
             </div>

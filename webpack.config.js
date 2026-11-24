@@ -60,7 +60,9 @@ Encore
     .enablePostCssLoader()
 
     // uncomment if you use TypeScript
-    .enableTypeScriptLoader()
+    .enableTypeScriptLoader((options) => {
+        options.transpileOnly = true;
+    })
 
     // uncomment if you use React
     //.enableReactPreset()

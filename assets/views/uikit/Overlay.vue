@@ -1,8 +1,8 @@
-<script setup>
-import ProductService from '../../service/ProductService';
-import { ref, onMounted } from 'vue';
-import { useToast } from 'primevue/usetoast';
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
+import { useToast } from 'primevue/usetoast';
+import ProductService, { type Product } from '../../service/ProductService';
 
 const display = ref(false);
 const displayConfirmation = ref(false);
@@ -11,11 +11,11 @@ const visibleRight = ref(false);
 const visibleTop = ref(false);
 const visibleBottom = ref(false);
 const visibleFull = ref(false);
-const products = ref(null);
-const selectedProduct = ref(null);
-const op = ref(null);
-const op2 = ref(null);
-const popup = ref(null);
+const products = ref<Product[]>([]);
+const selectedProduct = ref<Product | null>(null);
+const op = ref<any>(null);
+const op2 = ref<any>(null);
+const popup = ref<any>(null);
 
 const productService = new ProductService();
 const toast = useToast();
@@ -25,42 +25,42 @@ onMounted(() => {
     productService.getProductsSmall().then((data) => (products.value = data));
 });
 
-const open = () => {
+const open = (): void => {
     display.value = true;
 };
 
-const close = () => {
+const close = (): void => {
     display.value = false;
 };
 
-const openConfirmation = () => {
+const openConfirmation = (): void => {
     displayConfirmation.value = true;
 };
 
-const closeConfirmation = () => {
+const closeConfirmation = (): void => {
     displayConfirmation.value = false;
 };
 
-const toggle = (event) => {
+const toggle = (event: Event): void => {
     op.value.toggle(event);
 };
 
-const toggleDataTable = (event) => {
+const toggleDataTable = (event: Event): void => {
     op2.value.toggle(event);
 };
 
-const formatCurrency = (value) => {
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+const formatCurrency = (value: number | undefined): string => {
+    return (value ?? 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 };
 
-const onProductSelect = (event) => {
+const onProductSelect = (event: { data: Product }): void => {
     op.value.hide();
     toast.add({ severity: 'info', summary: 'Product Selected', detail: event.data.name, life: 3000 });
 };
 
-const confirm = (event) => {
+const confirm = (event: Event): void => {
     confirmPopup.require({
-        target: event.target,
+        target: event.currentTarget as HTMLElement,
         message: 'Are you sure you want to proceed?',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
@@ -104,13 +104,13 @@ const confirm = (event) => {
                             <DataTable :value="products" v-model:selection="selectedProduct" selectionMode="single" :paginator="true" :rows="5" @row-select="onProductSelect" responsiveLayout="scroll">
                                 <Column field="name" header="Name" :sortable="true" headerStyle="min-width:12rem;"></Column>
                                 <Column header="Image" headerStyle="min-width:5rem;">
-                                    <template #body="slotProps">
-                                        <img :src="'demo/images/product/' + slotProps.data.image" :alt="slotProps.data.image" width="50" class="shadow-2" />
+                                    <template #body="{ data }: { data: Product }">
+                                        <img :src="'demo/images/product/' + data.image" :alt="data.image" width="50" class="shadow-2" />
                                     </template>
                                 </Column>
                                 <Column field="price" header="Price" :sortable="true" headerStyle="min-width:8rem;">
-                                    <template #body="slotProps">
-                                        {{ formatCurrency(slotProps.data.price) }}
+                                    <template #body="{ data }: { data: Product }">
+                                        {{ formatCurrency(data.price) }}
                                     </template>
                                 </Column>
                             </DataTable>

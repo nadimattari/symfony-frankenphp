@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
-const menu = ref(null);
-const contextMenu = ref(null);
+const menu = ref<any>(null);
+const contextMenu = ref<any>(null);
 
-const nestedMenuitems = ref([
+const nestedMenuitems = ref<any[]>([
     {
         label: 'Customers',
         icon: 'pi pi-fw pi-table',
@@ -80,9 +80,9 @@ const nestedMenuitems = ref([
         icon: 'pi pi-fw pi-sign-out'
     }
 ]);
-const breadcrumbHome = ref({ icon: 'pi pi-home', to: '/' });
-const breadcrumbItems = ref([{ label: 'Computer' }, { label: 'Notebook' }, { label: 'Accessories' }, { label: 'Backpacks' }, { label: 'Item' }]);
-const nestedRouteItems = ref([
+const breadcrumbHome = ref<any>({ icon: 'pi pi-home', to: '/' });
+const breadcrumbItems = ref<any[]>([{ label: 'Computer' }, { label: 'Notebook' }, { label: 'Accessories' }, { label: 'Backpacks' }, { label: 'Item' }]);
+const nestedRouteItems = ref<any[]>([
     {
         label: 'Personal',
         to: '/uikit/menu'
@@ -100,7 +100,7 @@ const nestedRouteItems = ref([
         to: '/uikit/menu/confirmation'
     }
 ]);
-const tieredMenuItems = ref([
+const tieredMenuItems = ref<any[]>([
     {
         label: 'Customers',
         icon: 'pi pi-fw pi-table',
@@ -179,7 +179,7 @@ const tieredMenuItems = ref([
         icon: 'pi pi-fw pi-sign-out'
     }
 ]);
-const overlayMenuItems = ref([
+const overlayMenuItems = ref<any[]>([
     {
         label: 'Save',
         icon: 'pi pi-save'
@@ -200,7 +200,7 @@ const overlayMenuItems = ref([
         icon: 'pi pi-home'
     }
 ]);
-const menuitems = ref([
+const menuitems = ref<any[]>([
     {
         label: 'Customers',
         items: [
@@ -228,7 +228,7 @@ const menuitems = ref([
         ]
     }
 ]);
-const contextMenuItems = ref([
+const contextMenuItems = ref<any[]>([
     {
         label: 'Save',
         icon: 'pi pi-save'
@@ -249,7 +249,7 @@ const contextMenuItems = ref([
         icon: 'pi pi-cog'
     }
 ]);
-const megamenuItems = ref([
+const megamenuItems = ref<any[]>([
     {
         label: 'Fashion',
         icon: 'pi pi-fw pi-tag',
@@ -357,7 +357,7 @@ const megamenuItems = ref([
         ]
     }
 ]);
-const panelMenuitems = ref([
+const panelMenuitems = ref<any[]>([
     {
         label: 'Customers',
         icon: 'pi pi-fw pi-table',
@@ -430,11 +430,11 @@ const panelMenuitems = ref([
     }
 ]);
 
-const toggleMenu = (event) => {
+const toggleMenu = (event: Event): void => {
     menu.value.toggle(event);
 };
 
-const onContextRightClick = (event) => {
+const onContextRightClick = (event: MouseEvent): void => {
     contextMenu.value.show(event);
 };
 </script>

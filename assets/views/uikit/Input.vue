@@ -1,38 +1,47 @@
-<script setup>
-import { ref, onMounted } from 'vue';
-import CountryService from '../../service/CountryService';
-import NodeService from '../../service/NodeService';
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import CountryService, { type Country } from '../../service/CountryService';
+import NodeService, { type TreeNodeData } from '../../service/NodeService';
 
-const floatValue = ref(null);
-const autoValue = ref(null);
-const selectedAutoValue = ref(null);
-const autoFilteredValue = ref([]);
-const calendarValue = ref(null);
-const inputNumberValue = ref(null);
-const chipsValue = ref(null);
+interface City {
+    name: string;
+    code: string;
+}
+
+interface OptionItem {
+    name: string;
+}
+
+const floatValue = ref<string | null>(null);
+const autoValue = ref<Country[]>([]);
+const selectedAutoValue = ref<Country[] | null>(null);
+const autoFilteredValue = ref<Country[]>([]);
+const calendarValue = ref<Date | null>(null);
+const inputNumberValue = ref<number | null>(null);
+const chipsValue = ref<string[] | null>(null);
 const sliderValue = ref(50);
-const ratingValue = ref(null);
+const ratingValue = ref<number | null>(null);
 const colorValue = ref('#1976D2');
-const radioValue = ref(null);
-const checkboxValue = ref([]);
+const radioValue = ref<string | null>(null);
+const checkboxValue = ref<string[]>([]);
 const switchValue = ref(false);
-const listboxValues = ref([
+const listboxValues = ref<City[]>([
     { name: 'New York', code: 'NY' },
     { name: 'Rome', code: 'RM' },
     { name: 'London', code: 'LDN' },
     { name: 'Istanbul', code: 'IST' },
     { name: 'Paris', code: 'PRS' }
 ]);
-const listboxValue = ref(null);
-const dropdownValues = ref([
+const listboxValue = ref<City | null>(null);
+const dropdownValues = ref<City[]>([
     { name: 'New York', code: 'NY' },
     { name: 'Rome', code: 'RM' },
     { name: 'London', code: 'LDN' },
     { name: 'Istanbul', code: 'IST' },
     { name: 'Paris', code: 'PRS' }
 ]);
-const dropdownValue = ref(null);
-const multiselectValues = ref([
+const dropdownValue = ref<City | null>(null);
+const multiselectValues = ref<Country[]>([
     { name: 'Australia', code: 'AU' },
     { name: 'Brazil', code: 'BR' },
     { name: 'China', code: 'CN' },
@@ -45,16 +54,16 @@ const multiselectValues = ref([
     { name: 'United States', code: 'US' }
 ]);
 
-const multiselectValue = ref(null);
+const multiselectValue = ref<Country[] | null>(null);
 const toggleValue = ref(false);
-const selectButtonValue1 = ref(null);
-const selectButtonValues1 = ref([{ name: 'Option 1' }, { name: 'Option 2' }, { name: 'Option 3' }]);
-const selectButtonValue2 = ref(null);
-const selectButtonValues2 = ref([{ name: 'Option 1' }, { name: 'Option 2' }, { name: 'Option 3' }]);
+const selectButtonValue1 = ref<OptionItem | null>(null);
+const selectButtonValues1 = ref<OptionItem[]>([{ name: 'Option 1' }, { name: 'Option 2' }, { name: 'Option 3' }]);
+const selectButtonValue2 = ref<OptionItem[] | null>(null);
+const selectButtonValues2 = ref<OptionItem[]>([{ name: 'Option 1' }, { name: 'Option 2' }, { name: 'Option 3' }]);
 const knobValue = ref(50);
 const inputGroupValue = ref(false);
-const treeSelectNodes = ref(null);
-const selectedNode = ref(null);
+const treeSelectNodes = ref<any[] | undefined>(undefined);
+const selectedNode = ref<any>(null);
 const countryService = new CountryService();
 const nodeService = new NodeService();
 
@@ -63,7 +72,7 @@ onMounted(() => {
     nodeService.getTreeNodes().then((data) => (treeSelectNodes.value = data));
 });
 
-const searchCountry = (event) => {
+const searchCountry = (event: { query: string }): void => {
     setTimeout(() => {
         if (!event.query.trim().length) {
             autoFilteredValue.value = [...autoValue.value];
@@ -134,7 +143,7 @@ const searchCountry = (event) => {
                 <div class="grid">
                     <div class="col-12">
                         <h5>Slider</h5>
-                        <InputText v-model.number="sliderValue" />
+                        <InputText :modelValue="String(sliderValue)" @update:modelValue="(v: string | undefined) => (sliderValue = Number(v ?? 0))" />
                         <Slider v-model="sliderValue" />
                     </div>
                     <div class="col-12 md:col-6">
@@ -213,18 +222,18 @@ const searchCountry = (event) => {
                 <h5>MultiSelect</h5>
                 <MultiSelect v-model="multiselectValue" :options="multiselectValues" optionLabel="name" placeholder="Select Countries" :filter="true">
                     <template #value="slotProps">
-                        <div class="inline-flex align-items-center py-1 px-2 bg-primary text-primary border-round mr-2" v-for="option of slotProps.value" :key="option.code">
+                        <div class="inline-flex align-items-center py-1 px-2 bg-primary text-primary border-round mr-2" v-for="option of (slotProps as any).value" :key="option.code">
                             <span :class="'mr-2 flag flag-' + option.code.toLowerCase()" style="width: 18px; height: 12px" />
                             <div>{{ option.name }}</div>
                         </div>
-                        <template v-if="!slotProps.value || slotProps.value.length === 0">
+                        <template v-if="!(slotProps as any).value || (slotProps as any).value.length === 0">
                             <div class="p-1">Select Countries</div>
                         </template>
                     </template>
                     <template #option="slotProps">
                         <div class="flex align-items-center">
-                            <span :class="'mr-2 flag flag-' + slotProps.option.code.toLowerCase()" style="width: 18px; height: 12px" />
-                            <div>{{ slotProps.option.name }}</div>
+                            <span :class="'mr-2 flag flag-' + (slotProps as any).option.code.toLowerCase()" style="width: 18px; height: 12px" />
+                            <div>{{ (slotProps as any).option.name }}</div>
                         </div>
                     </template>
                 </MultiSelect>

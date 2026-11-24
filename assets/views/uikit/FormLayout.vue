@@ -1,13 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
-const dropdownItems = ref([
+interface DropdownItem {
+    name: string;
+    code: string;
+}
+
+const dropdownItems = ref<DropdownItem[]>([
     { name: 'Option 1', code: 'Option 1' },
     { name: 'Option 2', code: 'Option 2' },
     { name: 'Option 3', code: 'Option 3' }
 ]);
 
-const dropdownItem = ref(null);
+const dropdownItem = ref<DropdownItem | null>(null);
 </script>
 
 <template>

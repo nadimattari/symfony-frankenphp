@@ -1,20 +1,25 @@
-<script setup>
+<script setup lang="ts">
 import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
-import CustomerService from '../../service/CustomerService';
-import ProductService from '../../service/ProductService';
-import { ref, onBeforeMount } from 'vue';
+import { onBeforeMount, ref } from 'vue';
+import CustomerService, { type Customer } from '../../service/CustomerService';
+import ProductService, { type Product } from '../../service/ProductService';
 
-const customer1 = ref(null);
-const customer2 = ref(null);
-const customer3 = ref(null);
-const filters1 = ref(null);
-const loading1 = ref(null);
-const loading2 = ref(null);
+interface Representative {
+    name: string;
+    image: string;
+}
+
+const customer1 = ref<Customer[] | null>(null);
+const customer2 = ref<Customer[] | null>(null);
+const customer3 = ref<Customer[] | null>(null);
+const filters1 = ref<any>(null);
+const loading1 = ref<boolean>(false);
+const loading2 = ref<boolean>(false);
 const idFrozen = ref(false);
-const products = ref(null);
-const expandedRows = ref([]);
+const products = ref<any[] | null>(null);
+const expandedRows = ref<any>([]);
 const statuses = ref(['unqualified', 'qualified', 'new', 'negotiation', 'renewal', 'proposal']);
-const representatives = ref([
+const representatives = ref<Representative[]>([
     { name: 'Amy Elsner', image: 'amyelsner.png' },
     { name: 'Anna Fali', image: 'annafali.png' },
     { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
@@ -30,7 +35,7 @@ const representatives = ref([
 const customerService = new CustomerService();
 const productService = new ProductService();
 
-const getBadgeSeverity = (inventoryStatus) => {
+const getBadgeSeverity = (inventoryStatus: string): string => {
     switch (inventoryStatus.toLowerCase()) {
         case 'instock':
             return 'success';
@@ -42,22 +47,20 @@ const getBadgeSeverity = (inventoryStatus) => {
             return 'info';
     }
 };
-const getSeverity = (status) => {
+const getSeverity = (status: string): string | undefined => {
     switch (status) {
         case 'unqualified':
             return 'danger';
-
         case 'qualified':
             return 'success';
-
         case 'new':
             return 'info';
-
         case 'negotiation':
             return 'warning';
-
         case 'renewal':
-            return null;
+            return undefined;
+        default:
+            return undefined;
     }
 };
 
@@ -66,7 +69,7 @@ onBeforeMount(() => {
     customerService.getCustomersLarge().then((data) => {
         customer1.value = data;
         loading1.value = false;
-        customer1.value.forEach((customer) => (customer.date = new Date(customer.date)));
+        customer1.value.forEach((customer: any) => (customer.date = new Date(customer.date)));
     });
     customerService.getCustomersLarge().then((data) => (customer2.value = data));
     customerService.getCustomersMedium().then((data) => (customer3.value = data));
@@ -75,7 +78,7 @@ onBeforeMount(() => {
     initFilters1();
 });
 
-const initFilters1 = () => {
+const initFilters1 = (): void => {
     filters1.value = {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
@@ -89,30 +92,31 @@ const initFilters1 = () => {
     };
 };
 
-const clearFilter1 = () => {
+const clearFilter1 = (): void => {
     initFilters1();
 };
-const expandAll = () => {
-    expandedRows.value = products.value.reduce((acc, p) => (acc[p.id] = true) && acc, {});
+const expandAll = (): void => {
+    expandedRows.value = (products.value ?? []).reduce((acc: any, p: any) => (acc[p.id] = true) && acc, {});
 };
-const collapseAll = () => {
+const collapseAll = (): void => {
     expandedRows.value = null;
 };
-const formatCurrency = (value) => {
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+const formatCurrency = (value: number | undefined): string => {
+    return (value ?? 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 };
 
-const formatDate = (value) => {
-    return value.toLocaleDateString('en-US', {
+const formatDate = (value: Date | string): string => {
+    const date = value instanceof Date ? value : new Date(value);
+    return date.toLocaleDateString('en-US', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric'
     });
 };
-const calculateCustomerTotal = (name) => {
+const calculateCustomerTotal = (name: string): number => {
     let total = 0;
     if (customer3.value) {
-        for (let customer of customer3.value) {
+        for (let customer of customer3.value as any[]) {
             if (customer.representative.name === name) {
                 total++;
             }
@@ -137,7 +141,6 @@ const calculateCustomerTotal = (name) => {
                     v-model:filters="filters1"
                     filterDisplay="menu"
                     :loading="loading1"
-                    :filters="filters1"
                     :globalFilterFields="['name', 'country.name', 'representative.name', 'balance', 'status']"
                     showGridlines
                 >
@@ -153,99 +156,99 @@ const calculateCustomerTotal = (name) => {
                     <template #empty> No customers found. </template>
                     <template #loading> Loading customers data. Please wait. </template>
                     <Column field="name" header="Name" style="min-width: 12rem">
-                        <template #body="{ data }">
-                            {{ data.name }}
+                        <template #body="slotProps">
+                            {{ (slotProps as any).data.name }}
                         </template>
-                        <template #filter="{ filterModel }">
-                            <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Search by name" />
+                        <template #filter="slotProps">
+                            <InputText type="text" v-model="(slotProps as any).filterModel.value" class="p-column-filter" placeholder="Search by name" />
                         </template>
                     </Column>
                     <Column header="Country" filterField="country.name" style="min-width: 12rem">
-                        <template #body="{ data }">
+                        <template #body="slotProps">
                             <div class="flex align-items-center gap-2">
-                                <img alt="flag" src="/demo/images/flag/flag_placeholder.png" :class="`flag flag-${data.country.code}`" style="width: 24px" />
-                                <span>{{ data.country.name }}</span>
+                                <img alt="flag" src="/demo/images/flag/flag_placeholder.png" :class="`flag flag-${(slotProps as any).data.country.code}`" style="width: 24px" />
+                                <span>{{ (slotProps as any).data.country.name }}</span>
                             </div>
                         </template>
-                        <template #filter="{ filterModel }">
-                            <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Search by country" />
+                        <template #filter="slotProps">
+                            <InputText type="text" v-model="(slotProps as any).filterModel.value" class="p-column-filter" placeholder="Search by country" />
                         </template>
-                        <template #filterclear="{ filterCallback }">
-                            <Button type="button" icon="pi pi-times" @click="filterCallback()" severity="secondary"></Button>
+                        <template #filterclear="slotProps">
+                            <Button type="button" icon="pi pi-times" @click="(slotProps as any).filterCallback()" severity="secondary"></Button>
                         </template>
-                        <template #filterapply="{ filterCallback }">
-                            <Button type="button" icon="pi pi-check" @click="filterCallback()" severity="success"></Button>
+                        <template #filterapply="slotProps">
+                            <Button type="button" icon="pi pi-check" @click="(slotProps as any).filterCallback()" severity="success"></Button>
                         </template>
                     </Column>
                     <Column header="Agent" filterField="representative" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" style="min-width: 14rem">
-                        <template #body="{ data }">
+                        <template #body="slotProps">
                             <div class="flex align-items-center gap-2">
-                                <img :alt="data.representative.name" :src="`https://primefaces.org/cdn/primevue/images/avatar/${data.representative.image}`" style="width: 32px" />
-                                <span>{{ data.representative.name }}</span>
+                                <img :alt="(slotProps as any).data.representative.name" :src="`https://primefaces.org/cdn/primevue/images/avatar/${(slotProps as any).data.representative.image}`" style="width: 32px" />
+                                <span>{{ (slotProps as any).data.representative.name }}</span>
                             </div>
                         </template>
-                        <template #filter="{ filterModel }">
+                        <template #filter="slotProps">
                             <div class="mb-3 text-bold">Agent Picker</div>
-                            <MultiSelect v-model="filterModel.value" :options="representatives" optionLabel="name" placeholder="Any" class="p-column-filter">
+                            <MultiSelect v-model="(slotProps as any).filterModel.value" :options="representatives" optionLabel="name" placeholder="Any" class="p-column-filter">
                                 <template #option="slotProps">
                                     <div class="p-multiselect-representative-option">
-                                        <img :alt="slotProps.option.name" :src="'/demo/images/avatar/' + slotProps.option.image" width="32" style="vertical-align: middle" />
-                                        <span style="margin-left: 0.5em; vertical-align: middle" class="image-text">{{ slotProps.option.name }}</span>
+                                        <img :alt="(slotProps as any).option.name" :src="'/demo/images/avatar/' + (slotProps as any).option.image" width="32" style="vertical-align: middle" />
+                                        <span style="margin-left: 0.5em; vertical-align: middle" class="image-text">{{ (slotProps as any).option.name }}</span>
                                     </div>
                                 </template>
                             </MultiSelect>
                         </template>
                     </Column>
                     <Column header="Date" filterField="date" dataType="date" style="min-width: 10rem">
-                        <template #body="{ data }">
-                            {{ formatDate(data.date) }}
+                        <template #body="slotProps">
+                            {{ formatDate((slotProps as any).data.date) }}
                         </template>
-                        <template #filter="{ filterModel }">
-                            <Calendar v-model="filterModel.value" dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" />
+                        <template #filter="slotProps">
+                            <Calendar v-model="(slotProps as any).filterModel.value" dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" />
                         </template>
                     </Column>
                     <Column header="Balance" filterField="balance" dataType="numeric" style="min-width: 10rem">
-                        <template #body="{ data }">
-                            {{ formatCurrency(data.balance) }}
+                        <template #body="slotProps">
+                            {{ formatCurrency((slotProps as any).data.balance) }}
                         </template>
-                        <template #filter="{ filterModel }">
-                            <InputNumber v-model="filterModel.value" mode="currency" currency="USD" locale="en-US" />
+                        <template #filter="slotProps">
+                            <InputNumber v-model="(slotProps as any).filterModel.value" mode="currency" currency="USD" locale="en-US" />
                         </template>
                     </Column>
                     <Column field="status" header="Status" :filterMenuStyle="{ width: '14rem' }" style="min-width: 12rem">
-                        <template #body="{ data }">
-                            <Tag :severity="getSeverity(data.status)">{{ data.status.toUpperCase() }}</Tag>
+                        <template #body="slotProps">
+                            <Tag :severity="getSeverity((slotProps as any).data.status)">{{ (slotProps as any).data.status.toUpperCase() }}</Tag>
                         </template>
-                        <template #filter="{ filterModel }">
-                            <Dropdown v-model="filterModel.value" :options="statuses" placeholder="Any" class="p-column-filter" :showClear="true">
+                        <template #filter="slotProps">
+                            <Dropdown v-model="(slotProps as any).filterModel.value" :options="statuses" placeholder="Any" class="p-column-filter" :showClear="true">
                                 <template #value="slotProps">
-                                    <Tag :severity="getSeverity(slotProps.value)" v-if="slotProps.value">{{ slotProps.value }} </Tag>
-                                    <span v-else>{{ slotProps.placeholder }}</span>
+                                    <Tag :severity="getSeverity((slotProps as any).value)" v-if="(slotProps as any).value">{{ (slotProps as any).value }} </Tag>
+                                    <span v-else>{{ (slotProps as any).placeholder }}</span>
                                 </template>
                                 <template #option="slotProps">
-                                    <Tag :severity="getSeverity(slotProps.option)">{{ slotProps.option.toUpperCase() }}</Tag>
+                                    <Tag :severity="getSeverity((slotProps as any).option)">{{ (slotProps as any).option.toUpperCase() }}</Tag>
                                 </template>
                             </Dropdown>
                         </template>
                     </Column>
                     <Column field="activity" header="Activity" :showFilterMatchModes="false" style="min-width: 12rem">
-                        <template #body="{ data }">
-                            <ProgressBar :value="data.activity" :showValue="false" style="height: 0.5rem"></ProgressBar>
+                        <template #body="slotProps">
+                            <ProgressBar :value="(slotProps as any).data.activity" :showValue="false" style="height: 0.5rem"></ProgressBar>
                         </template>
-                        <template #filter="{ filterModel }">
-                            <Slider v-model="filterModel.value" :range="true" class="m-3"></Slider>
+                        <template #filter="slotProps">
+                            <Slider v-model="(slotProps as any).filterModel.value" :range="true" class="m-3"></Slider>
                             <div class="flex align-items-center justify-content-between px-2">
-                                <span>{{ filterModel.value ? filterModel.value[0] : 0 }}</span>
-                                <span>{{ filterModel.value ? filterModel.value[1] : 100 }}</span>
+                                <span>{{ (slotProps as any).filterModel.value ? (slotProps as any).filterModel.value[0] : 0 }}</span>
+                                <span>{{ (slotProps as any).filterModel.value ? (slotProps as any).filterModel.value[1] : 100 }}</span>
                             </div>
                         </template>
                     </Column>
                     <Column field="verified" header="Verified" dataType="boolean" bodyClass="text-center" style="min-width: 8rem">
-                        <template #body="{ data }">
-                            <i class="pi" :class="{ 'text-green-500 pi-check-circle': data.verified, 'text-pink-500 pi-times-circle': !data.verified }"></i>
+                        <template #body="slotProps">
+                            <i class="pi" :class="{ 'text-green-500 pi-check-circle': (slotProps as any).data.verified, 'text-pink-500 pi-times-circle': !(slotProps as any).data.verified }"></i>
                         </template>
-                        <template #filter="{ filterModel }">
-                            <TriStateCheckbox v-model="filterModel.value" />
+                        <template #filter="slotProps">
+                            <TriStateCheckbox v-model="(slotProps as any).filterModel.value" />
                         </template>
                     </Column>
                 </DataTable>
@@ -261,32 +264,32 @@ const calculateCustomerTotal = (name) => {
                     <Column field="name" header="Name" style="min-width: 200px" frozen></Column>
                     <Column field="id" header="Id" style="min-width: 100px" :frozen="idFrozen"></Column>
                     <Column field="country.name" header="Country" :style="{ width: '200px' }">
-                        <template #body="{ data }">
+                        <template #body="slotProps">
                             <div class="flex align-items-center gap-2">
-                                <img alt="flag" src="/demo/images/flag/flag_placeholder.png" :class="`flag flag-${data.country.code}`" style="width: 24px" />
-                                <span>{{ data.country.name }}</span>
+                                <img alt="flag" src="/demo/images/flag/flag_placeholder.png" :class="`flag flag-${(slotProps as any).data.country.code}`" style="width: 24px" />
+                                <span>{{ (slotProps as any).data.country.name }}</span>
                             </div>
                         </template>
                     </Column>
                     <Column field="date" header="Date" style="min-width: 200px"></Column>
                     <Column field="company" header="Company" style="min-width: 200px"></Column>
                     <Column field="status" header="Status" style="min-width: 200px">
-                        <template #body="{ data }">
-                            <Tag :severity="getSeverity(data.status)">{{ data.status.toUpperCase() }}</Tag>
+                        <template #body="slotProps">
+                            <Tag :severity="getSeverity((slotProps as any).data.status)">{{ (slotProps as any).data.status.toUpperCase() }}</Tag>
                         </template>
                     </Column>
                     <Column field="activity" header="Activity" style="min-width: 200px"></Column>
                     <Column field="representative.name" header="Representative" style="min-width: 200px">
-                        <template #body="{ data }">
+                        <template #body="slotProps">
                             <div class="flex align-items-center gap-2">
-                                <img :alt="data.representative.name" :src="`https://primefaces.org/cdn/primevue/images/avatar/${data.representative.image}`" style="width: 32px" />
-                                <span>{{ data.representative.name }}</span>
+                                <img :alt="(slotProps as any).data.representative.name" :src="`https://primefaces.org/cdn/primevue/images/avatar/${(slotProps as any).data.representative.image}`" style="width: 32px" />
+                                <span>{{ (slotProps as any).data.representative.name }}</span>
                             </div>
                         </template>
                     </Column>
                     <Column field="balance" header="Balance" style="min-width: 200px" frozen alignFrozen="right">
-                        <template #body="{ data }">
-                            <span class="text-bold">{{ formatCurrency(data.balance) }}</span>
+                        <template #body="slotProps">
+                            <span class="text-bold">{{ formatCurrency((slotProps as any).data.balance) }}</span>
                         </template>
                     </Column>
                 </DataTable>
@@ -306,61 +309,61 @@ const calculateCustomerTotal = (name) => {
                     <Column :expander="true" headerStyle="width: 3rem" />
                     <Column field="name" header="Name" :sortable="true">
                         <template #body="slotProps">
-                            {{ slotProps.data.name }}
+                            {{ (slotProps as any).data.name }}
                         </template>
                     </Column>
                     <Column header="Image">
                         <template #body="slotProps">
-                            <img :src="'/demo/images/product/' + slotProps.data.image" :alt="slotProps.data.image" class="shadow-2" width="100" />
+                            <img :src="'/demo/images/product/' + (slotProps as any).data.image" :alt="(slotProps as any).data.image" class="shadow-2" width="100" />
                         </template>
                     </Column>
                     <Column field="price" header="Price" :sortable="true">
                         <template #body="slotProps">
-                            {{ formatCurrency(slotProps.data.price) }}
+                            {{ formatCurrency((slotProps as any).data.price) }}
                         </template>
                     </Column>
                     <Column field="category" header="Category" :sortable="true">
                         <template #body="slotProps">
-                            {{ formatCurrency(slotProps.data.category) }}
+                            {{ formatCurrency((slotProps as any).data.category) }}
                         </template></Column
                     >
                     <Column field="rating" header="Reviews" :sortable="true">
                         <template #body="slotProps">
-                            <Rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false" />
+                            <Rating :modelValue="(slotProps as any).data.rating" :readonly="true" :cancel="false" />
                         </template>
                     </Column>
                     <Column field="inventoryStatus" header="Status" :sortable="true">
                         <template #body="slotProps">
-                            <Tag :severity="getBadgeSeverity(slotProps.data.inventoryStatus)">{{ slotProps.data.inventoryStatus }}</Tag>
+                            <Tag :severity="getBadgeSeverity((slotProps as any).data.inventoryStatus)">{{ (slotProps as any).data.inventoryStatus }}</Tag>
                         </template>
                     </Column>
                     <template #expansion="slotProps">
                         <div class="p-3">
-                            <h5>Orders for {{ slotProps.data.name }}</h5>
-                            <DataTable :value="slotProps.data.orders">
+                            <h5>Orders for {{ (slotProps as any).data.name }}</h5>
+                            <DataTable :value="(slotProps as any).data.orders">
                                 <Column field="id" header="Id" :sortable="true">
                                     <template #body="slotProps">
-                                        {{ slotProps.data.id }}
+                                        {{ (slotProps as any).data.id }}
                                     </template>
                                 </Column>
                                 <Column field="customer" header="Customer" :sortable="true">
                                     <template #body="slotProps">
-                                        {{ slotProps.data.customer }}
+                                        {{ (slotProps as any).data.customer }}
                                     </template>
                                 </Column>
                                 <Column field="date" header="Date" :sortable="true">
                                     <template #body="slotProps">
-                                        {{ slotProps.data.date }}
+                                        {{ (slotProps as any).data.date }}
                                     </template>
                                 </Column>
                                 <Column field="amount" header="Amount" :sortable="true">
                                     <template #body="slotProps">
-                                        {{ formatCurrency(slotProps.data.amount) }}
+                                        {{ formatCurrency((slotProps as any).data.amount) }}
                                     </template>
                                 </Column>
                                 <Column field="status" header="Status" :sortable="true">
                                     <template #body="slotProps">
-                                        <span :class="'order-badge order-' + (slotProps.data.status ? slotProps.data.status.toLowerCase() : '')">{{ slotProps.data.status }}</span>
+                                        <span :class="'order-badge order-' + ((slotProps as any).data.status ? (slotProps as any).data.status.toLowerCase() : '')">{{ (slotProps as any).data.status }}</span>
                                     </template>
                                 </Column>
                                 <Column headerStyle="width:4rem">
@@ -382,28 +385,28 @@ const calculateCustomerTotal = (name) => {
                     <Column field="representative.name" header="Representative"></Column>
                     <Column field="name" header="Name" style="min-width: 200px"></Column>
                     <Column field="country" header="Country" style="min-width: 200px">
-                        <template #body="{ data }">
+                        <template #body="slotProps">
                             <div class="flex align-items-center gap-2">
-                                <img alt="flag" src="/demo/images/flag/flag_placeholder.png" :class="`flag flag-${data.country.code}`" style="width: 24px" />
-                                <span>{{ data.country.name }}</span>
+                                <img alt="flag" src="/demo/images/flag/flag_placeholder.png" :class="`flag flag-${(slotProps as any).data.country.code}`" style="width: 24px" />
+                                <span>{{ (slotProps as any).data.country.name }}</span>
                             </div>
                         </template>
                     </Column>
                     <Column field="company" header="Company" style="min-width: 200px"></Column>
                     <Column field="status" header="Status" style="min-width: 200px">
                         <template #body="slotProps">
-                            <Tag :severity="getSeverity(slotProps.data.status)">{{ slotProps.data.status.toUpperCase() }}</Tag>
+                            <Tag :severity="getSeverity((slotProps as any).data.status)">{{ (slotProps as any).data.status.toUpperCase() }}</Tag>
                         </template>
                     </Column>
                     <Column field="date" header="Date" style="min-width: 200px"></Column>
                     <template #groupheader="slotProps">
                         <div class="flex align-items-center gap-2">
-                            <img :alt="slotProps.data.representative.name" :src="'/demo/images/avatar/' + slotProps.data.representative.image" width="32" style="vertical-align: middle" />
-                            <span>{{ slotProps.data.representative.name }}</span>
+                            <img :alt="(slotProps as any).data.representative.name" :src="'/demo/images/avatar/' + (slotProps as any).data.representative.image" width="32" style="vertical-align: middle" />
+                            <span>{{ (slotProps as any).data.representative.name }}</span>
                         </div>
                     </template>
                     <template #groupfooter="slotProps">
-                        <td style="text-align: right" class="text-bold pr-6">Total Customers: {{ calculateCustomerTotal(slotProps.data.representative.name) }}</td>
+                        <td style="text-align: right" class="text-bold pr-6">Total Customers: {{ calculateCustomerTotal((slotProps as any).data.representative.name) }}</td>
                     </template>
                 </DataTable>
             </div>

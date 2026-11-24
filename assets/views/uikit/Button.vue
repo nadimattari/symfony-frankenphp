@@ -1,7 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
-const items = ref([
+interface MenuItem {
+    label?: string;
+    icon?: string;
+    separator?: boolean;
+}
+
+const items = ref<MenuItem[]>([
     {
         label: 'Update',
         icon: 'pi pi-refresh'
@@ -19,9 +25,9 @@ const items = ref([
     }
 ]);
 
-const loading = ref([false, false, false]);
+const loading = ref<boolean[]>([false, false, false, false]);
 
-const load = (index) => {
+const load = (index: number): void => {
     loading.value[index] = true;
     setTimeout(() => (loading.value[index] = false), 1000);
 };

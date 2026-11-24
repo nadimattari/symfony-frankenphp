@@ -1,19 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import { FilterMatchMode } from '@primevue/core/api';
-import { ref, onMounted, onBeforeMount } from 'vue';
-import ProductService from '../../service/ProductService';
+import { onBeforeMount, onMounted, ref } from 'vue';
 import { useToast } from 'primevue/usetoast';
+import ProductService, { type Product } from '../../service/ProductService';
 
 const toast = useToast();
 
-const products = ref(null);
+const products = ref<Product[] | null>(null);
 const productDialog = ref(false);
 const deleteProductDialog = ref(false);
 const deleteProductsDialog = ref(false);
-const product = ref({});
-const selectedProducts = ref(null);
-const dt = ref(null);
-const filters = ref({});
+const product = ref<any>({});
+const selectedProducts = ref<Product[] | null>(null);
+const dt = ref<any>(null);
+const filters = ref<any>({});
 const submitted = ref(false);
 const statuses = ref([
     { label: 'INSTOCK', value: 'instock' },
@@ -23,7 +23,7 @@ const statuses = ref([
 
 const productService = new ProductService();
 
-const getBadgeSeverity = (inventoryStatus) => {
+const getBadgeSeverity = (inventoryStatus: string): string => {
     switch (inventoryStatus.toLowerCase()) {
         case 'instock':
             return 'success';
@@ -42,34 +42,34 @@ onBeforeMount(() => {
 onMounted(() => {
     productService.getProducts().then((data) => (products.value = data));
 });
-const formatCurrency = (value) => {
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+const formatCurrency = (value: number | undefined): string => {
+    return (value ?? 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 };
 
-const openNew = () => {
+const openNew = (): void => {
     product.value = {};
     submitted.value = false;
     productDialog.value = true;
 };
 
-const hideDialog = () => {
+const hideDialog = (): void => {
     productDialog.value = false;
     submitted.value = false;
 };
 
-const saveProduct = () => {
+const saveProduct = (): void => {
     submitted.value = true;
     if (product.value.name && product.value.name.trim() && product.value.price) {
         if (product.value.id) {
             product.value.inventoryStatus = product.value.inventoryStatus.value ? product.value.inventoryStatus.value : product.value.inventoryStatus;
-            products.value[findIndexById(product.value.id)] = product.value;
+            products.value![findIndexById(product.value.id)] = product.value;
             toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
         } else {
             product.value.id = createId();
             product.value.code = createId();
             product.value.image = 'product-placeholder.svg';
             product.value.inventoryStatus = product.value.inventoryStatus ? product.value.inventoryStatus.value : 'INSTOCK';
-            products.value.push(product.value);
+            products.value!.push(product.value);
             toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
         }
         productDialog.value = false;
@@ -77,27 +77,28 @@ const saveProduct = () => {
     }
 };
 
-const editProduct = (editProduct) => {
+const editProduct = (editProduct: any): void => {
     product.value = { ...editProduct };
     productDialog.value = true;
 };
 
-const confirmDeleteProduct = (editProduct) => {
+const confirmDeleteProduct = (editProduct: any): void => {
     product.value = editProduct;
     deleteProductDialog.value = true;
 };
 
-const deleteProduct = () => {
-    products.value = products.value.filter((val) => val.id !== product.value.id);
+const deleteProduct = (): void => {
+    products.value = (products.value ?? []).filter((val: any) => val.id !== product.value.id);
     deleteProductDialog.value = false;
     product.value = {};
     toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
 };
 
-const findIndexById = (id) => {
+const findIndexById = (id: string): number => {
     let index = -1;
-    for (let i = 0; i < products.value.length; i++) {
-        if (products.value[i].id === id) {
+    const list = products.value ?? [];
+    for (let i = 0; i < list.length; i++) {
+        if ((list[i] as any).id === id) {
             index = i;
             break;
         }
@@ -105,7 +106,7 @@ const findIndexById = (id) => {
     return index;
 };
 
-const createId = () => {
+const createId = (): string => {
     let id = '';
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     for (let i = 0; i < 5; i++) {
@@ -114,21 +115,21 @@ const createId = () => {
     return id;
 };
 
-const exportCSV = () => {
+const exportCSV = (): void => {
     dt.value.exportCSV();
 };
 
-const confirmDeleteSelected = () => {
+const confirmDeleteSelected = (): void => {
     deleteProductsDialog.value = true;
 };
-const deleteSelectedProducts = () => {
-    products.value = products.value.filter((val) => !selectedProducts.value.includes(val));
+const deleteSelectedProducts = (): void => {
+    products.value = (products.value ?? []).filter((val: any) => !(selectedProducts.value ?? []).includes(val));
     deleteProductsDialog.value = false;
     selectedProducts.value = null;
     toast.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
 };
 
-const initFilters = () => {
+const initFilters = (): void => {
     filters.value = {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS }
     };
@@ -149,7 +150,7 @@ const initFilters = () => {
 
                     <template v-slot:end>
                         <FileUpload mode="basic" accept="image/*" :maxFileSize="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block" />
-                        <Button label="Export" icon="pi pi-upload" severity="help" @click="exportCSV($event)" />
+                        <Button label="Export" icon="pi pi-upload" severity="help" @click="exportCSV()" />
                     </template>
                 </Toolbar>
 
@@ -179,49 +180,49 @@ const initFilters = () => {
                     <Column field="code" header="Code" :sortable="true" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
                             <span class="p-column-title">Code</span>
-                            {{ slotProps.data.code }}
+                            {{ (slotProps as any).data.code }}
                         </template>
                     </Column>
                     <Column field="name" header="Name" :sortable="true" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
                             <span class="p-column-title">Name</span>
-                            {{ slotProps.data.name }}
+                            {{ (slotProps as any).data.name }}
                         </template>
                     </Column>
                     <Column header="Image" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
                             <span class="p-column-title">Image</span>
-                            <img :src="'/demo/images/product/' + slotProps.data.image" :alt="slotProps.data.image" class="shadow-2" width="100" />
+                            <img :src="'/demo/images/product/' + (slotProps as any).data.image" :alt="(slotProps as any).data.image" class="shadow-2" width="100" />
                         </template>
                     </Column>
                     <Column field="price" header="Price" :sortable="true" headerStyle="width:14%; min-width:8rem;">
                         <template #body="slotProps">
                             <span class="p-column-title">Price</span>
-                            {{ formatCurrency(slotProps.data.price) }}
+                            {{ formatCurrency((slotProps as any).data.price) }}
                         </template>
                     </Column>
                     <Column field="category" header="Category" :sortable="true" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
                             <span class="p-column-title">Category</span>
-                            {{ slotProps.data.category }}
+                            {{ (slotProps as any).data.category }}
                         </template>
                     </Column>
                     <Column field="rating" header="Reviews" :sortable="true" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
                             <span class="p-column-title">Rating</span>
-                            <Rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false" />
+                            <Rating :modelValue="(slotProps as any).data.rating" :readonly="true" :cancel="false" />
                         </template>
                     </Column>
                     <Column field="inventoryStatus" header="Status" :sortable="true" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
                             <span class="p-column-title">Status</span>
-                            <Tag :severity="getBadgeSeverity(slotProps.data.inventoryStatus)">{{ slotProps.data.inventoryStatus }}</Tag>
+                            <Tag :severity="getBadgeSeverity((slotProps as any).data.inventoryStatus)">{{ (slotProps as any).data.inventoryStatus }}</Tag>
                         </template>
                     </Column>
                     <Column headerStyle="min-width:10rem;">
                         <template #body="slotProps">
-                            <Button icon="pi pi-pencil" class="mr-2" severity="success" rounded @click="editProduct(slotProps.data)" />
-                            <Button icon="pi pi-trash" class="mt-2" severity="warning" rounded @click="confirmDeleteProduct(slotProps.data)" />
+                            <Button icon="pi pi-pencil" class="mr-2" severity="success" rounded @click="editProduct((slotProps as any).data)" />
+                            <Button icon="pi pi-trash" class="mt-2" severity="warning" rounded @click="confirmDeleteProduct((slotProps as any).data)" />
                         </template>
                     </Column>
                 </DataTable>
@@ -242,14 +243,14 @@ const initFilters = () => {
                         <label for="inventoryStatus" class="mb-3">Inventory Status</label>
                         <Dropdown id="inventoryStatus" v-model="product.inventoryStatus" :options="statuses" optionLabel="label" placeholder="Select a Status">
                             <template #value="slotProps">
-                                <div v-if="slotProps.value && slotProps.value.value">
-                                    <span :class="'product-badge status-' + slotProps.value.value">{{ slotProps.value.label }}</span>
+                                <div v-if="(slotProps as any).value && (slotProps as any).value.value">
+                                    <span :class="'product-badge status-' + (slotProps as any).value.value">{{ (slotProps as any).value.label }}</span>
                                 </div>
-                                <div v-else-if="slotProps.value && !slotProps.value.value">
-                                    <span :class="'product-badge status-' + slotProps.value.toLowerCase()">{{ slotProps.value }}</span>
+                                <div v-else-if="(slotProps as any).value && !(slotProps as any).value.value">
+                                    <span :class="'product-badge status-' + (slotProps as any).value.toLowerCase()">{{ (slotProps as any).value }}</span>
                                 </div>
                                 <span v-else>
-                                    {{ slotProps.placeholder }}
+                                    {{ (slotProps as any).placeholder }}
                                 </span>
                             </template>
                         </Dropdown>
@@ -289,8 +290,8 @@ const initFilters = () => {
                         </div>
                     </div>
                     <template #footer>
-                        <Button label="Cancel" icon="pi pi-times" text="" @click="hideDialog" />
-                        <Button label="Save" icon="pi pi-check" text="" @click="saveProduct" />
+                        <Button label="Cancel" icon="pi pi-times" text @click="hideDialog" />
+                        <Button label="Save" icon="pi pi-check" text @click="saveProduct" />
                     </template>
                 </Dialog>
 

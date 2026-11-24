@@ -108,10 +108,12 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Scope: M
   - Notes: Dashboard split into typed widgets; landing ported to Sakai 5 widget composition; auth views converted to TS + Sakai 5 Tailwind/PrimeVue 5 markup. Replaced `rounded-full` with inline `border-radius: 50%` to avoid postcss-calc `infinity * 1px` warning. Verified with `npm run build`, `npm run typecheck`, browser smoke on `/`, `/landing`, `/auth/login`, `/auth/access`, `/auth/error` via client-side navigation (direct nested SPA URLs 404 through Symfony). PHPUnit `OK (1 test, 1 assertion)`.
 
-- [ ] Task 13: Port/convert all uikit and utilities demo SFCs
+- [x] Task 13: Port/convert all uikit and utilities demo SFCs
   - Acceptance: every remaining `.vue` uses `<script setup lang="ts">`; no `.js` frontend modules remain; router entries valid.
-  - Verify: `find assets -name '*.js'` returns no source modules; build, typecheck.
-  - Files: `assets/views/uikit/**`, `assets/views/utilities/**`, `assets/router/index.ts`
+  - Verified 2026-11-24: all 52 SFCs (including `App.vue`) now use `lang="ts"`, and `find assets -name '*.js'` is empty. Converted the last uikit batches (Button, Chart, FormLayout, Input, List, Menu, Misc, Overlay, Panels, Table) and page demos (Crud, Empty, NotFound, Timeline). `vue-tsc --noEmit` is the authoritative type gate; `webpack.config.js` now enables `transpileOnly` for Encore's ts-loader because ts-loader reports implicit-`any` slot params that `vue-tsc` accepts. Slot props that PrimeVue 5 does not declare are narrowed with `(slotProps as any)` in templates, and v5 slot names are used (`#option` for PickList/OrderList). Demo data/image URLs still resolve relative to the SPA path (e.g. `/uikit/demo/data/*.json` 404 during nested-route smoke); this predates the TS port and is tracked for Task 21.
+  - Verify: `find assets -name '*.js'` returns no source modules; build, typecheck; browser smoke per route.
+  - Browser smoke: client-side navigation reached all converted routes with their expected markers visible (form layout, input, button, table, list, panel, overlay, menu, charts, misc, crud, timeline, notfound); no console errors beyond the pre-existing demo-data/image 404s noted above.
+  - Files: `assets/views/uikit/**`, `assets/views/utilities/**`, `assets/views/pages/**`, `assets/App.vue`, `assets/router/index.ts`, `webpack.config.js`
   - Dependencies: Task 12
   - Scope: L
 
@@ -123,8 +125,8 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Scope: S
 
 **Checkpoint: Sakai port**
-- [ ] All routes render; upstream UI structure present
-- [ ] No `.js` frontend modules; every SFC uses `lang="ts"`
+- [x] All routes render; upstream UI structure present (verified 2026-11-24 via client-side navigation; demo data/image 404s remain for Task 21)
+- [x] No `.js` frontend modules; every SFC uses `lang="ts"` (verified 2026-11-24)
 
 ## Phase 3 — PrimeVue 3→5 migration cleanup
 
