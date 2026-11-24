@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
     <div class="flex align-items-center py-5 px-3">
         <i class="pi pi-fw pi-money-bill mr-2 text-2xl" />

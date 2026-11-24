@@ -1,35 +1,48 @@
-<script setup>
-import { ref, onMounted } from 'vue';
-import CountryService from '../../service/CountryService';
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import AutoComplete from 'primevue/autocomplete';
+import FloatLabel from 'primevue/floatlabel';
+import InputGroup from 'primevue/inputgroup';
+import InputGroupAddon from 'primevue/inputgroupaddon';
+import InputMask from 'primevue/inputmask';
+import InputNumber from 'primevue/inputnumber';
+import InputText from 'primevue/inputtext';
+import MultiSelect from 'primevue/multiselect';
+import Textarea from 'primevue/textarea';
+import CountryService, { type Country } from '../../service/CountryService';
 
-const countries = ref([]);
-const cities = ref([
+interface City {
+    name: string;
+    code: string;
+}
+
+const countries = ref<Country[]>([]);
+const cities = ref<City[]>([
     { name: 'New York', code: 'NY' },
     { name: 'Rome', code: 'RM' },
     { name: 'London', code: 'LDN' },
     { name: 'Istanbul', code: 'IST' },
     { name: 'Paris', code: 'PRS' }
 ]);
-const filteredCountries = ref(null);
-const value1 = ref(null);
-const value2 = ref(null);
-const value3 = ref(null);
-const value4 = ref(null);
-const value5 = ref(null);
-const value6 = ref(null);
-const value7 = ref(null);
-const value8 = ref(null);
-const value9 = ref(null);
-const value10 = ref(null);
+const filteredCountries = ref<Country[]>([]);
+const value1 = ref<string | null>(null);
+const value2 = ref<Country | null>(null);
+const value3 = ref<Date | null>(null);
+const value4 = ref<string[] | null>(null);
+const value5 = ref<string | null>(null);
+const value6 = ref<number | null>(null);
+const value7 = ref<string | null>(null);
+const value8 = ref<City | null>(null);
+const value9 = ref<City[] | null>(null);
+const value10 = ref<string | null>(null);
 const countryService = new CountryService();
 
 onMounted(() => {
     countryService.getCountries().then((data) => (countries.value = data));
 });
 
-const searchCountry = (event) => {
-    //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-    const filtered = [];
+const searchCountry = (event: { query: string }): void => {
+    const filtered: Country[] = [];
     const query = event.query;
     for (let i = 0; i < countries.value.length; i++) {
         const country = countries.value[i];

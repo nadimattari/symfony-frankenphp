@@ -1,20 +1,32 @@
-<script setup>
-import { ref, onMounted } from 'vue';
-import CountryService from '../../service/CountryService';
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import AutoComplete from 'primevue/autocomplete';
+import InputMask from 'primevue/inputmask';
+import InputNumber from 'primevue/inputnumber';
+import InputText from 'primevue/inputtext';
+import MultiSelect from 'primevue/multiselect';
+import Password from 'primevue/password';
+import Textarea from 'primevue/textarea';
+import CountryService, { type Country } from '../../service/CountryService';
 
-const countries = ref(null);
-const filteredCountries = ref(null);
-const value1 = ref(null);
-const value2 = ref(null);
-const value3 = ref(null);
-const value4 = ref(null);
-const value5 = ref(null);
-const value6 = ref(null);
-const value7 = ref(null);
-const value8 = ref(null);
-const value9 = ref(null);
-const value10 = ref(null);
-const cities = ref([
+interface City {
+    name: string;
+    code: string;
+}
+
+const countries = ref<Country[]>([]);
+const filteredCountries = ref<Country[]>([]);
+const value1 = ref<string | null>(null);
+const value2 = ref<Country | null>(null);
+const value3 = ref<Date | null>(null);
+const value4 = ref<string[] | null>(null);
+const value5 = ref<string | null>(null);
+const value6 = ref<number | null>(null);
+const value7 = ref<City | null>(null);
+const value8 = ref<City[] | null>(null);
+const value9 = ref<string | null>(null);
+const value10 = ref<string | null>(null);
+const cities = ref<City[]>([
     { name: 'New York', code: 'NY' },
     { name: 'Rome', code: 'RM' },
     { name: 'London', code: 'LDN' },
@@ -29,10 +41,10 @@ onMounted(() => {
     });
 });
 
-const searchCountry = (event) => {
+const searchCountry = (event: { query: string }): void => {
     setTimeout(() => {
         if (!event.query.trim().length) {
-            filteredCountries.value = [...countries];
+            filteredCountries.value = [...countries.value];
         } else {
             filteredCountries.value = countries.value.filter((country) => {
                 return country.name.toLowerCase().startsWith(event.query.toLowerCase());

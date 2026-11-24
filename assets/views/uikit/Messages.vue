@@ -1,38 +1,47 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useToast } from 'primevue/usetoast';
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
+import Message from 'primevue/message';
+
+interface Msg {
+    severity: 'success' | 'info' | 'warn' | 'error';
+    detail: string;
+    content: string;
+    id: number;
+}
 
 const toast = useToast();
-const message = ref([]);
-const username = ref(null);
-const email = ref(null);
+const message = ref<Msg[]>([]);
+const username = ref<string | null>(null);
+const email = ref<string | null>(null);
 const count = ref(0);
 
-const addMessage = (type) => {
-    if (type === 'success') {
-        message.value = [{ severity: 'success', detail: 'Success Message', content: 'Message sent', id: count.value++ }];
-    } else if (type === 'info') {
-        message.value = [{ severity: 'info', detail: 'Info Message', content: 'PrimeVue rocks', id: count.value++ }];
-    } else if (type === 'warn') {
-        message.value = [{ severity: 'warn', detail: 'Warn Message', content: 'There are unsaved changes', id: count.value++ }];
-    } else if (type === 'error') {
-        message.value = [{ severity: 'error', detail: 'Error Message', content: 'Validation failed', id: count.value++ }];
-    }
+const addMessage = (type: Msg['severity']): void => {
+    const details: Record<Msg['severity'], { detail: string; content: string }> = {
+        success: { detail: 'Success Message', content: 'Message sent' },
+        info: { detail: 'Info Message', content: 'PrimeVue rocks' },
+        warn: { detail: 'Warn Message', content: 'There are unsaved changes' },
+        error: { detail: 'Error Message', content: 'Validation failed' }
+    };
+    const entry = details[type];
+    message.value = [{ severity: type, detail: entry.detail, content: entry.content, id: count.value++ }];
 };
 
-const showSuccess = () => {
+const showSuccess = (): void => {
     toast.add({ severity: 'success', summary: 'Success Message', detail: 'Message Detail', life: 3000 });
 };
 
-const showInfo = () => {
+const showInfo = (): void => {
     toast.add({ severity: 'info', summary: 'Info Message', detail: 'Message Detail', life: 3000 });
 };
 
-const showWarn = () => {
+const showWarn = (): void => {
     toast.add({ severity: 'warn', summary: 'Warn Message', detail: 'Message Detail', life: 3000 });
 };
 
-const showError = () => {
+const showError = (): void => {
     toast.add({ severity: 'error', summary: 'Error Message', detail: 'Message Detail', life: 3000 });
 };
 </script>

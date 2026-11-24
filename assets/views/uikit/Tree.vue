@@ -1,11 +1,14 @@
-<script setup>
-import NodeService from '../../service/NodeService';
+<script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import Column from 'primevue/column';
+import Tree from 'primevue/tree';
+import TreeTable from 'primevue/treetable';
+import NodeService, { type TreeNodeData } from '../../service/NodeService';
 
-const treeValue = ref(null);
-const selectedTreeValue = ref(null);
-const treeTableValue = ref(null);
-const selectedTreeTableValue = ref(null);
+const treeValue = ref<any[] | undefined>(undefined);
+const selectedTreeValue = ref<any>(undefined);
+const treeTableValue = ref<any[] | undefined>(undefined);
+const selectedTreeTableValue = ref<any>(undefined);
 const nodeService = new NodeService();
 
 onMounted(() => {

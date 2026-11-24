@@ -1,9 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { useToast } from 'primevue/usetoast';
+import FileUpload from 'primevue/fileupload';
 
 const toast = useToast();
 
-const onUpload = () => {
+const onUpload = (): void => {
     toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
 };
 </script>
