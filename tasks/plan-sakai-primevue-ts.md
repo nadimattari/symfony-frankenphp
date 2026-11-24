@@ -15,7 +15,7 @@ Lamiral is a completed project and is treated as **read-only reference only**. N
 Detailed analysis: `docs/analysis-lamiral-sakai-upgrade.md`.
 Decision record: `docs/adr/0002-primevue-version-and-sakai-strategy.md`.
 
-This plan is additive. Existing `tasks/plan.md` and `tasks/todo.md` document the completed FrankenPHP/Symfony migration and are intentionally left untouched. Work happens on branch `feature/primevue-sakai-ts`.
+This plan is additive. Existing `tasks/plan.md` and `tasks/todo.md` document the completed FrankenPHP/Symfony migration and are intentionally left untouched. Work was carried out on `feature/primevue-sakai-ts` and promoted to `main` as v0.2.0; the pre-port baseline is frozen on `release/v0.1` / `v0.1.0` (ADR 0005).
 
 ## Architecture decisions (accepted)
 

@@ -4,7 +4,9 @@ Resolved dependency versions at each release tag, taken from `composer.lock` and
 
 The older lightweight tag `pre-migration` (`c2e19cd`, 2026-10-24) predates these releases and is kept only for archaeology. It is not a release.
 
-## v0.2.0 — current `main` (2026-11-24, commit `3423438`)
+## v0.2.0 — tagged at `be32758` (2026-11-24), current `main` release line
+
+The tag points to the release documentation commit. Lock files are unchanged from the feature tip `3423438`, so the resolved versions below describe both commits.
 
 ### Backend and PHP packages
 
