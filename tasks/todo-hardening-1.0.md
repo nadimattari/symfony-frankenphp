@@ -88,7 +88,7 @@ Status: **approved** (2026-11-24)
 **Description:** Add `login_throttling` to the `main` firewall and a Lexik authentication-failure subscriber that converts only `TooManyLoginAttemptsAuthenticationException` into the approved generic 429 JSON with `Retry-After`/rate-limit headers.
 
 **Acceptance criteria:**
-- [ ] `debug:config security login_throttling` shows 10 attempts / 15 minutes on `cache.rate_limiter`, `lock_factory: null`.
+- [ ] `debug:config security firewalls` shows 10 attempts / 15 minutes on `cache.rate_limiter`, `lock_factory: null`.
 - [ ] The 11th bad login returns 429 JSON with `Retry-After`; no username/password is echoed.
 - [ ] Existing login success and bad-credential 401 behaviour is unchanged before the limit is reached.
 
@@ -98,7 +98,7 @@ Status: **approved** (2026-11-24)
 
 **Dependencies:** H4
 
-**Files likely touched:** `config/packages/security.yaml`, `src/Security/LoginRateLimitFailureListener.php`
+**Files likely touched:** `config/packages/security.yaml`, `config/services.yaml`, `src/Security/LoginRateLimitFailureListener.php`
 
 **Estimated scope:** S
 

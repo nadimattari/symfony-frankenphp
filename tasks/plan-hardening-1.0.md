@@ -72,7 +72,7 @@ docker compose exec -T sf-php composer validate --no-check-publish
 docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit tests/Functional/AuthRateLimitTest.php
 docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit
 docker compose exec -T sf-php php bin/console debug:config framework rate_limiter
-docker compose exec -T sf-php php bin/console debug:config security login_throttling
+docker compose exec -T sf-php php bin/console debug:config security firewalls
 docker compose exec -T sf-php php bin/console debug:config framework cache
 git diff --check
 git diff --staged -i -G'password|secret|api_key|token|PRIMEUI_LICENSE_KEY|JWT_PASSPHRASE' --name-only
