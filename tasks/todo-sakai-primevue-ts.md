@@ -35,22 +35,22 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 - [x] Task 4: Configure `vue-tsc` and TS-aware ESLint
   - Acceptance: `typecheck` script is `vue-tsc --noEmit`; ESLint parses `.ts` and `<script setup lang="ts">`; `eslint-plugin-prettier` is a direct devDependency; `assets/shims-vue.d.ts` added only if required.
-  - Verified 2026-11-24: `npm run typecheck`, `npm run lint` and `npm run build` pass. TypeScript was raised to 5.9.3 because vue-tsc 3 needs the newer compiler API. No `.vue` shim is needed. ESLint 8.57.1 is retained for the Encore 4 peer range. Two Vue naming rules were disabled for upstream Sakai's single-word view/component names. Prettier reports pre-existing formatting warnings only (0 errors).
+  - Verified 2026-11-24: `npm run typecheck`, `npm run lint` and `npm run build` pass. TypeScript was raised to 5.9.3 because vue-tsc 3 needs the newer compiler API. ESLint 8.57.1 is retained for the Encore 4 peer range. Two Vue naming rules were disabled for upstream Sakai's single-word view/component names. Prettier reports formatting warnings only (0 errors). The `.vue` module shim was added in Task 6 when the entry became TypeScript.
   - Files: `package.json`, `package-lock.json`, `tsconfig.json`, `eslint.config.mjs`
   - Dependencies: Task 3
   - Scope: S
 
 - [x] Task 5: Enable Encore PostCSS + Tailwind 4
   - Acceptance: `webpack.config.js` calls `.enablePostCssLoader()`; `postcss.config.cjs` (CommonJS, matching current config style) registers `@tailwindcss/postcss`; CSS entry has `@import "tailwindcss";` and `@import "tailwindcss-primeui";`; PrimeVue/Tailwind layer order and dark variant follow official guidance.
-  - Verified 2026-11-24: production build emits a ~381 KiB CSS bundle containing Tailwind 4 utilities (`.bg-primary`, custom 576px breakpoint) and the declared `theme, base, primevue, components, utilities` layer order. The CSS entry is `assets/assets/tailwind.css`, imported before the existing Sakai SCSS. PrimeFlex remains until the Sakai port replaces its classes.
+  - Verified 2026-11-24: production build emits a ~381 KiB CSS bundle containing Tailwind 4 utilities (`.bg-primary`, custom 576px breakpoint). The CSS entry is `assets/assets/tailwind.css`, imported before the existing Sakai SCSS. Task 6 corrected the declared order to `theme, base, primeui, components, utilities` to match the layer PrimeVue 5 actually emits. PrimeFlex remains until the Sakai port replaces its classes.
   - Files: `webpack.config.js`, `postcss.config.cjs`, `assets/assets/tailwind.css`, `assets/app.js`
   - Dependencies: Task 3
   - Scope: M
 
-- [ ] Task 6: Wire license key and PrimeVue 5 configuration
+- [x] Task 6: Wire license key and PrimeVue 5 configuration
   - Acceptance: `assets/app.ts` passes `license` from exposed global into `PrimeVue` plugin; `@primeuix/themes` preset configured; no license notice in browser; key absent from source.
-  - Verify: browser console/DOM check for license notice; `git grep` for key value.
-  - Files: `assets/app.ts`, `templates/base.html.twig`, `config/services.yaml`
+  - Verified 2026-11-24: entry renamed to TypeScript, `AuraCompat` configured with `.app-dark` dark selector and `cssLayer: true`; `license` comes from `window.PRIMEUI_LICENSE_KEY`. Build/typecheck/lint pass. Browser shows the app mounted, 29 PrimeVue style tags in the `primeui` layer, and `window.PRIMEUI_LICENSE_KEY === ''`. Because no valid key is present in this environment, PrimeUI correctly warns "license is not configured" and shows its banner; the no-banner check requires putting the real key in gitignored `.env.local`. `git grep` shows only variable names/docs, no key value.
+  - Files: `assets/app.ts`, `assets/shims-vue.d.ts`, `assets/types/window.d.ts`, `assets/assets/tailwind.css`, `webpack.config.js`, `tsconfig.json`, `eslint.config.mjs`
   - Dependencies: Tasks 2, 5
   - Scope: S
 
@@ -62,13 +62,14 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Scope: S
 
 **Checkpoint: Tooling**
-- [ ] Build, typecheck, lint pass on the unchanged UI
-- [ ] No license notice; Encore still 4.x; Vite not introduced
+- [x] Build, typecheck, lint pass on the unchanged UI (verified 2026-11-24)
+- [ ] No license notice; Encore still 4.x; Vite not introduced (license notice still awaits a valid local key)
 
 ## Phase 2 — Port Sakai 5 onto Encore (TypeScript)
 
 - [ ] Task 8: Port app entry and router to TypeScript
   - Acceptance: `assets/app.ts` registers PrimeVue 5, Pinia, services, directives; router typed with `RouteRecordRaw`; Encore entry updated from `app.js` to `app.ts`.
+  - Note: the entry rename and Encore update were completed in Task 6; Task 8 finishes the typed router and remaining registrations.
   - Verify: build, typecheck.
   - Files: `assets/app.ts`, `assets/router/index.ts`, `webpack.config.js`
   - Dependencies: Task 7

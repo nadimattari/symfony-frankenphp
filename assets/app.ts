@@ -1,14 +1,12 @@
 /*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
+ * Main TypeScript entry. The built script and CSS are included in base.html.twig.
  */
 
 import './assets/tailwind.css';
 import './assets/styles.scss';
 
 import PrimeVue              from 'primevue/config';
+import AuraCompat            from '@primeuix/themes/aura-compat';
 import AutoComplete          from 'primevue/autocomplete';
 import Accordion             from 'primevue/accordion';
 import AccordionPanel        from 'primevue/accordionpanel';
@@ -120,7 +118,19 @@ import router from './router';
 const LegacyBadgeDirective = {};
 
 const app = createApp(App);
-app.use(PrimeVue, { ripple: true });
+app.use(PrimeVue, {
+    ripple: true,
+    license: window.PRIMEUI_LICENSE_KEY,
+    theme: {
+        preset: AuraCompat,
+        options: {
+            prefix: 'p',
+            darkModeSelector: '.app-dark',
+            cssLayer: true,
+            cssVariables: true
+        }
+    }
+});
 app.use(router);
 app.use(ToastService);
 app.use(DialogService);

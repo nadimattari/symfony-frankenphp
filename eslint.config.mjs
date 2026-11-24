@@ -53,6 +53,14 @@ export default tseslint.config(
       ...tseslint.configs.recommended.rules
     }
   },
+  {
+    files: ["**/*.d.ts"],
+    rules: {
+      // Ambient declarations intentionally introduce type-only identifiers.
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off"
+    }
+  },
   prettierConfig,
   {
     plugins: {
