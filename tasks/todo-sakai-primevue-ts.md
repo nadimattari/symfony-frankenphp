@@ -287,7 +287,7 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 29
   - Scope: M
 
-- [ ] Task 31: Port MailRouter and minimal MailRun lifecycle
+- [x] Task 31: Port MailRouter and minimal MailRun lifecycle
   - Acceptance: test redirect, `[TEST]` subject rewrite, original-recipient header, run creation/claim/fail, dev-safe dispatch; no detached production worker without explicit config.
   - Verify: PHPUnit or manual service calls; config smoke.
   - Files: `src/Service/Mail/MailRouter.php`, `MailRunManager.php`, `MailRunDispatcher.php`, `ActiveMailRunException.php`
