@@ -136,6 +136,14 @@ MIT-licensed PrimeVue 4.5.x remains the fallback if the Community license lapses
 
 The current `primefaces/sakai-vue` repository has tags `3.x`, `4.0.0`–`4.3.0`, and `5.0.0`; branches are `master` and `prod`, both at the 5.0.0 commit.
 
+Verified 2026-11-24: `git ls-remote https://github.com/primefaces/sakai-vue.git refs/tags/5.0.0^{}` resolves to `ec6b6ef53ad4fa7f2861277f50f2d9e236c40372`. A pristine reference can be fetched reproducibly with:
+
+```bash
+mkdir -p /tmp/opencode/sakai-vue-5.0.0
+curl -sSL https://github.com/primefaces/sakai-vue/archive/refs/tags/5.0.0.tar.gz \
+  | tar -xz --strip-components=1 -C /tmp/opencode/sakai-vue-5.0.0
+```
+
 Upstream 5.0.0 is still **JavaScript**, not TypeScript:
 
 - `src/main.js`, `src/router/index.js`, `src/layout/composables/layout.js`

@@ -6,23 +6,23 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 ## Phase 0 — Baseline and reference
 
-- [ ] Task 1: Verify baseline commands and upstream reference
+- [x] Task 1: Verify baseline commands and upstream reference
   - Acceptance: current `npm run build`, `npm run typecheck`, PHPUnit pass; upstream tag `5.0.0` / commit `ec6b6ef...` is recorded and a pristine reference exists or a reproducible fetch command is documented.
-  - Verify: `docker compose exec sf-node npm run build`, `npm run typecheck`, `docker compose exec -e APP_ENV=test sf-php vendor/bin/simple-phpunit`; `git rev-parse HEAD` on reference.
+  - Verified 2026-11-24: build, typecheck and PHPUnit (1 test) pass; `git ls-remote` resolves `5.0.0` to `ec6b6ef53ad4fa7f2861277f50f2d9e236c40372`; reproducible tarball fetch command recorded in the analysis doc.
   - Files: `docs/analysis-lamiral-sakai-upgrade.md` (reference section)
   - Dependencies: None
   - Scope: XS
 
-- [ ] Task 2: Add `PRIMEUI_LICENSE_KEY` env plumbing
+- [x] Task 2: Add `PRIMEUI_LICENSE_KEY` env plumbing
   - Acceptance: key read from env (gitignored `.env.local` for local dev), exposed to Twig and ready for frontend injection; no key value in tracked files; docs explain annual renewal, record the 2027-11-14 expiry (4 seats), and note that the key may appear in the bundle.
-  - Verify: `git grep -i 'PRIMEUI' -- . ':!.env.local'` shows variable names only; app boots with placeholder in dev.
-  - Files: `.env`, `config/services.yaml`, `templates/base.html.twig`, `README.md`
+  - Verified 2026-11-24: Twig lint passes in dev/test; `app.primeui_license_key` resolves from env; `GET /` returns HTTP 200 with `window.PRIMEUI_LICENSE_KEY = ''`; `git grep` shows variable names/docs only, no key value.
+  - Files: `.env`, `config/services.yaml`, `config/packages/twig.yaml`, `templates/base.html.twig`, `README.md`
   - Dependencies: Task 1
   - Scope: S
 
 **Checkpoint: Baseline**
-- [ ] Build, typecheck, and PHPUnit pass before UI changes
-- [ ] License env resolves in dev/test/prod without committing the key
+- [x] Build, typecheck, and PHPUnit pass before UI changes
+- [x] License env resolves in dev/test/prod without committing the key
 
 ## Phase 1 — Tooling foundation
 
@@ -288,3 +288,12 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 - [ ] Build, typecheck, lint, PHPUnit, and prod build pass
 - [ ] ADR status and docs match implemented choices
 - [ ] Ready for review
+
+## Phase 8 — Future (not in scope)
+
+- [ ] Task 35: Re-evaluate Symfony Reprise as an Encore replacement
+  - Acceptance: a new ADR superseding ADR 0001 records the platform decision (PHP 8.4+, Node 22.18+/24.11+, Symfony LTS 7.4 vs 8, Vite 7/8 or Rsbuild) and a separate migration plan exists before any code changes.
+  - Verify: ADR status links ADR 0001 as superseded; Encore removal is a dedicated commit/PR, not part of the Sakai/PrimeVue work.
+  - Files: `docs/adr/0001-bundler.md`, new ADR, new task plan
+  - Dependencies: platform-upgrade decision; not part of this branch's success criteria
+  - Scope: S (decision only; migration scope to be estimated separately)

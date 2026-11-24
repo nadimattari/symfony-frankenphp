@@ -19,7 +19,7 @@ This plan is additive. Existing `tasks/plan.md` and `tasks/todo.md` document the
 
 ## Architecture decisions (accepted)
 
-- Keep Webpack Encore (ADR 0001); do not adopt Vite.
+- Keep Webpack Encore (ADR 0001); do not adopt Vite, Rsbuild or Reprise in this phase. Track Reprise as a future platform-upgrade TODO (Phase 8).
 - Target PrimeVue **5.0.5** directly; v5 has no breaking public component API changes from v4. MIT 4.5.x is the fallback if the Community license lapses.
 - License key comes from `PRIMEUI_LICENSE_KEY` (gitignored `.env.local`), exposed to the frontend through Twig and passed to `app.use(PrimeVue, { license })`. Never commit the key.
 - Tailwind 4 via `.enablePostCssLoader()` + `@tailwindcss/postcss` + `tailwindcss-primeui`; remove PrimeFlex. Use `@primeuix/themes` for PrimeVue theming.
@@ -107,6 +107,10 @@ Tasks are tracked in `tasks/todo-sakai-primevue-ts.md`.
 
 **Checkpoint: Complete** — all success criteria below are met.
 
+### Phase 8 — Future (not in scope)
+
+- Reprise migration: after a deliberate PHP/Node platform upgrade and a fresh Symfony LTS/8 decision, replace Encore with Symfony Reprise + Vite or Rsbuild. See ADR 0001 and Task 35 in `tasks/todo-sakai-primevue-ts.md`. This phase is tracked but does not affect the success criteria above.
+
 ## Success criteria
 
 - `npm ci && npm run build` succeeds in `sf-node`.
@@ -136,4 +140,4 @@ Tasks are tracked in `tasks/todo-sakai-primevue-ts.md`.
 
 ## Sources
 
-See `docs/analysis-lamiral-sakai-upgrade.md` §10 and `docs/adr/0002-primevue-version-and-sakai-strategy.md`.
+See `docs/analysis-lamiral-sakai-upgrade.md` §10, `docs/adr/0001-bundler.md` and `docs/adr/0002-primevue-version-and-sakai-strategy.md`.

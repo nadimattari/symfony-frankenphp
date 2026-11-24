@@ -45,6 +45,16 @@ This repository is a starting point for projects using the Symfony framework wit
 - Typecheck
     - `$ docker compose exec sf-node npm run typecheck`
 
+### PrimeUI license key
+
+PrimeVue 5 needs a PrimeUI license key. Set it only in the gitignored `.env.local` (or as a real environment variable in deployment):
+
+```dotenv
+PRIMEUI_LICENSE_KEY=your-key-here
+```
+
+The key is exposed to the frontend through Twig and may appear in the built JavaScript bundle; that is expected for PrimeUI licenses. Do not commit it. The held Community key has 4 seats and must be renewed before **2027-11-14**. A missing or invalid key may show a license notice in the browser.
+
 ## Services
 
 ### Development
@@ -70,6 +80,6 @@ Production exposes **only** ports 80 and 443. The database and Mailpit are not p
 
 ## Notes
 
-- Webpack Encore is in maintenance mode; evaluate Symfony Reprise (Vite) for modern bundling (see `docs/adr/0001-bundler.md`).
+- Webpack Encore is in maintenance mode. Symfony Reprise is the modern replacement but requires PHP 8.4+, Node 22.18+/24.11+ and Symfony 7.4 or 8; this project stays on Symfony 7.4 LTS / PHP 8.2 / Node 20 for now. Re-evaluation is tracked in ADR 0001 and Task 35.
 - FrankenPHP worker mode is enabled in production via `docker/caddy/Caddyfile.prod`.
 - Production HTTPS currently uses Caddy's internal CA (`tls internal`). Replace it with a publicly-trusted certificate (or a real domain) before deploying.
