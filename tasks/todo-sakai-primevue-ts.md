@@ -273,7 +273,7 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 ## Phase 6 — Mail backend
 
-- [ ] Task 29: Mail architecture ADR
+- [x] Task 29: Mail architecture ADR
   - Acceptance: ADR covers MailRun lifecycle, test redirect, throttle, dev Mailpit, and explicit exclusion of report/invoice layers.
   - Verify: ADR committed.
   - Files: `docs/adr/0004-mail-architecture.md`
