@@ -37,6 +37,7 @@ const orderlistValue = ref<City[]>([
 
 const dataviewValue = ref<Product[] | null>(null);
 const layout = ref<'grid' | 'list'>('grid');
+const layoutOptions = ref<Array<'grid' | 'list'>>(['grid', 'list']);
 const sortKey = ref<SortOption | null>(null);
 const sortOrder = ref<number | null>(null);
 const sortField = ref<string | null>(null);
@@ -94,7 +95,11 @@ const getSlotItem = (slotProps: any): any => slotProps.item;
                                 <Select v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Price" @change="onSortChange($event)" />
                             </div>
                             <div class="col-6 text-right">
-                                <DataViewLayoutOptions v-model="layout" />
+                                <SelectButton v-model="layout" :options="layoutOptions" :allowEmpty="false">
+                                    <template #option="slotProps">
+                                        <i :class="[(slotProps as any).option === 'list' ? 'pi pi-bars' : 'pi pi-table']" />
+                                    </template>
+                                </SelectButton>
                             </div>
                         </div>
                     </template>
