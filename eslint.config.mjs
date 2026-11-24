@@ -1,17 +1,65 @@
 import globals from "globals";
+import js from "@eslint/js";
 import pluginVue from "eslint-plugin-vue";
-import pluginPrettier from "eslint-plugin-prettier";
+import vueParser from "vue-eslint-parser";
+import tseslint from "typescript-eslint";
+import prettierPlugin from "eslint-plugin-prettier";
+import prettierConfig from "eslint-config-prettier";
 
-export default [
-  { languageOptions: { globals: globals.browser } },
+export default tseslint.config(
+  {
+    ignores: ["node_modules/", "public/build/", "vendor/"]
+  },
+  js.configs.recommended,
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      }
+    }
+  },
   ...pluginVue.configs["flat/essential"],
   {
-    plugins: { prettier: pluginPrettier },
     rules: {
-      "prettier/prettier": "warn"
+      // Upstream Sakai uses single-word view and PrimeVue component names.
+      "vue/multi-word-component-names": "off",
+      "vue/no-reserved-component-names": "off"
     }
   },
   {
-    ignores: ["node_modules/", "public/build/", "vendor/"]
+    files: ["**/*.vue"],
+    languageOptions: {
+      parser: vueParser,
+      parserOptions: {
+        parser: tseslint.parser,
+        ecmaVersion: "latest",
+        sourceType: "module"
+      }
+    },
+    plugins: {
+      "@typescript-eslint": tseslint.plugin
+    },
+    rules: {
+      ...tseslint.configs.recommended.rules
+    }
+  },
+  {
+    files: ["**/*.ts"],
+    languageOptions: {
+      parser: tseslint.parser
+    },
+    rules: {
+      ...tseslint.configs.recommended.rules
+    }
+  },
+  prettierConfig,
+  {
+    plugins: {
+      prettier: prettierPlugin
+    },
+    rules: {
+      "prettier/prettier": "warn"
+    }
   }
-];
+);

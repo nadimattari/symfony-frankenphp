@@ -4,6 +4,7 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "allowJs": true,
+    "checkJs": false,
     "strict": true,
     "jsx": "preserve",
     "baseUrl": ".",

@@ -33,10 +33,10 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 2
   - Scope: M
 
-- [ ] Task 4: Configure `vue-tsc` and TS-aware ESLint
+- [x] Task 4: Configure `vue-tsc` and TS-aware ESLint
   - Acceptance: `typecheck` script is `vue-tsc --noEmit`; ESLint parses `.ts` and `<script setup lang="ts">`; `eslint-plugin-prettier` is a direct devDependency; `assets/shims-vue.d.ts` added only if required.
-  - Verify: `npm run typecheck`, `npm run lint`
-  - Files: `package.json`, `tsconfig.json`, `eslint.config.mjs`, `assets/shims-vue.d.ts`
+  - Verified 2026-11-24: `npm run typecheck`, `npm run lint` and `npm run build` pass. TypeScript was raised to 5.9.3 because vue-tsc 3 needs the newer compiler API. No `.vue` shim is needed. ESLint 8.57.1 is retained for the Encore 4 peer range. Two Vue naming rules were disabled for upstream Sakai's single-word view/component names. Prettier reports pre-existing formatting warnings only (0 errors).
+  - Files: `package.json`, `package-lock.json`, `tsconfig.json`, `eslint.config.mjs`
   - Dependencies: Task 3
   - Scope: S
 
