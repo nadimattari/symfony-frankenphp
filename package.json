@@ -36,7 +36,7 @@
         "build": "encore production --progress",
         "lint": "eslint assets webpack.config.js eslint.config.mjs",
         "typecheck": "vue-tsc --noEmit",
-        "test:fetch": "tsc assets/utils/fetch.ts --target ES2020 --module commonjs --moduleResolution node --strict --skipLibCheck --outDir var/test-build && node --test tests/frontend"
+        "test:fetch": "tsc assets/types/window.d.ts assets/utils/fetch.ts assets/service/*.ts --target ES2020 --module commonjs --moduleResolution node --strict --skipLibCheck --outDir var/test-build && node --test tests/frontend"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.5.2",

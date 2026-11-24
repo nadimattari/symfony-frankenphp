@@ -52,11 +52,14 @@ export interface Country {
 
 export interface Product {
   id?: number | string;
+  code?: string;
   name?: string;
   description?: string;
   image?: string;
   price?: number;
   category?: string;
+  quantity?: number;
+  inventoryStatus?: string;
   rating?: number;
   status?: string;
 }
@@ -74,7 +77,8 @@ export interface Customer {
 }
 
 export interface Photo {
-  id?: number | string;
-  src?: string;
+  itemImageSrc?: string;
+  thumbnailImageSrc?: string;
   alt?: string;
+  title?: string;
 }

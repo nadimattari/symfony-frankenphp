@@ -189,10 +189,12 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 7
   - Scope: M
 
-- [ ] Task 21: Replace mock services with typed API services
+- [x] Task 21: Replace mock services with typed API services
   - Acceptance: service pattern ported without Lamiral-domain URLs; static demo services removed or clearly marked demo-only.
+  - Decision 2026-11-24: all five services now extend a typed `ApiService<T>` (`assets/service/api.ts`) backed by the Task 20 `FetchClient`; the base URL comes from an optional `window.API_BASE_URL` (default `/api`). The old direct `fetch('demo/data/*.json')` calls and the remote `primefaces.org` customer URL are gone. `DemoDataController` serves the existing Sakai fixtures through a local, whitelisted `/api/demo/{fixture}` GET endpoint; fixtures remain demo-only data but are no longer fetched as static files by the frontend. Services re-export their DTOs so existing views keep their imports.
+  - Verified 2026-11-24: RED-first PHPUnit coverage (`DemoDataControllerTest`) proves the endpoint returns `{"data": [...]}` and rejects unknown fixtures; three RED-first `node:test` service cases prove local URLs, Hydra/plain/array normalisation and the typed CRUD pattern (`npm run test:fetch`, 14 tests). Build, typecheck, lint (0 errors), full PHPUnit (3 tests) and a browser smoke of `/pages/crud` pass: the page requests `/api/demo/products` and renders 30 products with no console errors.
   - Verify: build; one API-backed route returns data.
-  - Files: `assets/service/*.ts`
+  - Files: `assets/service/*.ts`, `assets/types/api.ts`, `assets/types/window.d.ts`, `src/Controller/DemoDataController.php`, `tests/Functional/DemoDataControllerTest.php`, `tests/frontend/services.test.cjs`, `package.json`
   - Dependencies: Task 20
   - Scope: M
 

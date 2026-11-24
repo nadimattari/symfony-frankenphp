@@ -1,45 +1,28 @@
-export interface Customer {
-    id?: number;
-    name?: string;
-    country?: { name: string; code: string };
-    company?: string;
-    date?: string;
-    status?: string;
-    activity?: number;
-    representative?: { name: string; image: string };
-    balance?: number;
-    [key: string]: unknown;
-}
+import type { Customer as CustomerDto } from "../types/api";
+import type { FetchClient } from "../utils/fetch";
+import { ApiService, apiClient } from "./api";
 
-export default class CustomerService {
-    getCustomersSmall(): Promise<Customer[]> {
-        return fetch('demo/data/customers-small.json')
-            .then((res) => res.json())
-            .then((d) => d.data as Customer[]);
-    }
+export type Customer = CustomerDto;
 
-    getCustomersMedium(): Promise<Customer[]> {
-        return fetch('demo/data/customers-medium.json')
-            .then((res) => res.json())
-            .then((d) => d.data as Customer[]);
-    }
+/** Demo-only fixture endpoints served by DemoDataController. */
+export default class CustomerService extends ApiService<Customer> {
+  constructor(client: FetchClient = apiClient) {
+    super(client, "/demo/customers");
+  }
 
-    getCustomersLarge(): Promise<Customer[]> {
-        return fetch('demo/data/customers-large.json')
-            .then((res) => res.json())
-            .then((d) => d.data as Customer[]);
-    }
+  getCustomersSmall(): Promise<Customer[]> {
+    return this.listFrom("/demo/customers-small");
+  }
 
-    getCustomersXLarge(): Promise<Customer[]> {
-        return fetch('demo/data/customers-xlarge.json')
-            .then((res) => res.json())
-            .then((d) => d.data as Customer[]);
-    }
+  getCustomersMedium(): Promise<Customer[]> {
+    return this.listFrom("/demo/customers-medium");
+  }
 
-    getCustomers(params: Record<string, unknown>): Promise<{ data: Customer[]; total: number }> {
-        const queryParams = Object.keys(params)
-            .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(String(params[k])))
-            .join('&');
-        return fetch('https://www.primefaces.org//demo/data/customers?' + queryParams).then((res) => res.json());
-    }
+  getCustomersLarge(): Promise<Customer[]> {
+    return this.listFrom("/demo/customers-large");
+  }
+
+  getCustomersXLarge(): Promise<Customer[]> {
+    return this.listFrom("/demo/customers-xlarge");
+  }
 }

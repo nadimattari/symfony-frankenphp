@@ -1,15 +1,16 @@
-export interface Photo {
-    itemImageSrc?: string;
-    thumbnailImageSrc?: string;
-    alt?: string;
-    title?: string;
-    [key: string]: unknown;
-}
+import type { Photo as PhotoDto } from "../types/api";
+import type { FetchClient } from "../utils/fetch";
+import { ApiService, apiClient } from "./api";
 
-export default class PhotoService {
-    getImages(): Promise<Photo[]> {
-        return fetch('demo/data/photos.json')
-            .then((res) => res.json())
-            .then((d) => d.data as Photo[]);
-    }
+export type Photo = PhotoDto;
+
+/** Demo-only fixture endpoint served by DemoDataController. */
+export default class PhotoService extends ApiService<Photo> {
+  constructor(client: FetchClient = apiClient) {
+    super(client, "/demo/photos");
+  }
+
+  getImages(): Promise<Photo[]> {
+    return this.list();
+  }
 }

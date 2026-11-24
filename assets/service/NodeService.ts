@@ -1,22 +1,25 @@
+import type { FetchClient } from "../utils/fetch";
+import { ApiService, apiClient } from "./api";
+
 export interface TreeNodeData {
-    key?: string;
-    label?: string;
-    data?: Record<string, unknown>;
-    icon?: string;
-    children?: TreeNodeData[];
-    [key: string]: unknown;
+  key?: string;
+  label?: string;
+  data?: Record<string, unknown>;
+  icon?: string;
+  children?: TreeNodeData[];
 }
 
-export default class NodeService {
-    getTreeTableNodes(): Promise<TreeNodeData[]> {
-        return fetch('demo/data/treetablenodes.json')
-            .then((res) => res.json())
-            .then((d) => d.root as TreeNodeData[]);
-    }
+/** Demo-only fixture endpoints served by DemoDataController. */
+export default class NodeService extends ApiService<TreeNodeData & { id?: string }> {
+  constructor(client: FetchClient = apiClient) {
+    super(client, "/demo/tree-nodes");
+  }
 
-    getTreeNodes(): Promise<TreeNodeData[]> {
-        return fetch('demo/data/treenodes.json')
-            .then((res) => res.json())
-            .then((d) => d.root as TreeNodeData[]);
-    }
+  getTreeNodes(): Promise<TreeNodeData[]> {
+    return this.listFrom("/demo/tree-nodes");
+  }
+
+  getTreeTableNodes(): Promise<TreeNodeData[]> {
+    return this.listFrom("/demo/tree-table-nodes");
+  }
 }

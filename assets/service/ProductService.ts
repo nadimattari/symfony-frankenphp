@@ -1,30 +1,25 @@
-export interface Product {
-    id?: string | number;
-    name?: string;
-    image?: string;
-    price?: number;
-    category?: string;
-    rating?: number;
-    inventoryStatus?: string;
-    [key: string]: unknown;
-}
+import type { Product as ProductDto } from "../types/api";
+import type { FetchClient } from "../utils/fetch";
+import { ApiService, apiClient } from "./api";
 
-export default class ProductService {
-    getProductsSmall(): Promise<Product[]> {
-        return fetch('demo/data/products-small.json')
-            .then((res) => res.json())
-            .then((d) => d.data as Product[]);
-    }
+/** Re-exported so existing views can import the DTO from the service. */
+export type Product = ProductDto;
 
-    getProducts(): Promise<Product[]> {
-        return fetch('demo/data/products.json')
-            .then((res) => res.json())
-            .then((d) => d.data as Product[]);
-    }
+/** Demo-only fixture endpoints served by DemoDataController. */
+export default class ProductService extends ApiService<Product> {
+  constructor(client: FetchClient = apiClient) {
+    super(client, "/demo/products");
+  }
 
-    getProductsWithOrdersSmall(): Promise<Product[]> {
-        return fetch('demo/data/products-orders-small.json')
-            .then((res) => res.json())
-            .then((d) => d.data as Product[]);
-    }
+  getProducts(): Promise<Product[]> {
+    return this.list();
+  }
+
+  getProductsSmall(): Promise<Product[]> {
+    return this.listFrom("/demo/products-small");
+  }
+
+  getProductsWithOrdersSmall(): Promise<Product[]> {
+    return this.listFrom("/demo/products-orders-small");
+  }
 }
