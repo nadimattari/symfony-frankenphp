@@ -259,15 +259,17 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Tasks 20–22, 26
   - Scope: M
 
-- [ ] Task 28: Verify auth and document risk
+- [x] Task 28: Verify auth and document risk
   - Acceptance: login, refresh rotation/revocation, logout, CSRF, and XSS risk documented; no secrets in repo.
+  - Notes 2026-11-24: added a "Verification and residual risk (2026-11-24)" section to ADR 0003 recording the backend test suite, real HTTP flow, browser smoke, secret checks, and a risk register covering accepted XSS exposure (no CSP configured yet), missing auth rate limiting, non-revocable access tokens, dev-only API Platform docs, SPA deep-link rewrite requirement, dev dependency advisories, and test-env secret provisioning. README now documents the four endpoints, per-environment key generation, `ACCESS_TOKEN_TTL`, the `test:fetch` gate, and links ADR 0003.
+  - Verified 2026-11-24: PHPUnit `OK (22 tests, 88 assertions)`; frontend `test:fetch` 35/35, typecheck clean, build OK with the known postcss warning, lint 0 errors / 2576 warnings; browser smoke of login/validation/bad credentials/refresh/logout/protected route with zero console errors. `npm audit --omit=dev` → 0 vulnerabilities; full audit → 44 dev-toolchain findings (3 critical, 20 high, 16 moderate, 5 low), documented as an open risk. Secret scan: no passphrase or license-key values in tracked files, no `JWT_PASSPHRASE=` in any commit, and `config/jwt/`, `.env.local`, `.env.test.local` all gitignored.
   - Verify: end-to-end smoke; secret scan.
-  - Files: `README.md`, ADR 0003
+  - Files: `README.md`, `docs/adr/0003-auth-architecture.md`
   - Dependencies: Task 27
   - Scope: S
 
 **Checkpoint: Auth**
-- [ ] Full auth flow works; token storage decision implemented and documented
+- [x] Full auth flow works; token storage decision implemented and documented
 
 ## Phase 6 — Mail backend
 

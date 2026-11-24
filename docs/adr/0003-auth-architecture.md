@@ -78,6 +78,27 @@ Constraints:
 - Key generation, `.env.local` setup and gitignore rules are part of Task 26; forgetting them must fail the "no secrets in git" check in Task 28.
 - `/api/demo/*` stays public so the demo fixtures keep working without authentication.
 
+## Verification and residual risk (2026-11-24)
+
+Tasks 26–27 are implemented and the flow was verified at three levels:
+
+- **Backend functional tests:** `OK (22 tests, 88 assertions)`. They cover login (JWT shape, cookie attributes, disabled user, bad credentials), refresh rotation and replay rejection, CSRF rejection, unknown refresh token, logout revocation and cookie clearing, bearer auth on `/api/me`, and API Platform docs returning 404 outside dev.
+- **Real HTTP flow against the dev stack:** login → 3-segment RS256 JWT plus `refresh_token` with `httponly; samesite=strict; path=/api` and a readable `csrf` cookie; `/api/me` with the bearer token → user JSON; refresh → rotated cookies and a new JWT; logout → 204; refresh after logout → 401. `/api/docs` returns 200 in dev and has no route in test.
+- **Browser smoke at `http://localhost:8180/`:** logged-out navigation to `/pages/crud` redirects to `/auth/login?redirect=/pages/crud`; empty submit and bad credentials show their respective errors without storing a token; login stores `token`/`user`/`roles` and returns to `/pages/crud` with the demo table rendered; refresh using the readable CSRF cookie and `X-CSRF-Token` header succeeds in the browser without touching localStorage; the topbar Logout call returns 204, clears storage and cookies and returns to the login page; refresh afterwards returns 401. No console errors after fixing the topbar logo's relative URL.
+- **Secret checks:** `git check-ignore` confirms `config/jwt/`, `.env.local` and `.env.test.local` are ignored; `git log --all -S'JWT_PASSPHRASE='` finds no committed passphrase; no `JWT_PASSPHRASE` or `PRIMEUI_LICENSE_KEY` value appears in tracked files. The dev smoke user is local database state, not committed seed data.
+
+Risk register at sign-off — these are known gaps, not blockers for this starter:
+
+| Risk | Status | Mitigation / follow-up |
+|------|--------|------------------------|
+| Access-token theft via XSS | Accepted | Token lives in `localStorage`; short 3600s TTL, no inline scripts beyond Twig globals, no `eval`, vetted dependencies. **No CSP is configured yet** — adding one is a prerequisite before exposing the SPA to untrusted content. |
+| No rate limiting on `/api/login` or refresh | Open | Repeated credential attempts and refresh abuse are currently unbounded. Add Symfony login throttling backed by the shared cache before production. |
+| Stolen access token stays valid until expiry | Accepted | The stateless JWT cannot be revoked individually; logout revokes only the refresh token. Keep TTL short and move to httpOnly cookies (new ADR) if immediate revocation is required. |
+| Dev-only API Platform routes | Mitigated | All API Platform routes are registered under `when@dev` and `enable_docs: false` is the base config; `/api/demo/*` remains intentionally public for fixtures. |
+| SPA deep links | Open | The dev server serves only `/`, so `/auth/login` and `/pages/*` load through client-side navigation. A real deployment needs a host rewrite to `index.php`, otherwise direct links 404. |
+| Dependency advisories | Open | `npm audit --omit=dev` reports 0 vulnerabilities. The full dev/build toolchain reports 44 (3 critical, 20 high, 16 moderate, 5 low); triage by reachability before production, without forced upgrades. |
+| Test-environment secrets | Mitigated | PHPUnit boots the `.env` chain and reads the passphrase from gitignored `.env.test.local`; CI must provision that file (or an equivalent environment variable) before running tests. |
+
 ## Revisit
 
 Re-evaluate the `localStorage` trade-off when any of the following changes:

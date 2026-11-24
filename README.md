@@ -45,6 +45,7 @@ Run frontend commands in `sf-node` (Node 20); the host does not need Node or npm
 | Watch JS/CSS | `docker compose exec sf-node npm run watch` |
 | Production asset build | `docker compose exec sf-node npm run build` |
 | Typecheck (`vue-tsc --noEmit`) | `docker compose exec sf-node npm run typecheck` |
+| Frontend service/guard tests | `docker compose exec sf-node npm run test:fetch` |
 | Lint (`eslint`) | `docker compose exec sf-node npm run lint` |
 | Run tests | `docker compose exec -e APP_ENV=test sf-php vendor/bin/simple-phpunit` |
 
@@ -52,8 +53,9 @@ Run the frontend gates in order before committing asset changes:
 
 ```bash
 docker compose exec sf-node npm ci
-docker compose exec sf-node npm run build
+docker compose exec sf-node npm run test:fetch
 docker compose exec sf-node npm run typecheck
+docker compose exec sf-node npm run build
 docker compose exec sf-node npm run lint
 ```
 
@@ -68,6 +70,29 @@ PRIMEUI_LICENSE_KEY=your-key-here
 ```
 
 The container defines an empty default for this variable, so an unset key does not break tests. The key is exposed to the frontend through Twig and may appear in the built JavaScript bundle; that is expected for PrimeUI licenses. Do not commit it. The held Community key has 4 seats and must be renewed before **2027-11-14**. With an empty key, PrimeUI logs `[PrimeUI] PrimeUI license is not configured.` and displays an `Invalid PrimeUI License` banner. An invalid key shows the same banner; add the real key to `.env.local` to clear it.
+
+### Authentication
+
+The SPA uses a short-lived RS256 access token in `localStorage` and an opaque refresh token in an httpOnly cookie. Endpoints:
+
+| Endpoint | Purpose |
+|----------|---------|
+| `POST /api/login` | JSON `{username, password}` → `{token, expiresIn, data:{name, roles}}`, sets refresh + CSRF cookies |
+| `POST /api/token/refresh` | Requires the refresh cookie and `X-CSRF-Token`; rotates both cookies and returns a new token |
+| `POST /api/logout` | Revokes the refresh token, clears cookies, returns 204 |
+| `GET /api/me` | Bearer-authenticated example endpoint |
+
+Set up keys per environment (never commit them):
+
+```bash
+docker compose exec -T sf-php php bin/console lexik:jwt:generate-keypair
+# put the passphrase in gitignored .env.local (JWT_PASSPHRASE=...)
+# CI/tests likewise need gitignored .env.test.local or an equivalent env var
+```
+
+`ACCESS_TOKEN_TTL` defaults to 3600 seconds. API Platform docs are registered only in `dev`; other `/api` routes require `ROLE_USER`, except the intentionally public `/api/demo/*` fixtures. The dev server only serves `/`, so SPA routes such as `/auth/login` and `/pages/crud` work through client-side navigation; a real deployment needs a host rewrite to `index.php` for direct links.
+
+The accepted XSS trade-off, verification results and residual risks (no CSP yet, no auth rate limiting, non-revocable access tokens, dev dependency advisories) are recorded in [ADR 0003](docs/adr/0003-auth-architecture.md). Do not expose this authentication setup to untrusted content until those items are resolved.
 
 ## Services
 
@@ -95,5 +120,6 @@ Production exposes **only** ports 80 and 443. The database and Mailpit are not p
 ## Notes
 
 - Webpack Encore is in maintenance mode. Symfony Reprise is the modern replacement but requires PHP 8.4+, Node 22.18+/24.11+ and Symfony 7.4 or 8; this project stays on Symfony 7.4 LTS / PHP 8.2 / Node 20 for now. Re-evaluation is tracked in ADR 0001 and Task 35.
+- Authentication decisions, verification results and residual risks are in ADR 0003 (`docs/adr/0003-auth-architecture.md`).
 - FrankenPHP worker mode is enabled in production via `docker/caddy/Caddyfile.prod`.
 - Production HTTPS currently uses Caddy's internal CA (`tls internal`). Replace it with a publicly-trusted certificate (or a real domain) before deploying.
