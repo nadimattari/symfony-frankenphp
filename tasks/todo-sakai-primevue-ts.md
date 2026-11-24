@@ -26,10 +26,10 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 ## Phase 1 — Tooling foundation
 
-- [ ] Task 3: Update frontend dependencies
+- [x] Task 3: Update frontend dependencies
   - Acceptance: `primevue@5.0.5`, `@primeuix/themes`, `tailwindcss@^4`, `@tailwindcss/postcss`, `tailwindcss-primeui`, `postcss`, `pinia`, `vue-tsc`, TS ESLint packages installed; `primeflex` and `@babel/*` legacy packages removed if unused; lockfile updated.
-  - Verify: `docker compose exec sf-node npm ci && npm run build`
-  - Files: `package.json`, `package-lock.json`
+  - Verified 2026-11-24: `npm ci`, `npm run build` and `npm run typecheck` pass. Keeping Encore 4 requires ESLint 8.57.1 (Encore peer is `^8`) and postcss-loader 8 with Encore bumped to 4.7.0. PrimeVue 5 removed several v3 modules, so the current entry now maps removed components/directives to v5 equivalents and `primevue/api` imports moved to `@primevue/core/api`; these aliases are temporary until the Sakai port replaces them. `primeflex` and `@babel/*` remain because PrimeFlex classes are still used by current templates and Encore 4 declares Babel as a peer.
+  - Files: `package.json`, `package-lock.json`, `assets/app.js`, `assets/views/pages/Crud.vue`, `assets/views/uikit/Table.vue`
   - Dependencies: Task 2
   - Scope: M
 
