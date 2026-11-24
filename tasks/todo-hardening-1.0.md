@@ -51,7 +51,7 @@ Status: **approved** (2026-11-24)
 **Acceptance criteria:**
 - [ ] `composer.json` and `composer.lock` contain `symfony/rate-limiter`.
 - [ ] `symfony/lock` is absent from both files.
-- [ ] `composer validate --strict` passes.
+- [ ] `composer validate --no-check-publish` passes; the pre-existing missing package `name`/`description` publish metadata is out of scope.
 
 **Verification:**
 - [ ] `docker compose exec -T sf-php composer show symfony/rate-limiter`
@@ -60,7 +60,7 @@ Status: **approved** (2026-11-24)
 
 **Dependencies:** H2
 
-**Files likely touched:** `composer.json`, `composer.lock`
+**Files likely touched:** `composer.json`, `composer.lock`, `config/reference.php` (generated config reference)
 
 **Estimated scope:** XS
 

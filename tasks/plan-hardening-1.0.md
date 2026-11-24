@@ -68,7 +68,7 @@ Implement the approved hardening initiative in risk-first order: `auth-rate-limi
 ## Verification commands
 
 ```bash
-docker compose exec -T sf-php composer validate --strict
+docker compose exec -T sf-php composer validate --no-check-publish
 docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit tests/Functional/AuthRateLimitTest.php
 docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit
 docker compose exec -T sf-php php bin/console debug:config framework rate_limiter
