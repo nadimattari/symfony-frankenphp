@@ -23,28 +23,28 @@ Implement the approved hardening initiative in risk-first order: `auth-rate-limi
 
 ### Phase 1: Auth rate limiting (detailed in this plan)
 
-- [ ] H1 — Record approved specs and create the working branch
-- [ ] H2 — RED: add `AuthRateLimitTest.php` for the 429 contract
-- [ ] H3 — Install `symfony/rate-limiter`
-- [ ] H4 — Configure the shared DBAL pool and named refresh/logout limiters
-- [ ] H5 — Enable login throttling and JSON 429 for login
-- [ ] H6 — Consume refresh/logout limiters in `TokenController`
+- [x] H1 — Record approved specs and create the working branch
+- [x] H2 — RED: add `AuthRateLimitTest.php` for the 429 contract
+- [x] H3 — Install `symfony/rate-limiter`
+- [x] H4 — Configure the shared DBAL pool and named refresh/logout limiters
+- [x] H5 — Enable login throttling and JSON 429 for login
+- [x] H6 — Consume refresh/logout limiters in `TokenController`
 
 ### Checkpoint: Auth behaviour complete
 
-- [ ] Focused `AuthRateLimitTest.php` passes
-- [ ] Full `simple-phpunit` suite passes with no regressions
-- [ ] `debug:config` shows the approved limits and DBAL pool
-- [ ] Manual HTTP smoke confirms 429 + `Retry-After` on the 11th login and 31st refresh/logout
+- [x] Focused `AuthRateLimitTest.php` passes
+- [x] Full `simple-phpunit` suite passes with no regressions
+- [x] `debug:config` shows the approved limits and DBAL pool
+- [x] Manual HTTP smoke confirms 429 + `Retry-After` on the 11th login and 31st refresh/logout
 
 ### Phase 2: Close the auth module
 
-- [ ] H7 — Update ADR 0003 and README; run secret/full-gate checks
+- [x] H7 — Update ADR 0003 and README; run secret/full-gate checks
 - [ ] H8 — Merge the auth increment back to `main` locally
 
 ### Checkpoint: Auth module merged
 
-- [ ] Clean working tree except explicitly identified pre-existing formatting changes
+- [ ] Clean working tree (the pre-existing markdown formatting cleanup was committed separately before this branch)
 - [ ] No `symfony/lock`, no committed secret, no weakened existing auth test
 - [ ] Human review of the merged diff
 

@@ -89,9 +89,11 @@ docker compose exec -T sf-php php bin/console lexik:jwt:generate-keypair
 # CI/tests likewise need gitignored .env.test.local or an equivalent env var
 ```
 
-`ACCESS_TOKEN_TTL` defaults to 3600 seconds. API Platform docs are registered only in `dev`; other `/api` routes require `ROLE_USER`, except the intentionally public `/api/demo/*` fixtures. The dev server only serves `/`, so SPA routes such as `/auth/login` and `/pages/crud` work through client-side navigation; a real deployment needs a host rewrite to `index.php` for direct links.
+`ACCESS_TOKEN_TTL` defaults to 3600 seconds. Authentication endpoints are rate limited: `/api/login` allows 10 failed attempts per 15 minutes per IP + username (plus a broader IP-wide counter), while `/api/token/refresh` and `/api/logout` each allow 30 attempts per 15 minutes per hashed client IP. Counters live in the MariaDB-backed `cache.rate_limiter` pool so all PHP workers share them. Exceeding a limit returns `429` JSON with `Retry-After` and rate-limit headers. This is application-level abuse protection, not DoS protection.
 
-The accepted XSS trade-off, verification results and residual risks (no CSP yet, no auth rate limiting, non-revocable access tokens, dev dependency advisories) are recorded in [ADR 0003](docs/adr/0003-auth-architecture.md). Do not expose this authentication setup to untrusted content until those items are resolved.
+API Platform docs are registered only in `dev`; other `/api` routes require `ROLE_USER`, except the intentionally public `/api/demo/*` fixtures. The dev server only serves `/`, so SPA routes such as `/auth/login` and `/pages/crud` work through client-side navigation; a real deployment needs a host rewrite to `index.php` for direct links.
+
+The accepted XSS trade-off, verification results and residual risks (no CSP yet, non-revocable access tokens, dev dependency advisories) are recorded in [ADR 0003](docs/adr/0003-auth-architecture.md). Do not expose this authentication setup to untrusted content until those items are resolved.
 
 ### Mail
 

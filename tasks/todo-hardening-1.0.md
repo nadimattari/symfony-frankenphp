@@ -11,14 +11,14 @@ Status: **approved** (2026-11-24)
 **Description:** After plan approval, mark the capability map and auth spec as approved, create `feature/auth-rate-limiting` from the current local `main`, and commit only the approved docs plus the new plan/task files.
 
 **Acceptance criteria:**
-- [ ] Both spec status lines say approved with the 2026-11-24 date.
-- [ ] Branch is `feature/auth-rate-limiting`; `fff99fe` remains in history with no rewrite.
-- [ ] No pre-existing markdown formatting-only change is staged without explicit permission.
+- [x] Both spec status lines say approved with the 2026-11-24 date.
+- [x] Branch is `feature/auth-rate-limiting`; `fff99fe` remains in history with no rewrite.
+- [x] No pre-existing markdown formatting-only change is staged without explicit permission.
 
 **Verification:**
-- [ ] `git branch --show-current`
-- [ ] `git diff --check`
-- [ ] `git status --short`
+- [x] `git branch --show-current`
+- [x] `git diff --check`
+- [x] `git status --short`
 
 **Dependencies:** None
 
@@ -31,12 +31,12 @@ Status: **approved** (2026-11-24)
 **Description:** Write `AuthRateLimitTest.php` before any production/config change. Cover login exhaustion, refresh exhaustion, logout exhaustion, generic JSON/no credential echo, `Retry-After`, and a successful login after clearing the limiter pool. Clear `cache.rate_limiter` in `setUp()`.
 
 **Acceptance criteria:**
-- [ ] Tests fail against the current code because no 429 is produced.
-- [ ] No limiter service is mocked; the real test DB and cache pool are used.
-- [ ] Test names describe the observable behaviour.
+- [x] Tests fail against the current code because no 429 is produced.
+- [x] No limiter service is mocked; the real test DB and cache pool are used.
+- [x] Test names describe the observable behaviour.
 
 **Verification:**
-- [ ] Focused command fails for the expected missing-behaviour reason: `docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit tests/Functional/AuthRateLimitTest.php`
+- [x] Focused command fails for the expected missing-behaviour reason: `docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit tests/Functional/AuthRateLimitTest.php`
 
 **Dependencies:** H1
 
@@ -49,14 +49,14 @@ Status: **approved** (2026-11-24)
 **Description:** Add the missing Composer component and regenerate the lock file without adding `symfony/lock`.
 
 **Acceptance criteria:**
-- [ ] `composer.json` and `composer.lock` contain `symfony/rate-limiter`.
-- [ ] `symfony/lock` is absent from both files.
-- [ ] `composer validate --no-check-publish` passes; the pre-existing missing package `name`/`description` publish metadata is out of scope.
+- [x] `composer.json` and `composer.lock` contain `symfony/rate-limiter`.
+- [x] `symfony/lock` is absent from both files.
+- [x] `composer validate --no-check-publish` passes; the pre-existing missing package `name`/`description` publish metadata is out of scope.
 
 **Verification:**
-- [ ] `docker compose exec -T sf-php composer show symfony/rate-limiter`
-- [ ] `grep -n 'symfony/lock' composer.json composer.lock` finds nothing
-- [ ] Existing auth tests still pass
+- [x] `docker compose exec -T sf-php composer show symfony/rate-limiter`
+- [x] `grep -n 'symfony/lock' composer.json composer.lock` finds nothing
+- [x] Existing auth tests still pass
 
 **Dependencies:** H2
 
@@ -69,13 +69,13 @@ Status: **approved** (2026-11-24)
 **Description:** Configure `cache.rate_limiter` on Doctrine DBAL with a stable prefix seed, and add `auth_refresh` / `auth_logout` fixed-window limiters at 30 attempts per 15 minutes.
 
 **Acceptance criteria:**
-- [ ] `debug:config framework cache` shows the DBAL provider and pool.
-- [ ] `debug:config framework rate_limiter` shows both named limiters with 30/15m.
-- [ ] The test pool can be cleared and written without a manual migration.
+- [x] `debug:config framework cache` shows the DBAL provider and pool.
+- [x] `debug:config framework rate_limiter` shows both named limiters with 30/15m.
+- [x] The test pool can be cleared and written without a manual migration.
 
 **Verification:**
-- [ ] Config dump commands from the plan
-- [ ] Focused test still RED only on missing 429 behaviour, not on container errors
+- [x] Config dump commands from the plan
+- [x] Focused test still RED only on missing 429 behaviour, not on container errors
 
 **Dependencies:** H3
 
@@ -88,13 +88,13 @@ Status: **approved** (2026-11-24)
 **Description:** Add `login_throttling` to the `main` firewall and a Lexik authentication-failure subscriber that converts only `TooManyLoginAttemptsAuthenticationException` into the approved generic 429 JSON with `Retry-After`/rate-limit headers.
 
 **Acceptance criteria:**
-- [ ] `debug:config security firewalls` shows 10 attempts / 15 minutes on `cache.rate_limiter`, `lock_factory: null`.
-- [ ] The 11th bad login returns 429 JSON with `Retry-After`; no username/password is echoed.
-- [ ] Existing login success and bad-credential 401 behaviour is unchanged before the limit is reached.
+- [x] `debug:config security firewalls` shows 10 attempts / 15 minutes on `cache.rate_limiter`, `lock_factory: null`.
+- [x] The 11th bad login returns 429 JSON with `Retry-After`; no username/password is echoed.
+- [x] Existing login success and bad-credential 401 behaviour is unchanged before the limit is reached.
 
 **Verification:**
-- [ ] Focused login tests pass
-- [ ] `AuthFlowTest.php` remains green
+- [x] Focused login tests pass
+- [x] `AuthFlowTest.php` remains green
 
 **Dependencies:** H4
 
@@ -107,13 +107,13 @@ Status: **approved** (2026-11-24)
 **Description:** Inject `#[Target]`ed limiter factories, consume them at the start of refresh/logout with the hashed client IP key, and return the same 429 JSON contract when rejected.
 
 **Acceptance criteria:**
-- [ ] 31st refresh and 31st logout requests return 429 + `Retry-After`.
-- [ ] Valid refresh/logout still returns 200/204 with cookies unchanged.
-- [ ] Invalid cookie/CSRF responses keep their existing 401/403 status before the limit is reached.
+- [x] 31st refresh and 31st logout requests return 429 + `Retry-After`.
+- [x] Valid refresh/logout still returns 200/204 with cookies unchanged.
+- [x] Invalid cookie/CSRF responses keep their existing 401/403 status before the limit is reached.
 
 **Verification:**
-- [ ] Focused `AuthRateLimitTest.php` passes
-- [ ] Full `simple-phpunit` suite passes
+- [x] Focused `AuthRateLimitTest.php` passes
+- [x] Full `simple-phpunit` suite passes
 
 **Dependencies:** H5
 
@@ -123,26 +123,26 @@ Status: **approved** (2026-11-24)
 
 ## Checkpoint: Auth behaviour complete
 
-- [ ] Focused and full PHPUnit commands pass
-- [ ] `debug:config` commands show the approved values
-- [ ] Manual HTTP smoke confirms 429 + `Retry-After` on the 11th login and 31st refresh/logout
-- [ ] Each H2–H6 slice was committed separately
+- [x] Focused and full PHPUnit commands pass
+- [x] `debug:config` commands show the approved values
+- [x] Manual HTTP smoke confirms 429 + `Retry-After` on the 11th login and 31st refresh/logout
+- [x] Each H2–H6 slice was committed separately
 
 ## Phase 2: Close the auth module
 
 ### H7 — Update ADR 0003 and README; run secret/full-gate checks
 
-**Description:** Mark the rate-limit risk mitigated in ADR 0003, document the limits and 429 behaviour in README, update task statuses, and verify no secret or credential appears in the diff. Leave the pre-existing markdown formatting-only changes unstaged unless the user approves them separately.
+**Description:** Mark the rate-limit risk mitigated in ADR 0003, document the limits and 429 behaviour in README, update task statuses, and verify no secret or credential appears in the diff. The pre-existing markdown formatting cleanup was committed separately before this branch, as approved.
 
 **Acceptance criteria:**
-- [ ] ADR 0003 records 10/15m login, 30/15m refresh/logout, DBAL-backed counters, JSON 429 and accepted trade-offs.
-- [ ] README no longer says auth rate limiting is missing.
-- [ ] Secret scan reports no staged file containing secret/token/password values.
+- [x] ADR 0003 records 10/15m login, 30/15m refresh/logout, DBAL-backed counters, JSON 429 and accepted trade-offs.
+- [x] README no longer says auth rate limiting is missing.
+- [x] Secret scan reports no staged file containing secret/token/password values.
 
 **Verification:**
-- [ ] `git diff --check`
-- [ ] `git diff --staged -i -G'password|secret|api_key|token|PRIMEUI_LICENSE_KEY|JWT_PASSPHRASE' --name-only`
-- [ ] Full `simple-phpunit` suite passes
+- [x] `git diff --check`
+- [x] `git diff --staged -i -G'password|secret|api_key|token|PRIMEUI_LICENSE_KEY|JWT_PASSPHRASE' --name-only`
+- [x] Full `simple-phpunit` suite passes
 
 **Dependencies:** H6
 
@@ -156,7 +156,7 @@ Status: **approved** (2026-11-24)
 
 **Acceptance criteria:**
 - [ ] `main` contains all H1–H7 commits with no force-push.
-- [ ] Working tree is clean except explicitly identified pre-existing formatting changes.
+- [ ] Working tree is clean (the formatting cleanup was committed before this branch).
 - [ ] No uncommitted production code remains.
 
 **Verification:**
