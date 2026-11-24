@@ -204,7 +204,7 @@ const onDarkModeChange = (value: boolean) => {
 
             <section class="py-4 flex align-items-center justify-content-between border-bottom-1 surface-border">
                 <span class="text-xl font-semibold">Dark Mode</span>
-                <InputSwitch :modelValue="layoutConfig.darkTheme.value" @update:modelValue="onDarkModeChange" />
+                <ToggleSwitch :modelValue="layoutConfig.darkTheme.value" @update:modelValue="onDarkModeChange" />
             </section>
 
             <template v-if="!simple">
@@ -258,7 +258,7 @@ const onDarkModeChange = (value: boolean) => {
 
             <section class="py-4 flex align-items-center justify-content-between border-bottom-1 surface-border">
                 <span class="text-xl font-semibold">Ripple Effect</span>
-                <InputSwitch :modelValue="layoutConfig.ripple.value" @update:modelValue="onRippleChange" />
+                <ToggleSwitch :modelValue="layoutConfig.ripple.value" @update:modelValue="onRippleChange" />
             </section>
         </div>
     </Sidebar>

@@ -72,7 +72,7 @@ const searchCountry = (event: { query: string }): void => {
             </div>
             <div class="field col-12 md:col-4">
                 <FloatLabel>
-                    <Calendar inputId="calendar" v-model="value3"></Calendar>
+                    <DatePicker inputId="calendar" v-model="value3"></DatePicker>
                     <label for="calendar">Calendar</label>
                 </FloatLabel>
             </div>
@@ -107,7 +107,7 @@ const searchCountry = (event: { query: string }): void => {
             </div>
             <div class="field col-12 md:col-4">
                 <FloatLabel>
-                    <Dropdown id="dropdown" :options="cities" v-model="value8" optionLabel="name"></Dropdown>
+                    <Select id="dropdown" :options="cities" v-model="value8" optionLabel="name"></Select>
                     <label for="dropdown">Dropdown</label>
                 </FloatLabel>
             </div>

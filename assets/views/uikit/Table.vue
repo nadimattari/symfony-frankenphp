@@ -204,7 +204,7 @@ const calculateCustomerTotal = (name: string): number => {
                             {{ formatDate((slotProps as any).data.date) }}
                         </template>
                         <template #filter="slotProps">
-                            <Calendar v-model="(slotProps as any).filterModel.value" dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" />
+                            <DatePicker v-model="(slotProps as any).filterModel.value" dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" />
                         </template>
                     </Column>
                     <Column header="Balance" filterField="balance" dataType="numeric" style="min-width: 10rem">
@@ -220,7 +220,7 @@ const calculateCustomerTotal = (name: string): number => {
                             <Tag :severity="getSeverity((slotProps as any).data.status)">{{ (slotProps as any).data.status.toUpperCase() }}</Tag>
                         </template>
                         <template #filter="slotProps">
-                            <Dropdown v-model="(slotProps as any).filterModel.value" :options="statuses" placeholder="Any" class="p-column-filter" :showClear="true">
+                            <Select v-model="(slotProps as any).filterModel.value" :options="statuses" placeholder="Any" class="p-column-filter" :showClear="true">
                                 <template #value="slotProps">
                                     <Tag :severity="getSeverity((slotProps as any).value)" v-if="(slotProps as any).value">{{ (slotProps as any).value }} </Tag>
                                     <span v-else>{{ (slotProps as any).placeholder }}</span>
@@ -228,7 +228,7 @@ const calculateCustomerTotal = (name: string): number => {
                                 <template #option="slotProps">
                                     <Tag :severity="getSeverity((slotProps as any).option)">{{ (slotProps as any).option.toUpperCase() }}</Tag>
                                 </template>
-                            </Dropdown>
+                            </Select>
                         </template>
                     </Column>
                     <Column field="activity" header="Activity" :showFilterMatchModes="false" style="min-width: 12rem">

@@ -241,7 +241,7 @@ const initFilters = (): void => {
 
                     <div class="field">
                         <label for="inventoryStatus" class="mb-3">Inventory Status</label>
-                        <Dropdown id="inventoryStatus" v-model="product.inventoryStatus" :options="statuses" optionLabel="label" placeholder="Select a Status">
+                        <Select id="inventoryStatus" v-model="product.inventoryStatus" :options="statuses" optionLabel="label" placeholder="Select a Status">
                             <template #value="slotProps">
                                 <div v-if="(slotProps as any).value && (slotProps as any).value.value">
                                     <span :class="'product-badge status-' + (slotProps as any).value.value">{{ (slotProps as any).value.label }}</span>
@@ -253,7 +253,7 @@ const initFilters = (): void => {
                                     {{ (slotProps as any).placeholder }}
                                 </span>
                             </template>
-                        </Dropdown>
+                        </Select>
                     </div>
 
                     <div class="field">

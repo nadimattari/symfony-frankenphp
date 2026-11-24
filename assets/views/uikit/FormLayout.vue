@@ -113,7 +113,7 @@ const dropdownItem = ref<DropdownItem | null>(null);
                     </div>
                     <div class="field col-12 md:col-3">
                         <label for="state">State</label>
-                        <Dropdown id="state" v-model="dropdownItem" :options="dropdownItems" optionLabel="name" placeholder="Select One"></Dropdown>
+                        <Select id="state" v-model="dropdownItem" :options="dropdownItems" optionLabel="name" placeholder="Select One"></Select>
                     </div>
                     <div class="field col-12 md:col-3">
                         <label for="zip">Zip</label>

@@ -130,7 +130,7 @@ const searchCountry = (event: { query: string }): void => {
                 <AutoComplete placeholder="Search" id="dd" :dropdown="true" :multiple="true" v-model="selectedAutoValue" :suggestions="autoFilteredValue" @complete="searchCountry($event)" field="name" />
 
                 <h5>Calendar</h5>
-                <Calendar :showIcon="true" :showButtonBar="true" v-model="calendarValue"></Calendar>
+                <DatePicker :showIcon="true" :showButtonBar="true" v-model="calendarValue"></DatePicker>
 
                 <h5>Spinner</h5>
                 <InputNumber v-model="inputNumberValue" showButtons mode="decimal"></InputNumber>
@@ -209,7 +209,7 @@ const searchCountry = (event: { query: string }): void => {
                 </div>
 
                 <h5>Input Switch</h5>
-                <InputSwitch v-model="switchValue" />
+                <ToggleSwitch v-model="switchValue" />
             </div>
 
             <div class="card">
@@ -217,7 +217,7 @@ const searchCountry = (event: { query: string }): void => {
                 <Listbox v-model="listboxValue" :options="listboxValues" optionLabel="name" :filter="true" />
 
                 <h5>Dropdown</h5>
-                <Dropdown v-model="dropdownValue" :options="dropdownValues" optionLabel="name" placeholder="Select" />
+                <Select v-model="dropdownValue" :options="dropdownValues" optionLabel="name" placeholder="Select" />
 
                 <h5>MultiSelect</h5>
                 <MultiSelect v-model="multiselectValue" :options="multiselectValues" optionLabel="name" placeholder="Select Countries" :filter="true">

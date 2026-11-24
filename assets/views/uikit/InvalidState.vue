@@ -71,7 +71,7 @@ const searchCountry = (event: { query: string }): void => {
                         </div>
                         <div class="field">
                             <label for="calendar">Calendar</label>
-                            <Calendar id="calendar" v-model="value3" invalid :showIcon="true" />
+                            <DatePicker id="calendar" v-model="value3" invalid :showIcon="true" />
                         </div>
                         <div class="field">
                             <label for="chips">Chips</label>
@@ -94,7 +94,7 @@ const searchCountry = (event: { query: string }): void => {
                         </div>
                         <div class="field">
                             <label for="dropdown">Dropdown</label>
-                            <Dropdown id="dropdown" v-model="value7" :options="cities" optionLabel="name" invalid />
+                            <Select id="dropdown" v-model="value7" :options="cities" optionLabel="name" invalid />
                         </div>
                         <div class="field">
                             <label for="multiselect">MultiSelect</label>
