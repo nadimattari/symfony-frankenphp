@@ -12,15 +12,22 @@ export function createApiClient(): FetchClient {
       ? window.API_BASE_URL
       : "/api";
 
-  return new FetchClient({ baseUrl });
+  // Endpoints are relative to baseUrl so `/api/login` is requested exactly
+  // once, whether the base URL comes from window.API_BASE_URL or the default.
+  return new FetchClient({
+    baseUrl,
+    endpoints: {
+      login: "/login",
+      refresh: "/token/refresh",
+      logout: "/logout",
+    },
+  });
 }
 
 export const apiClient = createApiClient();
 
 /** Normalise `{ data }`, Hydra collections and bare arrays to a typed array. */
-export function collectionData<T>(
-  payload: ApiCollection<T> | T[] | null
-): T[] {
+export function collectionData<T>(payload: ApiCollection<T> | T[] | null): T[] {
   if (Array.isArray(payload)) {
     return payload;
   }
@@ -35,12 +42,12 @@ export function collectionData<T>(
 export class ApiService<T extends object> {
   constructor(
     protected readonly client: FetchClient,
-    protected readonly path: string
+    protected readonly path: string,
   ) {}
 
   protected listFrom(
     path: string,
-    query?: Record<string, QueryValue>
+    query?: Record<string, QueryValue>,
   ): Promise<T[]> {
     return this.client
       .get<ApiCollection<T> | T[]>(path, { query })

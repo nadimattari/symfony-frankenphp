@@ -198,10 +198,13 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 20
   - Scope: M
 
-- [ ] Task 22: Add Pinia stores
+- [x] Task 22: Add Pinia stores
   - Acceptance: `pinia.ts` installed in `app.ts`; `auth.ts` typed with roles and `localStorage` token; token storage decision documented.
+  - Decision 2026-11-24: `assets/store/pinia.ts` exports a single shared Pinia instance; `app.ts` installs it (instead of an inline `createPinia()`) and wires the Task 20 client with `apiClient.setAuthHooks()` — token get/set, refreshed payload and unauthorized logout all delegate to the typed `useAuthStore(pinia)`. `FetchClient` auth callbacks are late-bound via a new `setAuthHooks()` method, keeping the wrapper framework-agnostic. The store ports Lamiral's role model (`ROLE_ADMIN`, `ROLE_CASHIER`, `ROLE_USER`, `ROLE_CUSTOMER`, admin-authorises-all, isStaff/isCustomer), stores token/roles/user as JSON in `localStorage` and clears them on logout; the refresh token remains in an httpOnly Symfony cookie (backend in Tasks 25–28). `apiClient` now uses base-URL-relative auth endpoints so `/api/login` is not double-prefixed.
+  - Token storage decision / XSS risk: an access token in `localStorage` is readable by any XSS in the SPA; this is accepted for now (matching Lamiral Tier A) because no auth backend or refresh rotation exists yet. Mitigations to revisit in Task 28: strict CSP, no inline scripts, vetted dependencies, short JWT lifetime and rotating refresh cookies. Do not move the token into an httpOnly cookie without revisiting CSRF protection for API calls.
+  - Verified 2026-11-24: RED-first tests — three `node:test` store cases (login persistence/roles/admin authorisation, local-only logout, restore-from-storage) plus a late-bound-hook case; `npm run test:fetch` 18/18 pass. `npm run typecheck`, build, lint (0 errors, 2588 pre-existing formatter warnings) and PHPUnit (3 tests) pass. Browser smoke: SPA login shell renders (Email/Password/Remember me/Sign In, no console errors) and, after navigating back, `/pages/crud` still loads rows via `/api/demo/products` with no console errors.
   - Verify: typecheck; login/logout shell smoke.
-  - Files: `assets/store/pinia.ts`, `assets/store/auth.ts`, `assets/app.ts`
+  - Files: `assets/store/pinia.ts`, `assets/store/auth.ts`, `assets/app.ts`, `assets/utils/fetch.ts`, `assets/service/api.ts`, `tests/frontend/auth-store.test.cjs`, `tests/frontend/fetch.test.cjs`, `package.json`
   - Dependencies: Task 21
   - Scope: M
 

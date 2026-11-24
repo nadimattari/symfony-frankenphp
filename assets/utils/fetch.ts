@@ -32,6 +32,14 @@ export interface FetchClientOptions {
   onUnauthorized?: () => void;
 }
 
+/** Late-bound auth callbacks, supplied by the Pinia store at bootstrap. */
+export interface AuthHooks {
+  getToken?: () => string | null;
+  setToken?: (token: string | null) => void;
+  onRefreshed?: (payload: AuthResponse) => void;
+  onUnauthorized?: () => void;
+}
+
 const DEFAULT_ENDPOINTS: ApiEndpoints = {
   login: "/api/login",
   refresh: "/api/token/refresh",
@@ -101,10 +109,10 @@ export class FetchClient {
   private readonly credentials: RequestCredentials;
   private readonly defaultHeaders: Record<string, string>;
   private readonly fetchImpl: typeof fetch;
-  private readonly getToken: () => string | null;
-  private readonly setToken: (token: string | null) => void;
-  private readonly onRefreshed: (payload: AuthResponse) => void;
-  private readonly onUnauthorized: () => void;
+  private getToken: () => string | null;
+  private setToken: (token: string | null) => void;
+  private onRefreshed: (payload: AuthResponse) => void;
+  private onUnauthorized: () => void;
   private refreshInFlight: Promise<boolean> | null = null;
 
   constructor(options: FetchClientOptions = {}) {
@@ -119,6 +127,22 @@ export class FetchClient {
     this.setToken = options.setToken ?? (() => undefined);
     this.onRefreshed = options.onRefreshed ?? (() => undefined);
     this.onUnauthorized = options.onUnauthorized ?? (() => undefined);
+  }
+
+  /** Wire auth storage/callbacks after construction (e.g. once Pinia exists). */
+  setAuthHooks(hooks: AuthHooks): void {
+    if (hooks.getToken) {
+      this.getToken = hooks.getToken;
+    }
+    if (hooks.setToken) {
+      this.setToken = hooks.setToken;
+    }
+    if (hooks.onRefreshed) {
+      this.onRefreshed = hooks.onRefreshed;
+    }
+    if (hooks.onUnauthorized) {
+      this.onUnauthorized = hooks.onUnauthorized;
+    }
   }
 
   get<T>(path: string, options?: RequestOptions): Promise<T> {

@@ -154,6 +154,24 @@ test("non-2xx responses throw a typed ApiError with the extracted message", asyn
     await assert.rejects(() => plain.get("/products"), /Bad gateway/);
 });
 
+test("auth hooks can be wired after construction", async () => {
+    const calls = [];
+    const client = new FetchClient({
+        fetchImpl: async (url, init) => {
+            calls.push({ url, init });
+            return jsonResponse({ ok: true });
+        },
+    });
+
+    client.setAuthHooks({
+        getToken: () => "hooked-token",
+        setToken: () => undefined,
+    });
+    await client.get("/me");
+
+    assert.equal(calls[0].init.headers.Authorization, "Bearer hooked-token");
+});
+
 test("readCookie decodes cookie values and returns null when absent", () => {
     cookies = "csrf=a%20b; x=1";
     assert.equal(readCookie("csrf"), "a b");

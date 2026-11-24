@@ -138,9 +138,11 @@ import VirtualScroller       from 'primevue/virtualscroller';
 import BlockViewer from './components/BlockViewer.vue';
 
 import { createApp } from 'vue';
-import { createPinia } from 'pinia';
 import App from './App.vue';
+import { apiClient } from './service/api';
 import router from './router';
+import { useAuthStore } from './store/auth';
+import { pinia } from './store/pinia';
 
 const app = createApp(App);
 app.use(PrimeVue, {
@@ -163,7 +165,18 @@ app.use(PrimeVue, {
         }
     }
 });
-app.use(createPinia());
+app.use(pinia);
+
+// Bind the auth store to the shared fetch client after Pinia is installed.
+// The wrapper stays framework-agnostic; all storage/UI concerns live here.
+const authStore = useAuthStore(pinia);
+apiClient.setAuthHooks({
+    getToken: () => authStore.token,
+    setToken: (token) => authStore.saveToken(token),
+    onRefreshed: (payload) => authStore.applyAuthResponse(payload),
+    onUnauthorized: () => authStore.logout({ remote: false })
+});
+
 app.use(router);
 app.use(ToastService);
 app.use(DialogService);
