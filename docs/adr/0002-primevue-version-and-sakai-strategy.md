@@ -40,7 +40,7 @@ Full analysis: `docs/analysis-lamiral-sakai-upgrade.md`.
 4. Port **upstream Sakai Vue tag 5.0.0** (commit `ec6b6ef...`) onto the existing Encore setup, using TypeScript for all ported/new files. Keep a pristine upstream reference for the pinned tag; local TS/Encore/Tailwind adaptations are the fork.
 5. Keep **Webpack Encore** and add Tailwind 4 via PostCSS (`.enablePostCssLoader()` + `@tailwindcss/postcss`). Do not adopt Vite.
 6. Convert **all SFCs and all JS modules to TypeScript**, including demo/uikit views. Use `vue-tsc --noEmit` for SFC-aware typechecking; keep Encore's `enableTypeScriptLoader()` for transpilation only.
-7. Reuse from Lamiral: **Tier A frontend infrastructure plus the auth backend and the mail backend only**. Do not port report/invoice/pricing/Dropbox layers. Authentication uses a `localStorage` access token plus an httpOnly refresh cookie (Lamiral-style); this XSS exposure is an accepted trade-off. Mail uses the `MailRouter`/`MailRun*` lifecycle with Mailpit in dev.
+7. Reuse from Lamiral: **Tier A frontend infrastructure plus the auth backend and the mail backend only**. Do not port report/invoice/pricing/Dropbox layers. Authentication uses a `localStorage` access token plus an httpOnly refresh cookie (Lamiral-style); this XSS exposure is an accepted trade-off. The token lifecycle, data model and endpoint contract are recorded in ADR 0003. Mail uses the `MailRouter`/`MailRun*` lifecycle with Mailpit in dev.
 8. PrimeUI PRO Charts are **out of scope** (Community does not include them). The two core `Chart` usages in Sakai demo views must be replaced with direct Chart.js usage or removed, because core `Chart` is deprecated in v5 (removal planned for v6).
 
 ### License inventory (from PrimeUI Store, confirmed 2026-11-24)

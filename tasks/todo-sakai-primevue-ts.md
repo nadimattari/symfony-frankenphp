@@ -223,10 +223,11 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
 
 ## Phase 5 — Auth backend
 
-- [ ] Task 24: Auth architecture ADR
+- [x] Task 24: Auth architecture ADR
   - Acceptance: new ADR covers JWT, refresh-token rotation, entities, migrations, CSRF, security config, `localStorage`+refresh-cookie decision, and XSS risk acceptance.
+  - Notes 2026-11-24: added `docs/adr/0003-auth-architecture.md` following the existing `docs/adr/000N-*.md` convention and cross-referenced it from ADR 0002 decision 7. It records the RS256/Lexik access token (1h, bearer + `localStorage`), opaque 30-day refresh cookie (httpOnly/Secure/SameSite=Strict, SHA-256 hash at rest, rotation + revocation), `User`/`RefreshToken` entities and migration, the `csrf` double-submit cookie with `X-CSRF-Token`, the `/api/login`, `/api/token/refresh`, `/api/logout` contracts, stateless firewall/access-control rules, per-environment gitignored JWT keys, rejected alternatives, and the accepted XSS risk with mitigations and revisit triggers. Verified Lexik 3.2.0 supports PHP >=8.2 and Symfony 7.x via Composer metadata. No reference secrets were copied.
   - Verify: ADR committed and referenced from this task list.
-  - Files: `docs/adr/0003-auth-architecture.md`
+  - Files: `docs/adr/0003-auth-architecture.md`, `docs/adr/0002-primevue-version-and-sakai-strategy.md`
   - Dependencies: Task 1 decision (auth in scope)
   - Scope: S
 
