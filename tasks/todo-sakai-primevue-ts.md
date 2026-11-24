@@ -14,7 +14,7 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Scope: XS
 
 - [ ] Task 2: Add `PRIMEUI_LICENSE_KEY` env plumbing
-  - Acceptance: key read from env (gitignored `.env.local` for local dev), exposed to Twig and ready for frontend injection; no key value in tracked files; docs explain annual renewal and that the key may appear in the bundle.
+  - Acceptance: key read from env (gitignored `.env.local` for local dev), exposed to Twig and ready for frontend injection; no key value in tracked files; docs explain annual renewal, record the 2027-11-14 expiry (4 seats), and note that the key may appear in the bundle.
   - Verify: `git grep -i 'PRIMEUI' -- . ':!.env.local'` shows variable names only; app boots with placeholder in dev.
   - Files: `.env`, `config/services.yaml`, `templates/base.html.twig`, `README.md`
   - Dependencies: Task 1

@@ -42,6 +42,17 @@ Full analysis: `docs/analysis-lamiral-sakai-upgrade.md`.
 7. Reuse from Lamiral: **Tier A frontend infrastructure plus the auth backend and the mail backend only**. Do not port report/invoice/pricing/Dropbox layers. Authentication uses a `localStorage` access token plus an httpOnly refresh cookie (Lamiral-style); this XSS exposure is an accepted trade-off. Mail uses the `MailRouter`/`MailRun*` lifecycle with Mailpit in dev.
 8. PrimeUI PRO Charts are **out of scope** (Community does not include them). The two core `Chart` usages in Sakai demo views must be replaced with direct Chart.js usage or removed, because core `Chart` is deprecated in v5 (removal planned for v6).
 
+### License inventory (from PrimeUI Store, confirmed 2026-11-24)
+
+- Tier: **Community**
+- License type (as displayed): **dev**
+- Seats: **4**
+- Created: **2026-11-14**
+- Valid until: **2027-11-14** (12-month term; renew before this date to avoid a license notice)
+- Key: available in the store but intentionally not captured here — supply via `PRIMEUI_LICENSE_KEY` / `.env.local`
+
+The displayed type `dev` is treated as a store label, not a usage restriction: the official Community License explicitly permits commercial projects and unlimited applications/deployments. Confirm with PrimeTek if that label carries additional constraints.
+
 ## Alternatives considered
 
 ### Target PrimeVue 4.5.x first, then v5
