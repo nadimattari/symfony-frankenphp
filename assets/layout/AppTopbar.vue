@@ -75,24 +75,24 @@ function isOutsideClicked(event: Event): boolean {
             <span>SAKAI</span>
         </router-link>
 
-        <button class="p-link layout-menu-button layout-topbar-button" type="button" aria-label="Toggle menu" @click="toggleMenu">
+        <button class="bg-transparent border-0 cursor-pointer select-none text-left layout-menu-button layout-topbar-button" type="button" aria-label="Toggle menu" @click="toggleMenu">
             <i class="pi pi-bars"></i>
         </button>
 
-        <button class="p-link layout-topbar-menu-button layout-topbar-button" type="button" aria-label="Toggle user menu" @click="onTopBarMenuButton">
+        <button class="bg-transparent border-0 cursor-pointer select-none text-left layout-topbar-menu-button layout-topbar-button" type="button" aria-label="Toggle user menu" @click="onTopBarMenuButton">
             <i class="pi pi-ellipsis-v"></i>
         </button>
 
         <div class="layout-topbar-menu" :class="topbarMenuClasses">
-            <button type="button" class="p-link layout-topbar-button" @click="onTopBarMenuButton">
+            <button type="button" class="bg-transparent border-0 cursor-pointer select-none text-left layout-topbar-button" @click="onTopBarMenuButton">
                 <i class="pi pi-calendar"></i>
                 <span>Calendar</span>
             </button>
-            <button type="button" class="p-link layout-topbar-button" @click="onTopBarMenuButton">
+            <button type="button" class="bg-transparent border-0 cursor-pointer select-none text-left layout-topbar-button" @click="onTopBarMenuButton">
                 <i class="pi pi-user"></i>
                 <span>Profile</span>
             </button>
-            <button type="button" class="p-link layout-topbar-button" @click="onSettingsClick">
+            <button type="button" class="bg-transparent border-0 cursor-pointer select-none text-left layout-topbar-button" @click="onSettingsClick">
                 <i class="pi pi-cog"></i>
                 <span>Settings</span>
             </button>

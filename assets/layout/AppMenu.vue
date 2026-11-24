@@ -44,7 +44,7 @@ const model = ref<MenuItem[]>([
         path: '/utilities',
         items: [
             { label: 'PrimeIcons', icon: 'pi pi-fw pi-prime', to: '/utilities/icons' },
-            { label: 'PrimeFlex', icon: 'pi pi-fw pi-desktop', url: 'https://www.primefaces.org/primeflex/', target: '_blank' }
+            { label: 'Tailwind CSS', icon: 'pi pi-fw pi-desktop', url: 'https://tailwindcss.com/docs', target: '_blank' }
         ]
     },
     {

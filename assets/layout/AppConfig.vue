@@ -187,43 +187,43 @@ const onDarkModeChange = (value: boolean) => {
 </script>
 
 <template>
-    <button class="layout-config-button p-link" type="button" aria-label="Configure layout" @click="onConfigButtonClick">
+    <button class="layout-config-button bg-transparent border-0 cursor-pointer select-none text-left" type="button" aria-label="Configure layout" @click="onConfigButtonClick">
         <i class="pi pi-cog"></i>
     </button>
 
-    <Sidebar v-model:visible="visible" position="right" class="layout-config-sidebar w-26rem" pt:closeButton="ml-auto">
+    <Sidebar v-model:visible="visible" position="right" class="layout-config-sidebar w-[26rem]" pt:closeButton="ml-auto">
         <div class="p-2">
-            <section class="pb-4 flex align-items-center justify-content-between border-bottom-1 surface-border">
+            <section class="pb-4 flex items-center justify-between border-bottom-1 border-surface-200">
                 <span class="text-xl font-semibold">Scale</span>
-                <div class="flex align-items-center gap-2 border-1 surface-border py-1 px-2" style="border-radius: 30px">
+                <div class="flex items-center gap-2 border border-surface-200 py-1 px-2" style="border-radius: 30px">
                     <Button icon="pi pi-minus" text rounded :disabled="layoutConfig.scale.value === scales[0]" @click="decrementScale" />
                     <i v-for="s in scales" :key="s" :class="['pi pi-circle-fill text-sm text-200', { 'text-lg text-primary': s === layoutConfig.scale.value }]" />
                     <Button icon="pi pi-plus" text rounded :disabled="layoutConfig.scale.value === scales[scales.length - 1]" @click="incrementScale" />
                 </div>
             </section>
 
-            <section class="py-4 flex align-items-center justify-content-between border-bottom-1 surface-border">
+            <section class="py-4 flex items-center justify-between border-bottom-1 border-surface-200">
                 <span class="text-xl font-semibold">Dark Mode</span>
                 <ToggleSwitch :modelValue="layoutConfig.darkTheme.value" @update:modelValue="onDarkModeChange" />
             </section>
 
             <template v-if="!simple">
-                <section class="py-4 flex align-items-center justify-content-between border-bottom-1 surface-border">
+                <section class="py-4 flex items-center justify-between border-bottom-1 border-surface-200">
                     <span class="text-xl font-semibold">Menu Type</span>
                     <SelectButton :modelValue="menuMode" @update:modelValue="onMenuModeChange" :options="menuModes" optionLabel="label" optionValue="value" :allowEmpty="false" />
                 </section>
 
-                <section class="py-4 flex align-items-center justify-content-between border-bottom-1 surface-border">
+                <section class="py-4 flex items-center justify-between border-bottom-1 border-surface-200">
                     <span class="text-xl font-semibold">Input Variant</span>
                     <SelectButton :modelValue="inputVariant" @update:modelValue="onInputVariantChange" :options="inputVariants" optionLabel="label" optionValue="value" :allowEmpty="false" />
                 </section>
 
-                <section class="py-4 border-bottom-1 surface-border">
+                <section class="py-4 border-bottom-1 border-surface-200">
                     <div class="text-xl font-semibold mb-3">Presets</div>
                     <SelectButton :modelValue="preset" @update:modelValue="onPresetSelect" :options="presetOptions" optionLabel="label" optionValue="value" :allowEmpty="false" />
                 </section>
 
-                <section class="py-4 border-bottom-1 surface-border">
+                <section class="py-4 border-bottom-1 border-surface-200">
                     <div class="text-xl font-semibold mb-3">Primary Colors</div>
                     <div class="flex flex-wrap gap-2">
                         <button
@@ -239,7 +239,7 @@ const onDarkModeChange = (value: boolean) => {
                     </div>
                 </section>
 
-                <section class="py-4 border-bottom-1 surface-border">
+                <section class="py-4 border-bottom-1 border-surface-200">
                     <div class="text-xl font-semibold mb-3">Surfaces</div>
                     <div class="flex flex-wrap gap-2">
                         <button
@@ -256,7 +256,7 @@ const onDarkModeChange = (value: boolean) => {
                 </section>
             </template>
 
-            <section class="py-4 flex align-items-center justify-content-between border-bottom-1 surface-border">
+            <section class="py-4 flex items-center justify-between border-bottom-1 border-surface-200">
                 <span class="text-xl font-semibold">Ripple Effect</span>
                 <ToggleSwitch :modelValue="layoutConfig.ripple.value" @update:modelValue="onRippleChange" />
             </section>

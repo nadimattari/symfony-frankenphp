@@ -154,12 +154,10 @@ app.use(PrimeVue, {
             // Encore loads the app CSS via <link> while PrimeVue injects its
             // layer-order <style> at the very start of <head>. Give PrimeVue the
             // full order so component styles (primeui) beat Tailwind's base
-            // reset but stay below utilities. `primevue` is the legacy v3
-            // theme.css layer; keeping it first stops those rules from winning
-            // until Task 19 removes the legacy theme.
+            // reset but stay below utilities.
             cssLayer: {
                 name: 'primeui',
-                order: 'primevue, theme, base, primeui, components, utilities'
+                order: 'theme, base, primeui, components, utilities'
             },
             cssVariables: true
         }

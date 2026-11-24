@@ -55,44 +55,44 @@ const searchCountry = (event: { query: string }): void => {
 <template>
     <div class="card">
         <h5>Float Label</h5>
-        <div class="grid p-fluid mt-3">
-            <div class="field col-12 md:col-4">
+        <div class="grid grid-cols-12 gap-4 w-full [&_.p-component]:w-full mt-3">
+            <div class="mb-4 [&>label]:mb-2 [&>small]:mt-1 col-span-12 md:col-span-4">
                 <FloatLabel>
                     <InputText type="text" id="inputtext" v-model="value1" />
                     <label for="inputtext">InputText</label>
                 </FloatLabel>
             </div>
-            <div class="field col-12 md:col-4">
+            <div class="mb-4 [&>label]:mb-2 [&>small]:mt-1 col-span-12 md:col-span-4">
                 <FloatLabel>
                     <AutoComplete id="autocomplete" v-model="value2" :suggestions="filteredCountries" @complete="searchCountry($event)" field="name"></AutoComplete>
                     <label for="autocomplete">AutoComplete</label>
                 </FloatLabel>
             </div>
-            <div class="field col-12 md:col-4">
+            <div class="mb-4 [&>label]:mb-2 [&>small]:mt-1 col-span-12 md:col-span-4">
                 <FloatLabel>
                     <DatePicker inputId="calendar" v-model="value3"></DatePicker>
                     <label for="calendar">Calendar</label>
                 </FloatLabel>
             </div>
-            <div class="field col-12 md:col-4">
+            <div class="mb-4 [&>label]:mb-2 [&>small]:mt-1 col-span-12 md:col-span-4">
                 <FloatLabel>
                     <InputTags inputId="chips" v-model="value4"></InputTags>
                     <label for="chips">Chips</label>
                 </FloatLabel>
             </div>
-            <div class="field col-12 md:col-4">
+            <div class="mb-4 [&>label]:mb-2 [&>small]:mt-1 col-span-12 md:col-span-4">
                 <FloatLabel>
                     <InputText id="mask" v-model="value5" v-mask="{ mask: '99/99/9999', slotChar: 'mm/dd/yyyy' }" />
                     <label for="mask">Mask</label>
                 </FloatLabel>
             </div>
-            <div class="field col-12 md:col-4">
+            <div class="mb-4 [&>label]:mb-2 [&>small]:mt-1 col-span-12 md:col-span-4">
                 <FloatLabel>
                     <InputNumber id="inputnumber" v-model="value6"></InputNumber>
                     <label for="inputnumber">InputNumber</label>
                 </FloatLabel>
             </div>
-            <div class="field col-12 md:col-4">
+            <div class="mb-4 [&>label]:mb-2 [&>small]:mt-1 col-span-12 md:col-span-4">
                 <InputGroup>
                     <InputGroupAddon>
                         <i class="pi pi-user"></i>
@@ -103,19 +103,19 @@ const searchCountry = (event: { query: string }): void => {
                     </FloatLabel>
                 </InputGroup>
             </div>
-            <div class="field col-12 md:col-4">
+            <div class="mb-4 [&>label]:mb-2 [&>small]:mt-1 col-span-12 md:col-span-4">
                 <FloatLabel>
                     <Select id="dropdown" :options="cities" v-model="value8" optionLabel="name"></Select>
                     <label for="dropdown">Dropdown</label>
                 </FloatLabel>
             </div>
-            <div class="field col-12 md:col-4">
+            <div class="mb-4 [&>label]:mb-2 [&>small]:mt-1 col-span-12 md:col-span-4">
                 <FloatLabel>
                     <Select id="multiselect" multiple :options="cities" v-model="value9" optionLabel="name" :filter="false"></Select>
                     <label for="multiselect">Select (multiple)</label>
                 </FloatLabel>
             </div>
-            <div class="field col-12 md:col-4">
+            <div class="mb-4 [&>label]:mb-2 [&>small]:mt-1 col-span-12 md:col-span-4">
                 <FloatLabel>
                     <Textarea inputId="textarea" rows="3" cols="30" v-model="value10"></Textarea>
                     <label for="textarea">Textarea</label>

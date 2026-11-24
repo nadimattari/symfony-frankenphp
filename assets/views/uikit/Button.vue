@@ -34,8 +34,8 @@ const load = (index: number): void => {
 </script>
 
 <template>
-    <div class="grid">
-        <div class="col-12 md:col-6">
+    <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-12 md:col-span-6">
             <div class="card">
                 <h5>Default</h5>
                 <Button label="Submit" class="mr-2 mb-2"></Button>
@@ -108,13 +108,13 @@ const load = (index: number): void => {
                     </Button>
                     <Button type="button" outlined severity="success">
                         <img alt="logo" src="/demo/images/logo.svg" style="width: 1.5rem" />
-                        <span class="ml-2 text-bold">PrimeVue</span>
+                        <span class="ml-2 font-bold">PrimeVue</span>
                     </Button>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 md:col-6">
+        <div class="col-span-12 md:col-span-6">
             <div class="card">
                 <h5>Icons</h5>
                 <Button icon="pi pi-star-fill" class="mr-2 mb-2"></Button>

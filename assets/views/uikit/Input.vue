@@ -85,31 +85,31 @@ const searchCountry = (event: { query: string }): void => {
 };
 </script>
 <template>
-    <div class="grid p-fluid">
-        <div class="col-12 md:col-6">
+    <div class="grid grid-cols-12 gap-4 w-full [&_.p-component]:w-full">
+        <div class="col-span-12 md:col-span-6">
             <div class="card">
                 <h5>InputText</h5>
-                <div class="grid formgrid">
-                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 mb-2 lg:col-span-4 lg:mb-0">
                         <InputText type="text" placeholder="Default"></InputText>
                     </div>
-                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                    <div class="col-span-12 mb-2 lg:col-span-4 lg:mb-0">
                         <InputText type="text" placeholder="Disabled" :disabled="true"></InputText>
                     </div>
-                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                    <div class="col-span-12 mb-2 lg:col-span-4 lg:mb-0">
                         <InputText type="text" placeholder="Invalid" invalid />
                     </div>
                 </div>
 
                 <h5>Icons</h5>
-                <div class="grid formgrid">
-                    <div class="col-12 mb-2 lg:col-6 lg:mb-0">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 mb-2 lg:col-span-6 lg:mb-0">
                         <IconField>
                             <InputIcon class="pi pi-user" />
                             <InputText type="text" placeholder="Username" />
                         </IconField>
                     </div>
-                    <div class="col-12 mb-2 lg:col-6 lg:mb-0">
+                    <div class="col-span-12 mb-2 lg:col-span-6 lg:mb-0">
                         <IconField iconPosition="left">
                             <InputText type="text" placeholder="Search" />
                             <InputIcon class="pi pi-search" />
@@ -140,24 +140,24 @@ const searchCountry = (event: { query: string }): void => {
             </div>
 
             <div class="card">
-                <div class="grid">
-                    <div class="col-12">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12">
                         <h5>Slider</h5>
                         <InputText :modelValue="String(sliderValue)" @update:modelValue="(v: string | undefined) => (sliderValue = Number(v ?? 0))" />
                         <Slider v-model="sliderValue" />
                     </div>
-                    <div class="col-12 md:col-6">
+                    <div class="col-span-12 md:col-span-6">
                         <h5>Rating</h5>
                         <Rating v-model="ratingValue" />
                     </div>
-                    <div class="col-12 md:col-6">
+                    <div class="col-span-12 md:col-span-6">
                         <h5>InputColor</h5>
                         <InputColor v-model="colorValue" format="hex">
                             <InputColorArea>
                                 <InputColorAreaBackground />
                                 <InputColorAreaHandle />
                             </InputColorArea>
-                            <div class="flex align-items-center gap-2 mt-2">
+                            <div class="flex items-center gap-2 mt-2">
                                 <div class="flex-1">
                                     <InputColorSlider>
                                         <InputColorTransparencyGrid />
@@ -178,7 +178,7 @@ const searchCountry = (event: { query: string }): void => {
                             <InputColorInput channel="hex" class="mt-2" />
                         </InputColor>
                     </div>
-                    <div class="col-12">
+                    <div class="col-span-12">
                         <h5>Knob</h5>
                         <Knob v-model="knobValue" :step="10" :min="-50" :max="50" valueTemplate="{value}%" />
                     </div>
@@ -186,24 +186,24 @@ const searchCountry = (event: { query: string }): void => {
             </div>
         </div>
 
-        <div class="col-12 md:col-6">
+        <div class="col-span-12 md:col-span-6">
             <div class="card">
                 <h5>RadioButton</h5>
-                <div class="grid">
-                    <div class="col-12 md:col-4">
-                        <div class="field-radiobutton mb-0">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 md:col-span-4">
+                        <div class="flex items-center gap-2 mb-0">
                             <RadioButton id="option1" name="option" value="Chicago" v-model="radioValue" />
                             <label for="option1">Chicago</label>
                         </div>
                     </div>
-                    <div class="col-12 md:col-4">
-                        <div class="field-radiobutton mb-0">
+                    <div class="col-span-12 md:col-span-4">
+                        <div class="flex items-center gap-2 mb-0">
                             <RadioButton id="option2" name="option" value="Los Angeles" v-model="radioValue" />
                             <label for="option2">Los Angeles</label>
                         </div>
                     </div>
-                    <div class="col-12 md:col-4">
-                        <div class="field-radiobutton mb-0">
+                    <div class="col-span-12 md:col-span-4">
+                        <div class="flex items-center gap-2 mb-0">
                             <RadioButton id="option3" name="option" value="New York" v-model="radioValue" />
                             <label for="option3">New York</label>
                         </div>
@@ -211,20 +211,20 @@ const searchCountry = (event: { query: string }): void => {
                 </div>
 
                 <h5>Checkbox</h5>
-                <div class="grid">
-                    <div class="col-12 md:col-4">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 md:col-span-4">
                         <div class="field-checkbox mb-0">
                             <Checkbox id="checkOption1" name="option" value="Chicago" v-model="checkboxValue" />
                             <label for="checkOption1">Chicago</label>
                         </div>
                     </div>
-                    <div class="col-12 md:col-4">
+                    <div class="col-span-12 md:col-span-4">
                         <div class="field-checkbox mb-0">
                             <Checkbox id="checkOption2" name="option" value="Los Angeles" v-model="checkboxValue" />
                             <label for="checkOption2">Los Angeles</label>
                         </div>
                     </div>
-                    <div class="col-12 md:col-4">
+                    <div class="col-span-12 md:col-span-4">
                         <div class="field-checkbox mb-0">
                             <Checkbox id="checkOption3" name="option" value="New York" v-model="checkboxValue" />
                             <label for="checkOption3">New York</label>
@@ -246,7 +246,7 @@ const searchCountry = (event: { query: string }): void => {
                 <h5>Select (multiple)</h5>
                 <Select multiple v-model="multiselectValue" :options="multiselectValues" optionLabel="name" placeholder="Select Countries" :filter="true">
                     <template #value="slotProps">
-                        <div class="inline-flex align-items-center py-1 px-2 bg-primary text-primary border-round mr-2" v-for="option of (slotProps as any).value" :key="option.code">
+                        <div class="inline-flex items-center py-1 px-2 bg-primary text-primary rounded mr-2" v-for="option of (slotProps as any).value" :key="option.code">
                             <span :class="'mr-2 flag flag-' + option.code.toLowerCase()" style="width: 18px; height: 12px" />
                             <div>{{ option.name }}</div>
                         </div>
@@ -255,7 +255,7 @@ const searchCountry = (event: { query: string }): void => {
                         </template>
                     </template>
                     <template #option="slotProps">
-                        <div class="flex align-items-center">
+                        <div class="flex items-center">
                             <span :class="'mr-2 flag flag-' + (slotProps as any).option.code.toLowerCase()" style="width: 18px; height: 12px" />
                             <div>{{ (slotProps as any).option.name }}</div>
                         </div>
@@ -278,11 +278,11 @@ const searchCountry = (event: { query: string }): void => {
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-span-12">
             <div class="card">
                 <h5>Input Groups</h5>
-                <div class="grid p-fluid">
-                    <div class="col-12 md:col-6">
+                <div class="grid grid-cols-12 gap-4 w-full [&_.p-component]:w-full">
+                    <div class="col-span-12 md:col-span-6">
                         <InputGroup>
                             <InputGroupAddon>
                                 <i class="pi pi-user"></i>
@@ -291,7 +291,7 @@ const searchCountry = (event: { query: string }): void => {
                         </InputGroup>
                     </div>
 
-                    <div class="col-12 md:col-6">
+                    <div class="col-span-12 md:col-span-6">
                         <InputGroup>
                             <InputGroupAddon>
                                 <i class="pi pi-clock"></i>
@@ -305,14 +305,14 @@ const searchCountry = (event: { query: string }): void => {
                         </InputGroup>
                     </div>
 
-                    <div class="col-12 md:col-6">
+                    <div class="col-span-12 md:col-span-6">
                         <InputGroup>
                             <Button label="Search" />
                             <InputText placeholder="Keyword" />
                         </InputGroup>
                     </div>
 
-                    <div class="col-12 md:col-6">
+                    <div class="col-span-12 md:col-span-6">
                         <InputGroup>
                             <InputGroupAddon>
                                 <Checkbox v-model="inputGroupValue" :binary="true" />

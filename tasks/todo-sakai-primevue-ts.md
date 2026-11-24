@@ -164,15 +164,18 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 17
   - Scope: S
 
-- [ ] Task 19: Remove v3 theme/PrimeFlex imports and CSS classes
+- [x] Task 19: Remove v3 theme/PrimeFlex imports and CSS classes
   - Acceptance: no `primevue/resources`, `theme.css`, `primeflex`, `.p-link`, `.p-highlight`, `.p-fluid`, or `inputStyle` remain; 16px root font size or compat preset chosen.
+  - Decision 2026-11-24: **AuraCompat preset** remains the app preset (`app.ts`), satisfying the root-font-size/compat requirement; the Sakai `$scale: 14px` layout scale is kept for layout fidelity. The unused v3 theme bundle in `public/themes/**` (89 files incl. legacy fonts) was deleted along with the `<link id="theme-css">` in `templates/base.html.twig`; `primeflex` was uninstalled. Its remaining layout utilities were converted in place rather than reimplemented: `grid`/`col-*` → Tailwind `grid grid-cols-12`/`col-span-*`, `field`/`formgrid`/`formgroup-inline` → Tailwind spacing/flex utilities, `p-fluid` → `w-full [&_.p-component]:w-full`, `p-link` → Tailwind button reset, and v3 helpers (`text-900`, `surface-card`, `align-items-center`, `w-9rem`, …) → Tailwind/PrimeUI utilities. Legacy v3 CSS variables were replaced with v4 design tokens; page/card surfaces now use `--p-content-background`, borders `--p-content-border-color`, headings `--p-text-color` and hovers `--p-button-secondary-hover-background` so they flip correctly in dark mode. The stale `primevue` layer was dropped from both `tailwind.css` and the PrimeVue `cssLayer.order`.
+  - Verified 2026-11-24: scoped `git grep -E 'primeflex|theme\.css|p-fluid|inputStyle|p-link|p-highlight|primevue/resources'` over `assets/`, `templates/`, `package*.json`, `webpack.config.js` is clean (only historical mentions remain in `docs/` and this checklist). `vue-tsc --noEmit`, build, lint (0 errors), PHPUnit smoke pass. Browser smoke from `/` across form layout, message, list, table, charts, misc, media and login shows no legacy layout classes, no theme stylesheet request, painted charts, correct 12-column grids, 9rem inline labels, and light/dark surface + text flipping.
+  - Note: the literal repo-wide grep is not clean because `docs/analysis-lamiral-sakai-upgrade.md` and this task history describe the removed v3 APIs.
   - Verify: `git grep -E 'primeflex|theme\.css|p-fluid|inputStyle'` clean; visual smoke.
-  - Files: `assets/styles/**`, all SFCs
+  - Files: `assets/assets/**`, `assets/**/*.vue`, `templates/base.html.twig`, `package.json`, `package-lock.json`, `public/themes/**` (deleted)
   - Dependencies: Task 18
   - Scope: S
 
 **Checkpoint: PrimeVue 5**
-- [ ] No removed v3 APIs or v3 theme imports remain
+- [x] No removed v3 APIs or v3 theme imports remain
 - [x] No PRO component required; no license notice (verified with the Community key in `.env.local`)
 
 ## Phase 4 — Lamiral Tier A reuse

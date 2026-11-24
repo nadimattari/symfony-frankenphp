@@ -6,11 +6,11 @@
 }
 
 .card {
-    background: var(--surface-card);
-    border: 1px solid var(--surface-border);
+    background: var(--p-content-background);
+    border: 1px solid var(--p-content-border-color);
     padding: 2rem;
     margin-bottom: 2rem;
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 0.08);
     border-radius: $borderRadius;
 
     &:last-child {

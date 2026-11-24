@@ -30,21 +30,21 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div class="grid">
-        <div class="col-12">
+    <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-12">
             <div class="card">
                 <h5>ProgressBar</h5>
-                <div class="grid">
-                    <div class="col">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-6">
                         <ProgressBar :value="value"></ProgressBar>
                     </div>
-                    <div class="col">
+                    <div class="col-span-6">
                         <ProgressBar :value="50" :showValue="false"></ProgressBar>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 lg:col-6">
+        <div class="col-span-12 lg:col-span-6">
             <div class="card">
                 <h4>Badge</h4>
                 <h5>Numbers</h5>
@@ -59,13 +59,13 @@ onBeforeUnmount(() => {
                 <h5>Overlay</h5>
                 <div class="flex flex-wrap items-center gap-6">
                     <OverlayBadge value="2">
-                        <i class="pi pi-bell p-text-secondary" style="font-size: 2rem"></i>
+                        <i class="pi pi-bell text-surface-500" style="font-size: 2rem"></i>
                     </OverlayBadge>
                     <OverlayBadge value="10+" severity="danger">
-                        <i class="pi pi-calendar p-text-secondary" style="font-size: 2rem"></i>
+                        <i class="pi pi-calendar text-surface-500" style="font-size: 2rem"></i>
                     </OverlayBadge>
                     <OverlayBadge severity="danger">
-                        <i class="pi pi-envelope p-text-secondary" style="font-size: 2rem"></i>
+                        <i class="pi pi-envelope text-surface-500" style="font-size: 2rem"></i>
                     </OverlayBadge>
                 </div>
 
@@ -125,7 +125,7 @@ onBeforeUnmount(() => {
                 </ScrollArea>
             </div>
         </div>
-        <div class="col-12 lg:col-6">
+        <div class="col-span-12 lg:col-span-6">
             <div class="card">
                 <h4>Tag</h4>
                 <h5>Tags</h5>
@@ -153,7 +153,7 @@ onBeforeUnmount(() => {
             <div class="card">
                 <h4>Chip</h4>
                 <h5>Basic</h5>
-                <div class="flex align-items-center flex-column sm:flex-row">
+                <div class="flex items-center flex-col sm:flex-row">
                     <Chip label="Action" class="mr-2 mb-2"></Chip>
                     <Chip label="Comedy" class="mr-2 mb-2"></Chip>
                     <Chip label="Mystery" class="mr-2 mb-2"></Chip>
@@ -161,7 +161,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <h5>Icon</h5>
-                <div class="flex align-items-center flex-column sm:flex-row">
+                <div class="flex items-center flex-col sm:flex-row">
                     <Chip label="Apple" icon="pi pi-apple" class="mr-2 mb-2"></Chip>
                     <Chip label="Facebook" icon="pi pi-facebook" class="mr-2 mb-2"></Chip>
                     <Chip label="Google" icon="pi pi-google" class="mr-2 mb-2"></Chip>
@@ -169,7 +169,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <h5>Image</h5>
-                <div class="flex align-items-center flex-column sm:flex-row">
+                <div class="flex items-center flex-col sm:flex-row">
                     <Chip label="Amy Elsner" :image="'demo/images/avatar/amyelsner.png'" class="mr-2 mb-2"></Chip>
                     <Chip label="Asiya Javayant" :image="'demo/images/avatar/asiyajavayant.png'" class="mr-2 mb-2"></Chip>
                     <Chip label="Onyama Limba" :image="'demo/images/avatar/onyamalimba.png'" class="mr-2 mb-2"></Chip>
@@ -178,7 +178,7 @@ onBeforeUnmount(() => {
 
             <div class="card">
                 <h4>Skeleton</h4>
-                <div class="border-round border-1 surface-border p-4">
+                <div class="rounded border border-surface-200 p-4">
                     <div class="flex mb-3">
                         <Skeleton shape="circle" size="4rem" class="mr-2"></Skeleton>
                         <div>
@@ -188,7 +188,7 @@ onBeforeUnmount(() => {
                         </div>
                     </div>
                     <Skeleton width="100%" height="150px"></Skeleton>
-                    <div class="flex justify-content-between mt-3">
+                    <div class="flex justify-between mt-3">
                         <Skeleton width="4rem" height="2rem"></Skeleton>
                         <Skeleton width="4rem" height="2rem"></Skeleton>
                     </div>

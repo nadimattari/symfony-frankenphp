@@ -74,12 +74,12 @@ const confirm = (event: Event): void => {
 </script>
 
 <template>
-    <div class="grid">
-        <div class="col-12 lg:col-6">
-            <div class="card p-fluid">
+    <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-12 lg:col-span-6">
+            <div class="card w-full [&_.p-component]:w-full">
                 <h5>Dialog</h5>
                 <Dialog header="Dialog" v-model:visible="display" :breakpoints="{ '960px': '75vw' }" :style="{ width: '30vw' }" :modal="true">
-                    <p class="line-height-3 m-0">
+                    <p class="leading-6 m-0">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
                         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </p>
@@ -89,7 +89,7 @@ const confirm = (event: Event): void => {
                 </Dialog>
                 <Button label="Show" icon="pi pi-external-link" style="width: auto" @click="open" />
             </div>
-            <div class="card p-fluid">
+            <div class="card w-full [&_.p-component]:w-full">
                 <h5>Popover</h5>
                 <div class="flex flex-wrap gap-2">
                     <div>
@@ -105,7 +105,7 @@ const confirm = (event: Event): void => {
                                 <Column field="name" header="Name" :sortable="true" headerStyle="min-width:12rem;"></Column>
                                 <Column header="Image" headerStyle="min-width:5rem;">
                                     <template #body="{ data }: { data: Product }">
-                                        <img :src="'demo/images/product/' + data.image" :alt="data.image" width="50" class="shadow-2" />
+                                        <img :src="'demo/images/product/' + data.image" :alt="data.image" width="50" class="shadow-md" />
                                     </template>
                                 </Column>
                                 <Column field="price" header="Price" :sortable="true" headerStyle="min-width:8rem;">
@@ -119,12 +119,12 @@ const confirm = (event: Event): void => {
                 </div>
             </div>
         </div>
-        <div class="col-12 lg:col-6">
-            <div class="card p-fluid">
+        <div class="col-span-12 lg:col-span-6">
+            <div class="card w-full [&_.p-component]:w-full">
                 <h5>Confirmation</h5>
                 <Button label="Delete" icon="pi pi-trash" class="p-button-danger" style="width: auto" @click="openConfirmation" />
                 <Dialog header="Confirmation" v-model:visible="displayConfirmation" :style="{ width: '350px' }" :modal="true">
-                    <div class="flex align-items-center justify-content-center">
+                    <div class="flex items-center justify-center">
                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
                         <span>Are you sure you want to proceed?</span>
                     </div>
@@ -163,11 +163,11 @@ const confirm = (event: Event): void => {
                 <Button icon="pi pi-external-link" class="p-button-warning" @click="visibleFull = true" />
             </div>
         </div>
-        <div class="col-12 lg:col-6">
+        <div class="col-span-12 lg:col-span-6">
             <div class="card">
                 <h5>Tooltip</h5>
-                <div class="formgroup-inline">
-                    <div class="field">
+                <div class="flex flex-wrap items-center gap-4">
+                    <div class="mb-4 [&>label]:mb-2 [&>small]:mt-1">
                         <InputText type="text" placeholder="Username" v-tooltip="'Your username'" />
                     </div>
 
@@ -175,7 +175,7 @@ const confirm = (event: Event): void => {
                 </div>
             </div>
         </div>
-        <div class="col-12 lg:col-6">
+        <div class="col-span-12 lg:col-span-6">
             <div class="card">
                 <h5>ConfirmPopup</h5>
                 <ConfirmPopup></ConfirmPopup>

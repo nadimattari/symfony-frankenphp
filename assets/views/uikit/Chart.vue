@@ -6,9 +6,9 @@ import { useLayout } from '../../layout/composables/layout';
 
 const { layoutConfig } = useLayout();
 let documentStyle = getComputedStyle(document.documentElement);
-let textColor = documentStyle.getPropertyValue('--text-color');
-let textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-let surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+let textColor = documentStyle.getPropertyValue('--p-text-color');
+let textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
+let surfaceBorder = documentStyle.getPropertyValue('--p-surface-200');
 
 const lineData = ref<ChartData>({ labels: [], datasets: [] });
 const pieData = ref<ChartData>({ labels: [], datasets: [] });
@@ -24,9 +24,9 @@ const radarOptions = ref<ChartOptions>({});
 
 const setColorOptions = (): void => {
     documentStyle = getComputedStyle(document.documentElement);
-    textColor = documentStyle.getPropertyValue('--text-color');
-    textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-    surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    textColor = documentStyle.getPropertyValue('--p-text-color');
+    textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
+    surfaceBorder = documentStyle.getPropertyValue('--p-surface-200');
 };
 
 const setChart = (): void => {
@@ -35,14 +35,14 @@ const setChart = (): void => {
         datasets: [
             {
                 label: 'My First dataset',
-                backgroundColor: documentStyle.getPropertyValue('--primary-500'),
-                borderColor: documentStyle.getPropertyValue('--primary-500'),
+                backgroundColor: documentStyle.getPropertyValue('--p-primary-500'),
+                borderColor: documentStyle.getPropertyValue('--p-primary-500'),
                 data: [65, 59, 80, 81, 56, 55, 40]
             },
             {
                 label: 'My Second dataset',
-                backgroundColor: documentStyle.getPropertyValue('--primary-200'),
-                borderColor: documentStyle.getPropertyValue('--primary-200'),
+                backgroundColor: documentStyle.getPropertyValue('--p-primary-200'),
+                borderColor: documentStyle.getPropertyValue('--p-primary-200'),
                 data: [28, 48, 40, 19, 86, 27, 90]
             }
         ]
@@ -89,8 +89,8 @@ const setChart = (): void => {
         datasets: [
             {
                 data: [540, 325, 702],
-                backgroundColor: [documentStyle.getPropertyValue('--indigo-500'), documentStyle.getPropertyValue('--purple-500'), documentStyle.getPropertyValue('--teal-500')],
-                hoverBackgroundColor: [documentStyle.getPropertyValue('--indigo-400'), documentStyle.getPropertyValue('--purple-400'), documentStyle.getPropertyValue('--teal-400')]
+                backgroundColor: [documentStyle.getPropertyValue('--p-indigo-500'), documentStyle.getPropertyValue('--p-purple-500'), documentStyle.getPropertyValue('--p-teal-500')],
+                hoverBackgroundColor: [documentStyle.getPropertyValue('--p-indigo-400'), documentStyle.getPropertyValue('--p-purple-400'), documentStyle.getPropertyValue('--teal-400')]
             }
         ]
     };
@@ -113,16 +113,16 @@ const setChart = (): void => {
                 label: 'First Dataset',
                 data: [65, 59, 80, 81, 56, 55, 40],
                 fill: false,
-                backgroundColor: documentStyle.getPropertyValue('--primary-500'),
-                borderColor: documentStyle.getPropertyValue('--primary-500'),
+                backgroundColor: documentStyle.getPropertyValue('--p-primary-500'),
+                borderColor: documentStyle.getPropertyValue('--p-primary-500'),
                 tension: 0.4
             },
             {
                 label: 'Second Dataset',
                 data: [28, 48, 40, 19, 86, 27, 90],
                 fill: false,
-                backgroundColor: documentStyle.getPropertyValue('--primary-200'),
-                borderColor: documentStyle.getPropertyValue('--primary-200'),
+                backgroundColor: documentStyle.getPropertyValue('--p-primary-200'),
+                borderColor: documentStyle.getPropertyValue('--p-primary-200'),
                 tension: 0.4
             }
         ]
@@ -166,7 +166,7 @@ const setChart = (): void => {
         datasets: [
             {
                 data: [11, 16, 7, 3],
-                backgroundColor: [documentStyle.getPropertyValue('--indigo-500'), documentStyle.getPropertyValue('--purple-500'), documentStyle.getPropertyValue('--teal-500'), documentStyle.getPropertyValue('--orange-500')],
+                backgroundColor: [documentStyle.getPropertyValue('--p-indigo-500'), documentStyle.getPropertyValue('--p-purple-500'), documentStyle.getPropertyValue('--p-teal-500'), documentStyle.getPropertyValue('--p-orange-500')],
                 label: 'My dataset'
             }
         ],
@@ -195,20 +195,20 @@ const setChart = (): void => {
         datasets: [
             {
                 label: 'My First dataset',
-                borderColor: documentStyle.getPropertyValue('--indigo-400'),
-                pointBackgroundColor: documentStyle.getPropertyValue('--indigo-400'),
-                pointBorderColor: documentStyle.getPropertyValue('--indigo-400'),
+                borderColor: documentStyle.getPropertyValue('--p-indigo-400'),
+                pointBackgroundColor: documentStyle.getPropertyValue('--p-indigo-400'),
+                pointBorderColor: documentStyle.getPropertyValue('--p-indigo-400'),
                 pointHoverBackgroundColor: textColor,
-                pointHoverBorderColor: documentStyle.getPropertyValue('--indigo-400'),
+                pointHoverBorderColor: documentStyle.getPropertyValue('--p-indigo-400'),
                 data: [65, 59, 90, 81, 56, 55, 40]
             },
             {
                 label: 'My Second dataset',
-                borderColor: documentStyle.getPropertyValue('--purple-400'),
-                pointBackgroundColor: documentStyle.getPropertyValue('--purple-400'),
-                pointBorderColor: documentStyle.getPropertyValue('--purple-400'),
+                borderColor: documentStyle.getPropertyValue('--p-purple-400'),
+                pointBackgroundColor: documentStyle.getPropertyValue('--p-purple-400'),
+                pointBorderColor: documentStyle.getPropertyValue('--p-purple-400'),
                 pointHoverBackgroundColor: textColor,
-                pointHoverBorderColor: documentStyle.getPropertyValue('--purple-400'),
+                pointHoverBorderColor: documentStyle.getPropertyValue('--p-purple-400'),
                 data: [28, 48, 40, 19, 96, 27, 100]
             }
         ]
@@ -243,39 +243,39 @@ watch(
 </script>
 
 <template>
-    <div class="grid p-fluid">
-        <div class="col-12 xl:col-6">
+    <div class="grid grid-cols-12 gap-4 w-full [&_.p-component]:w-full">
+        <div class="col-span-12 xl:col-span-6">
             <div class="card">
                 <h5>Linear Chart</h5>
                 <ChartCanvas type="line" :data="lineData" :options="lineOptions"></ChartCanvas>
             </div>
         </div>
-        <div class="col-12 xl:col-6">
+        <div class="col-span-12 xl:col-span-6">
             <div class="card">
                 <h5>Bar Chart</h5>
                 <ChartCanvas type="bar" :data="barData" :options="barOptions"></ChartCanvas>
             </div>
         </div>
-        <div class="col-12 xl:col-6">
-            <div class="card flex flex-column align-items-center">
+        <div class="col-span-12 xl:col-span-6">
+            <div class="card flex flex-col items-center">
                 <h5 class="text-left w-full">Pie Chart</h5>
                 <ChartCanvas type="pie" :data="pieData" :options="pieOptions"></ChartCanvas>
             </div>
         </div>
-        <div class="col-12 xl:col-6">
-            <div class="card flex flex-column align-items-center">
+        <div class="col-span-12 xl:col-span-6">
+            <div class="card flex flex-col items-center">
                 <h5 class="text-left w-full">Doughnut Chart</h5>
                 <ChartCanvas type="doughnut" :data="pieData" :options="pieOptions"></ChartCanvas>
             </div>
         </div>
-        <div class="col-12 xl:col-6">
-            <div class="card flex flex-column align-items-center">
+        <div class="col-span-12 xl:col-span-6">
+            <div class="card flex flex-col items-center">
                 <h5 class="text-left w-full">Polar Area Chart</h5>
                 <ChartCanvas type="polarArea" :data="polarData" :options="polarOptions"></ChartCanvas>
             </div>
         </div>
-        <div class="col-12 xl:col-6">
-            <div class="card flex flex-column align-items-center">
+        <div class="col-span-12 xl:col-span-6">
+            <div class="card flex flex-col items-center">
                 <h5 class="text-left w-full">Radar Chart</h5>
                 <ChartCanvas type="radar" :data="radarData" :options="radarOptions"></ChartCanvas>
             </div>

@@ -23,13 +23,13 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="grid p-fluid">
-        <div class="col-12">
+    <div class="grid grid-cols-12 gap-4 w-full [&_.p-component]:w-full">
+        <div class="col-span-12">
             <div class="card">
                 <h5>Carousel</h5>
                 <Carousel :value="products" :numVisible="3" :numScroll="3" :circular="false" :responsiveOptions="carouselResponsiveOptions">
                     <template #item="{ data }: { data: Product }">
-                        <div class="border-round m-2 text-center p-2" style="border: 1px solid var(--surface-d)">
+                        <div class="rounded m-2 text-center p-2" style="border: 1px solid var(--p-content-border-color)">
                             <div class="my-5">
                                 <img :src="'demo/images/product/' + data.image" :alt="data.name" class="product-image" />
                             </div>
@@ -51,7 +51,7 @@ onMounted(() => {
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-span-12">
             <div class="card">
                 <h5>Gallery</h5>
                 <Gallery style="height: 32rem; max-width: 800px; margin: auto">
@@ -76,10 +76,10 @@ onMounted(() => {
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-span-12">
             <div class="card">
                 <h5>Image</h5>
-                <div class="flex justify-content-center">
+                <div class="flex justify-center">
                     <img
                         :src="previewImage"
                         alt="Image"

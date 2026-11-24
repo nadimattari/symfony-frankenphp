@@ -128,8 +128,8 @@ const calculateCustomerTotal = (name: string): number => {
 </script>
 
 <template>
-    <div class="grid">
-        <div class="col-12">
+    <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-12">
             <div class="card">
                 <h5>Filter Menu</h5>
                 <DataTable
@@ -145,7 +145,7 @@ const calculateCustomerTotal = (name: string): number => {
                     showGridlines
                 >
                     <template #header>
-                        <div class="flex justify-content-between flex-column sm:flex-row">
+                        <div class="flex justify-between flex-col sm:flex-row">
                             <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter1()" />
                             <IconField iconPosition="left">
                                 <InputIcon class="pi pi-search" />
@@ -165,7 +165,7 @@ const calculateCustomerTotal = (name: string): number => {
                     </Column>
                     <Column header="Country" filterField="country.name" style="min-width: 12rem">
                         <template #body="slotProps">
-                            <div class="flex align-items-center gap-2">
+                            <div class="flex items-center gap-2">
                                 <img alt="flag" src="/demo/images/flag/flag_placeholder.png" :class="`flag flag-${(slotProps as any).data.country.code}`" style="width: 24px" />
                                 <span>{{ (slotProps as any).data.country.name }}</span>
                             </div>
@@ -182,16 +182,16 @@ const calculateCustomerTotal = (name: string): number => {
                     </Column>
                     <Column header="Agent" filterField="representative" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" style="min-width: 14rem">
                         <template #body="slotProps">
-                            <div class="flex align-items-center gap-2">
+                            <div class="flex items-center gap-2">
                                 <img :alt="(slotProps as any).data.representative.name" :src="`https://primefaces.org/cdn/primevue/images/avatar/${(slotProps as any).data.representative.image}`" style="width: 32px" />
                                 <span>{{ (slotProps as any).data.representative.name }}</span>
                             </div>
                         </template>
                         <template #filter="slotProps">
-                            <div class="mb-3 text-bold">Agent Picker</div>
+                            <div class="mb-3 font-bold">Agent Picker</div>
                             <Select multiple v-model="(slotProps as any).filterModel.value" :options="representatives" optionLabel="name" placeholder="Any" class="p-column-filter">
                                 <template #option="slotProps">
-                                    <div class="p-multiselect-representative-option">
+                                    <div class="flex items-center gap-2">
                                         <img :alt="(slotProps as any).option.name" :src="'/demo/images/avatar/' + (slotProps as any).option.image" width="32" style="vertical-align: middle" />
                                         <span style="margin-left: 0.5em; vertical-align: middle" class="image-text">{{ (slotProps as any).option.name }}</span>
                                     </div>
@@ -237,7 +237,7 @@ const calculateCustomerTotal = (name: string): number => {
                         </template>
                         <template #filter="slotProps">
                             <Slider v-model="(slotProps as any).filterModel.value" :range="true" class="m-3"></Slider>
-                            <div class="flex align-items-center justify-content-between px-2">
+                            <div class="flex items-center justify-between px-2">
                                 <span>{{ (slotProps as any).filterModel.value ? (slotProps as any).filterModel.value[0] : 0 }}</span>
                                 <span>{{ (slotProps as any).filterModel.value ? (slotProps as any).filterModel.value[1] : 100 }}</span>
                             </div>
@@ -248,7 +248,7 @@ const calculateCustomerTotal = (name: string): number => {
                             <i class="pi" :class="{ 'text-green-500 pi-check-circle': (slotProps as any).data.verified, 'text-pink-500 pi-times-circle': !(slotProps as any).data.verified }"></i>
                         </template>
                         <template #filter="slotProps">
-                            <div class="flex align-items-center gap-2">
+                            <div class="flex items-center gap-2">
                                 <Checkbox
                                     v-model="(slotProps as any).filterModel.value"
                                     :indeterminate="(slotProps as any).filterModel.value === null"
@@ -263,7 +263,7 @@ const calculateCustomerTotal = (name: string): number => {
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-span-12">
             <div class="card">
                 <h5>Frozen Columns</h5>
                 <ToggleButton v-model="idFrozen" onIcon="pi pi-lock" offIcon="pi pi-lock-open" onLabel="Unfreeze Id" offLabel="Freeze Id" style="width: 10rem" />
@@ -273,7 +273,7 @@ const calculateCustomerTotal = (name: string): number => {
                     <Column field="id" header="Id" style="min-width: 100px" :frozen="idFrozen"></Column>
                     <Column field="country.name" header="Country" :style="{ width: '200px' }">
                         <template #body="slotProps">
-                            <div class="flex align-items-center gap-2">
+                            <div class="flex items-center gap-2">
                                 <img alt="flag" src="/demo/images/flag/flag_placeholder.png" :class="`flag flag-${(slotProps as any).data.country.code}`" style="width: 24px" />
                                 <span>{{ (slotProps as any).data.country.name }}</span>
                             </div>
@@ -289,7 +289,7 @@ const calculateCustomerTotal = (name: string): number => {
                     <Column field="activity" header="Activity" style="min-width: 200px"></Column>
                     <Column field="representative.name" header="Representative" style="min-width: 200px">
                         <template #body="slotProps">
-                            <div class="flex align-items-center gap-2">
+                            <div class="flex items-center gap-2">
                                 <img :alt="(slotProps as any).data.representative.name" :src="`https://primefaces.org/cdn/primevue/images/avatar/${(slotProps as any).data.representative.image}`" style="width: 32px" />
                                 <span>{{ (slotProps as any).data.representative.name }}</span>
                             </div>
@@ -297,14 +297,14 @@ const calculateCustomerTotal = (name: string): number => {
                     </Column>
                     <Column field="balance" header="Balance" style="min-width: 200px" frozen alignFrozen="right">
                         <template #body="slotProps">
-                            <span class="text-bold">{{ formatCurrency((slotProps as any).data.balance) }}</span>
+                            <span class="font-bold">{{ formatCurrency((slotProps as any).data.balance) }}</span>
                         </template>
                     </Column>
                 </DataTable>
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-span-12">
             <div class="card">
                 <h5>Row Expand</h5>
                 <DataTable :value="products" v-model:expandedRows="expandedRows" dataKey="id" tableStyle="min-width: 60rem">
@@ -322,7 +322,7 @@ const calculateCustomerTotal = (name: string): number => {
                     </Column>
                     <Column header="Image">
                         <template #body="slotProps">
-                            <img :src="'/demo/images/product/' + (slotProps as any).data.image" :alt="(slotProps as any).data.image" class="shadow-2" width="100" />
+                            <img :src="'/demo/images/product/' + (slotProps as any).data.image" :alt="(slotProps as any).data.image" class="shadow-md" width="100" />
                         </template>
                     </Column>
                     <Column field="price" header="Price" :sortable="true">
@@ -386,7 +386,7 @@ const calculateCustomerTotal = (name: string): number => {
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-span-12">
             <div class="card">
                 <h5>Subheader Grouping</h5>
                 <DataTable :value="customer3" rowGroupMode="subheader" groupRowsBy="representative.name" sortMode="single" sortField="representative.name" :sortOrder="1" scrollable scrollHeight="400px">
@@ -394,7 +394,7 @@ const calculateCustomerTotal = (name: string): number => {
                     <Column field="name" header="Name" style="min-width: 200px"></Column>
                     <Column field="country" header="Country" style="min-width: 200px">
                         <template #body="slotProps">
-                            <div class="flex align-items-center gap-2">
+                            <div class="flex items-center gap-2">
                                 <img alt="flag" src="/demo/images/flag/flag_placeholder.png" :class="`flag flag-${(slotProps as any).data.country.code}`" style="width: 24px" />
                                 <span>{{ (slotProps as any).data.country.name }}</span>
                             </div>
@@ -408,13 +408,13 @@ const calculateCustomerTotal = (name: string): number => {
                     </Column>
                     <Column field="date" header="Date" style="min-width: 200px"></Column>
                     <template #groupheader="slotProps">
-                        <div class="flex align-items-center gap-2">
+                        <div class="flex items-center gap-2">
                             <img :alt="(slotProps as any).data.representative.name" :src="'/demo/images/avatar/' + (slotProps as any).data.representative.image" width="32" style="vertical-align: middle" />
                             <span>{{ (slotProps as any).data.representative.name }}</span>
                         </div>
                     </template>
                     <template #groupfooter="slotProps">
-                        <td style="text-align: right" class="text-bold pr-6">Total Customers: {{ calculateCustomerTotal((slotProps as any).data.representative.name) }}</td>
+                        <td style="text-align: right" class="font-bold pr-6">Total Customers: {{ calculateCustomerTotal((slotProps as any).data.representative.name) }}</td>
                     </template>
                 </DataTable>
             </div>

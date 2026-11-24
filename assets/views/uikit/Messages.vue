@@ -47,8 +47,8 @@ const showError = (): void => {
 </script>
 
 <template>
-    <div class="grid">
-        <div class="col-12 lg:col-6">
+    <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-12 lg:col-span-6">
             <div class="card">
                 <h5>Toast</h5>
                 <Button @click="showSuccess()" label="Success" class="mr-2" severity="success" />
@@ -58,7 +58,7 @@ const showError = (): void => {
             </div>
         </div>
 
-        <div class="col-12 lg:col-6">
+        <div class="col-span-12 lg:col-span-6">
             <div class="card">
                 <h5>Messages</h5>
                 <Button label="Success" @click="addMessage('success')" class="mr-2" severity="success" />
@@ -72,19 +72,19 @@ const showError = (): void => {
             </div>
         </div>
 
-        <div class="col-12 lg:col-8">
+        <div class="col-span-12 lg:col-span-8">
             <div class="card">
                 <h5>Inline</h5>
-                <div class="field grid">
-                    <label for="username1" class="col-fixed w-9rem">Username</label>
-                    <div class="col">
+                <div class="mb-4 flex flex-wrap items-center gap-4">
+                    <label for="username1" class="w-[9rem] shrink-0">Username</label>
+                    <div class="min-w-0 flex-1">
                         <InputText id="username1" v-model="username" :required="true" invalid class="mr-2"></InputText>
                         <Message severity="error">Username is required</Message>
                     </div>
                 </div>
-                <div class="field grid">
-                    <label for="email" class="col-fixed w-9rem">Email</label>
-                    <div class="col">
+                <div class="mb-4 flex flex-wrap items-center gap-4">
+                    <label for="email" class="w-[9rem] shrink-0">Email</label>
+                    <div class="min-w-0 flex-1">
                         <InputText id="email" v-model="email" :required="true" invalid class="mr-2"></InputText>
                         <Message severity="error" icon="pi pi-times-circle" />
                     </div>
@@ -92,13 +92,13 @@ const showError = (): void => {
             </div>
         </div>
 
-        <div class="col-12 lg:col-4">
+        <div class="col-span-12 lg:col-span-4">
             <div class="card">
                 <h5>Help Text</h5>
-                <div class="field p-fluid">
+                <div class="mb-4 [&>label]:mb-2 [&>small]:mt-1 w-full [&_.p-component]:w-full">
                     <label for="username2">Username</label>
-                    <InputText id="username2" type="username" class="p-error" aria-describedby="username-help" />
-                    <small id="username-help" class="p-error">Enter your username to reset your password.</small>
+                    <InputText id="username2" type="username" class="text-red-500" aria-describedby="username-help" />
+                    <small id="username-help" class="text-red-500">Enter your username to reset your password.</small>
                 </div>
             </div>
         </div>

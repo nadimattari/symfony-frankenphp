@@ -3,7 +3,7 @@
 <template>
     <div class="card">
         <h3>Documentation</h3>
-        <p class="bg-primary border-round p-3">This page covers the Vite version, for Nuxt 3 visit the <a href="https://github.com/primefaces/sakai-nuxt" class="font-bold bg-primary hover:underline">sakai-nuxt</a> repository instead.</p>
+        <p class="bg-primary rounded p-3">This page covers the Vite version, for Nuxt 3 visit the <a href="https://github.com/primefaces/sakai-nuxt" class="font-bold bg-primary hover:underline">sakai-nuxt</a> repository instead.</p>
         <h5>Getting Started</h5>
         <p>
             Sakai is an application template for Vue based on the <a href="https://github.com/vuejs/create-vue" class="font-medium text-primary hover:underline">create-vue</a>, the recommended way to start a <strong>Vite-powered</strong> Vue
@@ -21,7 +21,7 @@
 
         <h5>Structure</h5>
         <p>Sakai consists of a couple folders, demos and layout have been separated so that you can easily remove what is not necessary for your application.</p>
-        <ul class="line-height-3">
+        <ul class="leading-6">
             <li><span class="text-primary font-medium">src/layout</span>: Main layout files, needs to be present</li>
             <li><span class="text-primary font-medium">src/views</span>: Demo pages</li>
             <li><span class="text-primary font-medium">public/demo</span>: Assets used in demos</li>
