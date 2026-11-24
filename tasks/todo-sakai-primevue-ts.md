@@ -147,10 +147,11 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 15
   - Scope: M
 
-- [ ] Task 17: Migrate removed/deprecated menu, media, and misc components
+- [x] Task 17: Migrate removed/deprecated menu, media, and misc components
   - Acceptance: Steps→Stepper, TabMenu→Tabs, `v-badge`→OverlayBadge; MultiSelect→Select multiple; Galleria→Gallery; Image→Gallery; ColorPicker→InputColor; ScrollPanel→ScrollArea; Password→InputPassword; ImageCompare→Compare.
+  - Verified 2026-11-24 in five slices (commits `c9c38b0`, `53c22ce`, `711e261`, `1c38e66`, `5080529`): mapped against the official PrimeVue 5 migration guide plus upstream Sakai 5 Menu/Misc/Media docs and official component docs (Stepper, Tabs, OverlayBadge, Select multiple, Gallery, InputColor, ScrollArea, InputPassword). Stepper/Tabs keep the nested-route integration; `v-badge` and the no-op badge directive are gone; MultiSelect is `Select multiple` everywhere; Galleria/Image use the compound Gallery (thumbnail strip and fullscreen single-image preview); ColorPicker/ScrollPanel/Password use InputColor/ScrollArea/InputPassword. No `ImageCompare` usage exists in this port. All removed component imports/registrations were deleted. `vue-tsc --noEmit` and build pass; browser smoke of menu, misc, input, invalid-state, table, media and login routes shows the expected v5 components with no unresolved-component/directive warnings.
   - Verify: build, typecheck; route smoke.
-  - Files: `assets/views/uikit/Menu.vue`, `Media.vue`, `Misc.vue`
+  - Files: `assets/app.ts`, `assets/views/uikit/Menu.vue`, `assets/views/uikit/Media.vue`, `assets/views/uikit/Misc.vue`, `assets/views/uikit/Input.vue`, `assets/views/uikit/InvalidState.vue`, `assets/views/uikit/FloatLabel.vue`, `assets/views/uikit/Table.vue`, `assets/views/pages/auth/Login.vue`
   - Dependencies: Task 16
   - Scope: M
 
