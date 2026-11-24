@@ -74,15 +74,17 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 7
   - Scope: M
 
-- [ ] Task 9: Port layout composable and theme configuration
+- [x] Task 9: Port layout composable and theme configuration
   - Acceptance: `layout.ts` types layout config/state; `AppConfig.vue` uses PrimeVue 5 theme APIs (`inputVariant`, no `inputStyle`); dark mode/ripple/scale controls work.
-  - Verify: typecheck; browser smoke of configurator.
-  - Files: `assets/layout/composables/layout.ts`, `assets/layout/AppConfig.vue`
+  - Verified 2026-11-24: `layout.js` → typed `layout.ts` with `LayoutConfig`/`LayoutState` and upstream-style helpers (`toggleDarkMode`, `toggleConfigSidebar`, `toggleMenu`, `hideMobileMenu`, `changeMenuMode`, `isDesktop`, `hasOpenOverlay`). `toRefs` and legacy field names are kept as a bridge because 11 not-yet-ported shell/view components still read `.value`; Tasks 10–13 must remove that bridge and the legacy `theme` change signal. `AppConfig.vue` is now `<script setup lang="ts">`: `$primevue.changeTheme`/`inputStyle` and the v3 CSS theme swatches are gone, replaced by `$t`, `updatePreset`, `updateSurfacePalette`, `config.inputVariant`, `config.ripple` and `.app-dark`. Added `:root.app-dark { color-scheme: dark; }` to `styles.scss` because the legacy v3 `theme.css` still linked in Twig sets an unlayered `color-scheme: light` that outranks PrimeVue's layered dark rule; retire it with the SCSS port. Upstream's `startViewTransition` wrapper was omitted because its async callback can be skipped, leaving state and class out of sync.
+  - Browser smoke: dark mode sets `.app-dark` and computed `color-scheme: dark`; scale 14px → 15px; ripple toggles `p-ripple-disabled`; primary token `--p-primary-500` changes `#10b981` → `#3b82f6`; Nora preset selectable; 0 console errors. Build, typecheck, lint (0 errors) and PHPUnit pass.
+  - Files: `assets/layout/composables/layout.ts`, `assets/layout/AppConfig.vue`, `assets/assets/styles.scss`
   - Dependencies: Task 8
   - Scope: M
 
 - [ ] Task 10: Port primary layout shell components
   - Acceptance: AppLayout/AppSidebar/AppTopbar use `<script setup lang="ts">`; slots/menu toggles typed.
+  - Note: also adopt the non-`toRefs` layout API, drop the dead `layout-theme-light/dark` classes, and retire the legacy v3 `theme.css` link plus the `color-scheme` override once the Sakai SCSS uses v5 tokens.
   - Verify: typecheck; browser smoke of `/` and `/dashboard`.
   - Files: `assets/layout/AppLayout.vue`, `assets/layout/AppSidebar.vue`, `assets/layout/AppTopbar.vue`
   - Dependencies: Task 9

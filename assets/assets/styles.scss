@@ -1,5 +1,14 @@
 
 $gutter: 1rem;
+
+/* The legacy v3 theme.css linked in base.html.twig sets an unlayered
+   `color-scheme: light` on :root, which outranks PrimeVue 5's layered
+   `.app-dark` rule. Keep the legacy variables for the not-yet-ported Sakai
+   SCSS, but let the v5 dark selector win. Remove once theme.css is retired. */
+:root.app-dark {
+    color-scheme: dark;
+}
+
 @import './layout/layout.scss';
 
 /* PrimeVue */
