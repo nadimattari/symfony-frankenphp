@@ -100,12 +100,13 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 10
   - Scope: S
 
-- [ ] Task 12: Port dashboard, landing, and auth views
+- [x] Task 12: Port dashboard, landing, and auth views
   - Acceptance: routes render; widget data refs typed; PrimeVue 5 component names used; all script blocks are TS.
   - Verify: build, typecheck; browser smoke per route.
   - Files: `assets/views/Dashboard.vue`, `assets/views/pages/Landing.vue`, `assets/views/pages/auth/Login.vue`, `Access.vue`, `Error.vue`
   - Dependencies: Task 11
   - Scope: M
+  - Notes: Dashboard split into typed widgets; landing ported to Sakai 5 widget composition; auth views converted to TS + Sakai 5 Tailwind/PrimeVue 5 markup. Replaced `rounded-full` with inline `border-radius: 50%` to avoid postcss-calc `infinity * 1px` warning. Verified with `npm run build`, `npm run typecheck`, browser smoke on `/`, `/landing`, `/auth/login`, `/auth/access`, `/auth/error` via client-side navigation (direct nested SPA URLs 404 through Symfony). PHPUnit `OK (1 test, 1 assertion)`.
 
 - [ ] Task 13: Port/convert all uikit and utilities demo SFCs
   - Acceptance: every remaining `.vue` uses `<script setup lang="ts">`; no `.js` frontend modules remain; router entries valid.
