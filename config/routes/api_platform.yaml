@@ -1,4 +1,8 @@
-api_platform:
-    resource: .
-    type: api_platform
-    prefix: /api
+# API Platform's auto-generated docs/entrypoint routes are only registered in
+# dev. Auth and demo endpoints are attribute routes and remain available in
+# every environment. `enable_docs: false` in the base config is a second layer.
+when@dev:
+    api_platform:
+        resource: .
+        type: api_platform
+        prefix: /api

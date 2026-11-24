@@ -1,29 +1,41 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    role_hierarchy:
+        ROLE_ADMIN:   [ROLE_CASHIER]
+        ROLE_CASHIER: [ROLE_USER]
     providers:
-        users_in_memory: { memory: null }
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+            user_checker: App\Security\UserChecker
+            stateless: true
+            json_login:
+                check_path: /api/login
+                username_path: username
+                password_path: password
+                success_handler: App\Security\LoginSuccessHandler
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            jwt: ~
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # Auth endpoints stay public; refresh/logout are protected by the
+        # refresh cookie + CSRF header inside their controllers.
+        - { path: ^/api/login$,         roles: PUBLIC_ACCESS }
+        - { path: ^/api/token/refresh$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/logout$,        roles: PUBLIC_ACCESS }
+        - { path: ^/api/demo,           roles: PUBLIC_ACCESS }
+        - { path: ^/api/docs,           roles: PUBLIC_ACCESS }
+        - { path: ^/api,                roles: ROLE_USER }
+        - { path: ^/,                   roles: PUBLIC_ACCESS }
 
 when@test:
     security:

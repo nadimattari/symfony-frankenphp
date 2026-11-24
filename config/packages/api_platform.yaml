@@ -3,10 +3,8 @@ api_platform:
     version: 1.0.0
     formats:
         jsonld: ['application/ld+json']
-    docs_formats:
-        jsonld: ['application/ld+json']
-        jsonopenapi: ['application/vnd.openapi+json']
-        html: ['text/html']
+    # Docs are registered only in dev; see when@dev below.
+    enable_docs: false
     defaults:
         stateless: true
         cache_headers:
@@ -15,3 +13,11 @@ api_platform:
             standard_put: true
             rfc_7807_compliant_errors: true
     # removed legacy options for API Platform 4
+
+when@dev:
+    api_platform:
+        enable_docs: true
+        docs_formats:
+            jsonld: ['application/ld+json']
+            jsonopenapi: ['application/vnd.openapi+json']
+            html: ['text/html']
