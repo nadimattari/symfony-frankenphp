@@ -19,7 +19,7 @@ const filteredCountries = ref<Country[]>([]);
 const value1 = ref<string | null>(null);
 const value2 = ref<Country | null>(null);
 const value3 = ref<Date | null>(null);
-const value4 = ref<string[] | null>(null);
+const value4 = ref<string[]>([]);
 const value5 = ref<string | null>(null);
 const value6 = ref<number | null>(null);
 const value7 = ref<City | null>(null);
@@ -75,7 +75,7 @@ const searchCountry = (event: { query: string }): void => {
                         </div>
                         <div class="field">
                             <label for="chips">Chips</label>
-                            <Chips id="chips" v-model="value4" invalid />
+                            <InputTags id="chips" v-model="value4" invalid />
                         </div>
                         <div class="field">
                             <label for="password">Password</label>

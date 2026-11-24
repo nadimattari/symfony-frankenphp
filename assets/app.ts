@@ -174,6 +174,7 @@ app.component('CascadeSelect',         CascadeSelect);
 app.component('Checkbox',              Checkbox);
 app.component('Chip',                  Chip);
 app.component('Chips',                 InputTags);
+app.component('InputTags',             InputTags);
 app.component('ColorPicker',           ColorPicker);
 app.component('Column',                Column);
 app.component('ColumnGroup',           ColumnGroup);

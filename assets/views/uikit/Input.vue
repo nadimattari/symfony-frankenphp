@@ -18,7 +18,7 @@ const selectedAutoValue = ref<Country[] | null>(null);
 const autoFilteredValue = ref<Country[]>([]);
 const calendarValue = ref<Date | null>(null);
 const inputNumberValue = ref<number | null>(null);
-const chipsValue = ref<string[] | null>(null);
+const chipsValue = ref<string[]>([]);
 const sliderValue = ref(50);
 const ratingValue = ref<number | null>(null);
 const colorValue = ref('#1976D2');
@@ -136,7 +136,7 @@ const searchCountry = (event: { query: string }): void => {
                 <InputNumber v-model="inputNumberValue" showButtons mode="decimal"></InputNumber>
 
                 <h5>Chips</h5>
-                <Chips v-model="chipsValue" />
+                <InputTags v-model="chipsValue" />
             </div>
 
             <div class="card">

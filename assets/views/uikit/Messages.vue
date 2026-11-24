@@ -79,14 +79,14 @@ const showError = (): void => {
                     <label for="username1" class="col-fixed w-9rem">Username</label>
                     <div class="col">
                         <InputText id="username1" v-model="username" :required="true" invalid class="mr-2"></InputText>
-                        <InlineMessage>Username is required</InlineMessage>
+                        <Message severity="error">Username is required</Message>
                     </div>
                 </div>
                 <div class="field grid">
                     <label for="email" class="col-fixed w-9rem">Email</label>
                     <div class="col">
                         <InputText id="email" v-model="email" :required="true" invalid class="mr-2"></InputText>
-                        <InlineMessage />
+                        <Message severity="error" icon="pi pi-times-circle" />
                     </div>
                 </div>
             </div>
