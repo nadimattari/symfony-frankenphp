@@ -68,6 +68,7 @@ import Mask                  from 'primevue/mask';
 import MultiSelect           from 'primevue/multiselect';
 import OrderList             from 'primevue/orderlist';
 import OrganizationChart     from 'primevue/organizationchart';
+import OverlayBadge          from 'primevue/overlaybadge';
 import Popover               from 'primevue/popover';
 import Paginator             from 'primevue/paginator';
 import Panel                 from 'primevue/panel';
@@ -121,10 +122,6 @@ import { createPinia } from 'pinia';
 import App from './App.vue';
 import router from './router';
 
-// v-badge was removed in PrimeVue 5. The Sakai port will replace its usages;
-// this no-op keeps the current demo templates from logging an unknown directive.
-const LegacyBadgeDirective = {};
-
 const app = createApp(App);
 app.use(PrimeVue, {
     ripple: true,
@@ -156,7 +153,6 @@ app.use(ConfirmationService);
 ChartJS.register(ChartDataLabels);
 
 app.directive('tooltip',    Tooltip);
-app.directive('badge',      LegacyBadgeDirective);
 app.directive('ripple',     Ripple);
 app.directive('styleClass', StyleClass);
 app.directive('mask',       Mask);
@@ -219,6 +215,7 @@ app.component('Message',               Message);
 app.component('MultiSelect',           MultiSelect);
 app.component('OrderList',             OrderList);
 app.component('OrganizationChart',     OrganizationChart);
+app.component('OverlayBadge',          OverlayBadge);
 app.component('Popover',               Popover);
 app.component('Paginator',             Paginator);
 app.component('Panel',                 Panel);

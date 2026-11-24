@@ -56,10 +56,18 @@ onBeforeUnmount(() => {
                     <Badge :value="3" severity="danger"></Badge>
                 </div>
 
-                <h5>Positioned Badge</h5>
-                <i class="pi pi-bell mr-4 p-text-secondary" style="font-size: 2rem" v-badge="2"></i>
-                <i class="pi pi-calendar mr-4 p-text-secondary" style="font-size: 2rem" v-badge.danger="'10+'"></i>
-                <i class="pi pi-envelope p-text-secondary" style="font-size: 2rem" v-badge.danger></i>
+                <h5>Overlay</h5>
+                <div class="flex flex-wrap items-center gap-6">
+                    <OverlayBadge value="2">
+                        <i class="pi pi-bell p-text-secondary" style="font-size: 2rem"></i>
+                    </OverlayBadge>
+                    <OverlayBadge value="10+" severity="danger">
+                        <i class="pi pi-calendar p-text-secondary" style="font-size: 2rem"></i>
+                    </OverlayBadge>
+                    <OverlayBadge severity="danger">
+                        <i class="pi pi-envelope p-text-secondary" style="font-size: 2rem"></i>
+                    </OverlayBadge>
+                </div>
 
                 <h5>Inline Button Badge</h5>
                 <Button label="Emails" badge="8" class="mr-2"></Button>
@@ -91,7 +99,9 @@ onBeforeUnmount(() => {
                 <Avatar label="U" class="mr-2" :style="{ 'background-color': '#9c27b0', color: '#ffffff' }" shape="circle"></Avatar>
 
                 <h5>Icon - Badge</h5>
-                <Avatar icon="pi pi-user" class="mr-2" size="xlarge" v-badge.success="4"></Avatar>
+                <OverlayBadge value="4" severity="success">
+                    <Avatar icon="pi pi-user" size="xlarge"></Avatar>
+                </OverlayBadge>
             </div>
 
             <div class="card">
