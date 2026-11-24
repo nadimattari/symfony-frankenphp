@@ -9,6 +9,16 @@ parameters:
     env(JWT_PASSPHRASE): ''
     app.primeui_license_key: '%env(PRIMEUI_LICENSE_KEY)%'
     app.access_token_ttl: '%env(int:ACCESS_TOKEN_TTL)%'
+    # Mail settings. Empty defaults keep an unset variable harmless; real
+    # values belong in the environment (or gitignored .env.local), not here.
+    env(MAIL_FROM): ''
+    env(MAIL_REPLY_TO): ''
+    env(MAIL_REDIRECT_TO): ''
+    env(MAIL_THROTTLE_SECONDS): '0'
+    app.mail_from: '%env(MAIL_FROM)%'
+    app.mail_reply_to: '%env(MAIL_REPLY_TO)%'
+    app.mail_redirect_to: '%env(MAIL_REDIRECT_TO)%'
+    app.mail_throttle_seconds: '%env(int:MAIL_THROTTLE_SECONDS)%'
     # Dev/test run over plain HTTP; production must set this to true.
     app.cookie_secure: false
 
@@ -40,6 +50,10 @@ when@test:
             autowire: true
         # Functional tests fetch these directly from the test container.
         App\Repository\RefreshTokenRepository:
+            public: true
+        App\Repository\MailRunRepository:
+            public: true
+        App\Repository\EmailLogRepository:
             public: true
         App\Service\Auth\RefreshTokenService:
             public: true

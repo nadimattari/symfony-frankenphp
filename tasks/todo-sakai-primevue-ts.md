@@ -280,7 +280,7 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 1 decision (mail in scope)
   - Scope: S
 
-- [ ] Task 30: Mail configuration and entities
+- [x] Task 30: Mail configuration and entities
   - Acceptance: `MAIL_FROM`, `MAIL_REPLY_TO`, `MAIL_REDIRECT_TO`, `MAIL_THROTTLE_SECONDS` wired; minimal MailRun/EmailLog entities and migration; dev Mailpit config retained.
   - Verify: config dump; schema validate.
   - Files: `.env`, `config/services.yaml`, `src/Entity/`, `migrations/`
