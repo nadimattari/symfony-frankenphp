@@ -37,6 +37,16 @@ export interface ApiErrorBody {
   errors?: Record<string, string | string[]>;
 }
 
+/** Shape returned by GET /api/mail/settings. */
+export interface MailSettings {
+  from: string;
+  replyTo: string;
+  redirectTo: string;
+  throttleSeconds: number;
+  isRedirecting: boolean;
+  testMode: boolean;
+}
+
 /** Supports both the plain `{ data, total }` demo shape and API Platform's Hydra collections. */
 export interface ApiCollection<T> {
   data?: T[];

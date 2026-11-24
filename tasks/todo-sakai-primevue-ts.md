@@ -294,7 +294,7 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 30
   - Scope: L
 
-- [ ] Task 32: Typed frontend mail settings and test banner
+- [x] Task 32: Typed frontend mail settings and test banner
   - Acceptance: `assets/service/mail.ts` loads settings; test-mode banner typed; no domain-specific report endpoints.
   - Verify: typecheck; browser smoke.
   - Files: `assets/service/mail.ts`, `assets/components/MailTestModeBanner.vue`

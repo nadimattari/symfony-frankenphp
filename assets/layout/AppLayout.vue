@@ -4,6 +4,7 @@ import AppTopbar from './AppTopbar.vue';
 import AppFooter from './AppFooter.vue';
 import AppSidebar from './AppSidebar.vue';
 import AppConfig from './AppConfig.vue';
+import MailTestModeBanner from '../components/MailTestModeBanner.vue';
 import { useLayoutState } from './composables/layout';
 
 const { layoutConfig, layoutState, hideMobileMenu } = useLayoutState();
@@ -24,6 +25,7 @@ const containerClass = computed(() => ({
         <AppSidebar />
         <div class="layout-main-container">
             <div class="layout-main">
+                <MailTestModeBanner />
                 <RouterView />
             </div>
             <AppFooter />
