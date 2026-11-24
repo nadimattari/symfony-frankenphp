@@ -40,10 +40,10 @@ Branch: `feature/primevue-sakai-ts`. Lamiral is read-only reference.
   - Dependencies: Task 3
   - Scope: S
 
-- [ ] Task 5: Enable Encore PostCSS + Tailwind 4
+- [x] Task 5: Enable Encore PostCSS + Tailwind 4
   - Acceptance: `webpack.config.js` calls `.enablePostCssLoader()`; `postcss.config.cjs` (CommonJS, matching current config style) registers `@tailwindcss/postcss`; CSS entry has `@import "tailwindcss";` and `@import "tailwindcss-primeui";`; PrimeVue/Tailwind layer order and dark variant follow official guidance.
-  - Verify: build emits Tailwind utilities; browser smoke of theme/dark mode.
-  - Files: `webpack.config.js`, `postcss.config.cjs`, `assets/styles/styles.scss` (or new `assets/styles/app.css`)
+  - Verified 2026-11-24: production build emits a ~381 KiB CSS bundle containing Tailwind 4 utilities (`.bg-primary`, custom 576px breakpoint) and the declared `theme, base, primevue, components, utilities` layer order. The CSS entry is `assets/assets/tailwind.css`, imported before the existing Sakai SCSS. PrimeFlex remains until the Sakai port replaces its classes.
+  - Files: `webpack.config.js`, `postcss.config.cjs`, `assets/assets/tailwind.css`, `assets/app.js`
   - Dependencies: Task 3
   - Scope: M
 

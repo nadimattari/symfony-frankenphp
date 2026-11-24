@@ -56,6 +56,9 @@ Encore
     // enables Sass/SCSS support
     .enableSassLoader()
 
+    // enables Tailwind 4 through PostCSS
+    .enablePostCssLoader()
+
     // uncomment if you use TypeScript
     .enableTypeScriptLoader()
 

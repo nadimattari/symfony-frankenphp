@@ -5,6 +5,7 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
+import './assets/tailwind.css';
 import './assets/styles.scss';
 
 import PrimeVue              from 'primevue/config';

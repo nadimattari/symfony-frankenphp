@@ -1,0 +1,31 @@
+/* Tailwind 4 entry for the Sakai port. PrimeVue styles are layered by the
+   application config so utilities can override component classes. */
+@layer theme, base, primevue, components, utilities;
+
+@import 'tailwindcss';
+@import 'tailwindcss-primeui';
+
+@custom-variant dark (&:where([class*="app-dark"], [class*="app-dark"] *));
+
+@theme {
+    --breakpoint-*: initial;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --breakpoint-2xl: 1920px;
+}
+
+/*
+ * Tailwind v4 defaults border-color to currentcolor. Sakai expects the
+ * PrimeVue surface border color, so restore the Tailwind v3 behaviour.
+ */
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentcolor);
+    }
+}
