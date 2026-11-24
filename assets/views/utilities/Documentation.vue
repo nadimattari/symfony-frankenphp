@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
     <div class="card">
         <h3>Documentation</h3>
@@ -35,7 +37,7 @@
         <p>Only the folders that are related to the layout needs to move in to your project. We've created a short tutorial with details.</p>
 
         <div class="video-container">
-            <iframe className="video" width="560" height="315" src="https://www.youtube.com/embed/AHeSjJFR3ZE" frameborder="0" allowfullscreen></iframe>
+            <iframe class="video" width="560" height="315" src="https://www.youtube.com/embed/AHeSjJFR3ZE" frameborder="0" allowfullscreen></iframe>
         </div>
 
         <h5>PrimeVue Theme</h5>
