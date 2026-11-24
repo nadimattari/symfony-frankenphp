@@ -1,21 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import Badge from 'primevue/badge';
-import Button from 'primevue/button';
-import Carousel from 'primevue/carousel';
-import Galleria from 'primevue/galleria';
-import Image from 'primevue/image';
 import PhotoService, { type Photo } from '../../service/PhotoService';
 import ProductService, { type Product } from '../../service/ProductService';
 
 const products = ref<Product[]>([]);
 const images = ref<Photo[]>([]);
-const galleriaResponsiveOptions = ref([
-    { breakpoint: '1024px', numVisible: 5 },
-    { breakpoint: '960px', numVisible: 4 },
-    { breakpoint: '768px', numVisible: 3 },
-    { breakpoint: '560px', numVisible: 1 }
-]);
+const imagePreviewOpen = ref(false);
+const previewImage = '/demo/images/galleria/galleria11.jpg';
 const carouselResponsiveOptions = ref([
     { breakpoint: '1024px', numVisible: 3, numScroll: 3 },
     { breakpoint: '768px', numVisible: 2, numScroll: 2 },
@@ -62,15 +53,26 @@ onMounted(() => {
 
         <div class="col-12">
             <div class="card">
-                <h5>Galleria</h5>
-                <Galleria :value="images" :responsiveOptions="galleriaResponsiveOptions" :numVisible="7" :circular="true" containerStyle="max-width: 800px; margin: auto">
-                    <template #item="{ item }: { item: Photo }">
-                        <img :src="item.itemImageSrc" :alt="item.alt" style="width: 100%; display: block" />
-                    </template>
-                    <template #thumbnail="{ item }: { item: Photo }">
-                        <img :src="item.thumbnailImageSrc" :alt="item.alt" style="width: 100%; display: block;" />
-                    </template>
-                </Galleria>
+                <h5>Gallery</h5>
+                <Gallery style="height: 32rem; max-width: 800px; margin: auto">
+                    <GalleryBackdrop />
+                    <GalleryPrev><i class="pi pi-chevron-left"></i></GalleryPrev>
+                    <GalleryNext><i class="pi pi-chevron-right"></i></GalleryNext>
+                    <GalleryContent>
+                        <GalleryItem v-for="(item, index) in images" :key="item.itemImageSrc || index">
+                            <img :src="item.itemImageSrc" :alt="item.alt || `image-${index + 1}`" style="max-width: 100%; max-height: 100%; object-fit: contain" />
+                        </GalleryItem>
+                    </GalleryContent>
+                    <GalleryFooter>
+                        <GalleryThumbnail>
+                            <GalleryThumbnailContent>
+                                <GalleryThumbnailItem v-for="(item, index) in images" :key="item.thumbnailImageSrc || index" :index="index">
+                                    <img :src="item.thumbnailImageSrc" :alt="item.alt || `thumbnail-${index + 1}`" style="width: 100%; height: 100%; object-fit: cover" />
+                                </GalleryThumbnailItem>
+                            </GalleryThumbnailContent>
+                        </GalleryThumbnail>
+                    </GalleryFooter>
+                </Gallery>
             </div>
         </div>
 
@@ -78,8 +80,25 @@ onMounted(() => {
             <div class="card">
                 <h5>Image</h5>
                 <div class="flex justify-content-center">
-                    <Image :src="'demo/images/galleria/galleria11.jpg'" alt="Image" width="250" preview />
+                    <img
+                        :src="previewImage"
+                        alt="Image"
+                        width="250"
+                        style="cursor: pointer"
+                        @click="imagePreviewOpen = true"
+                    />
                 </div>
+                <Gallery v-if="imagePreviewOpen" fullscreen @update:fullscreen="imagePreviewOpen = $event">
+                    <GalleryBackdrop />
+                    <GalleryHeader style="justify-content: flex-end">
+                        <GalleryFullScreen><i class="pi pi-times"></i></GalleryFullScreen>
+                    </GalleryHeader>
+                    <GalleryContent>
+                        <GalleryItem>
+                            <img :src="previewImage" alt="Image" />
+                        </GalleryItem>
+                    </GalleryContent>
+                </Gallery>
             </div>
         </div>
     </div>
