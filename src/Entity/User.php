@@ -97,6 +97,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    #[\Deprecated(since: 'symfony/security-core 7.3')]
     public function eraseCredentials(): void
     {
     }
