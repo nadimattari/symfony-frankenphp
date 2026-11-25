@@ -107,6 +107,10 @@ Both Caddyfiles now cap request bodies at 1 MiB and apply Caddy's `timeouts` dir
 
 This is a partial mitigation for oversized or stalling requests only. It does not close the DoS risk in the risk register above, and the earlier row saying proxy-level controls remain out of scope is superseded by this note. Application-level login/refresh/logout limits remain the authoritative abuse controls; a full WAF/CDN/DDoS service is still out of scope.
 
+### Role model simplification (2026-11-25)
+
+`ROLE_CASHIER` and `ROLE_CUSTOMER` came from Lamiral's domain model and are not used by this starter. They have been removed from `App\Entity\User`, the Pinia auth store (including the unused `isStaff` / `isCustomer` getters) and the Symfony role hierarchy, which is now `ROLE_ADMIN` → `ROLE_USER`. The four-role wording in decision 5 above is kept as the historical record of the original design; this subsection supersedes it for current behaviour. No migration was added: any old role strings already stored in `app_user.roles` are inert because no code or route grants them meaning. The guard test uses a synthetic `ROLE_FIXTURE` string rather than a removed role.
+
 ## Revisit
 
 Re-evaluate the `localStorage` trade-off when any of the following changes:

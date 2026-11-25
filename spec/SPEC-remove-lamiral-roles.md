@@ -95,8 +95,9 @@ to shipped release notes.
 
 - [ ] The new store test was observed RED before the code change and GREEN after it; existing frontend tests are 
 unchanged except for the fixture literal.
-- [ ] `git grep` finds no `ROLE_CASHIER` / `ROLE_CUSTOMER` / `USER_ROLE_*` in `src/`, `assets/`, `config/` or `tests/`; 
-remaining mentions are only the historical task log and the new dated ADR note.
+- [ ] `git grep` finds no `ROLE_CASHIER` / `ROLE_CUSTOMER` / `USER_ROLE_*` in `src/`, `assets/` or `config/`; in
+`tests/` the only mentions are the new absence test's assertions. Remaining repository mentions are the historical
+task log and the new dated ADR note.
 - [ ] Frontend gates exit 0; PHPUnit reports `OK (58 tests, 375 assertions)` with exit 0.
 - [ ] `docs/adr/0003-auth-architecture.md` keeps its original line 31 and gains only a dated note.
 - [ ] One local commit; no push and no tag.

@@ -90,3 +90,13 @@ test("state is restored from localStorage on a fresh store instance", () => {
     assert.equal(store.isAuthorisedFor(ROLE_USER), true);
     assert.equal(store.isAuthorisedFor(ROLE_ADMIN), false);
 });
+
+test("Lamiral-specific role constants and getters are gone", () => {
+    const authStoreModule = require("../../var/test-build/store/auth.js");
+    const store = authStoreModule.useAuthStore();
+
+    assert.equal(authStoreModule.ROLE_CASHIER, undefined);
+    assert.equal(authStoreModule.ROLE_CUSTOMER, undefined);
+    assert.equal(store.isStaff, undefined);
+    assert.equal(store.isCustomer, undefined);
+});

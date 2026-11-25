@@ -64,7 +64,7 @@ test("an admin can access any role-protected route", () => {
     const guard = createAuthGuard(auth({ token: "jwt", roles: ["ROLE_ADMIN"] }));
 
     assert.equal(
-        guard(route("/pages/admin", { requiresAuth: true, requiresRole: "ROLE_CASHIER" })),
+        guard(route("/pages/admin", { requiresAuth: true, requiresRole: "ROLE_FIXTURE" })),
         true,
     );
 });

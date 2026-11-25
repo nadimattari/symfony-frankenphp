@@ -14,9 +14,7 @@ use Symfony\Component\Serializer\Attribute\Ignore;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const USER_ROLE_USER = 'ROLE_USER';
-    public const USER_ROLE_CASHIER = 'ROLE_CASHIER';
     public const USER_ROLE_ADMIN = 'ROLE_ADMIN';
-    public const USER_ROLE_CUSTOMER = 'ROLE_CUSTOMER';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

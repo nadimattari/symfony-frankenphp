@@ -1,6 +1,6 @@
 # Capability Map: Pre-push cleanup
 
-Status: **proposed** (2026-11-25)
+Status: **approved** (2026-11-25)
 
 Source: user request before push/tag · [Lamiral Makefile reference](../docs/analysis-lamiral-sakai-upgrade.md) (read-only at `/home/nadim/Projects/Lamiral/LamiralApp`)
 

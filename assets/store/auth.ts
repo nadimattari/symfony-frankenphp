@@ -9,9 +9,7 @@ import { authService } from "../service/auth";
 import type { AuthResponse, LoginRequest, Role } from "../types/api";
 
 export const ROLE_ADMIN: Role = "ROLE_ADMIN";
-export const ROLE_CASHIER: Role = "ROLE_CASHIER";
 export const ROLE_USER: Role = "ROLE_USER";
-export const ROLE_CUSTOMER: Role = "ROLE_CUSTOMER";
 
 const TOKEN_KEY = "token";
 const ROLES_KEY = "roles";
@@ -42,12 +40,6 @@ export const useAuthStore = defineStore("auth", {
   }),
   getters: {
     isAuthenticated: (state): boolean => Boolean(state.token),
-    isStaff: (state): boolean =>
-      state.roles.includes(ROLE_ADMIN) || state.roles.includes(ROLE_CASHIER),
-    isCustomer: (state): boolean =>
-      state.roles.includes(ROLE_CUSTOMER) &&
-      !state.roles.includes(ROLE_ADMIN) &&
-      !state.roles.includes(ROLE_CASHIER),
   },
   actions: {
     saveToken(token: string | null): void {
@@ -83,9 +75,6 @@ export const useAuthStore = defineStore("auth", {
     },
     isAuthorisedFor(role: Role): boolean {
       if (this.roles.includes(ROLE_ADMIN)) {
-        return true;
-      }
-      if (this.roles.includes(ROLE_CASHIER) && role === ROLE_CASHIER) {
         return true;
       }
       return this.roles.includes(role);
