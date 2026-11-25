@@ -60,4 +60,4 @@ Revisit when a stable 1.0.0 is warranted (ADR 0003 residual risks resolved), whe
 
 ## Note (2026-11-25)
 
-The two ADR 0003 blockers that deferred 1.0.0 — no auth rate limiting and no CSP — are now closed: application-level throttling returns JSON 429 with `Retry-After`, and a strict nonce-based CSP is emitted on every main response. The release documentation is prepared, so the 1.0.0 gate is ready. The annotated `v1.0.0` tag has not been created; tagging remains a separate human decision. This note does not change the original decision, alternatives or branch/tag history above; remaining risks are recorded in ADR 0003 as accepted or open.
+The two ADR 0003 blockers that deferred 1.0.0 — no auth rate limiting and no CSP — are now closed: application-level throttling returns JSON 429 with `Retry-After`, and a strict nonce-based CSP is emitted on every main response. The 1.0.0 gate was prepared, the post-gate cleanup was applied, and the annotated `v1.0.0` tag was created and pushed after explicit approval. This note does not change the original decision, alternatives or branch/tag history above; remaining risks are recorded in ADR 0003 as accepted or open.

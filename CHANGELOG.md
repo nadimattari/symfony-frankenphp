@@ -4,25 +4,33 @@ All notable changes to this starter are recorded here, newest first. Versions ar
 
 ## [v1.0.0] - 2026-11-25
 
-Prepared release content; the annotated `v1.0.0` tag is pending a separate decision. This entry records the security hardening that closes the two blockers in [ADR 0003](docs/adr/0003-auth-architecture.md) and makes the promoted stack suitable as a stable starter. See [ADR 0005](docs/adr/0005-release-and-branch-strategy.md) for the branch and tag strategy.
+Released 2026-11-25 from `main`. This entry records the security hardening that closes the two blockers in [ADR 0003](docs/adr/0003-auth-architecture.md) and the post-gate cleanup applied before tagging; it makes the promoted stack suitable as a stable starter. See [ADR 0005](docs/adr/0005-release-and-branch-strategy.md) for the branch and tag strategy.
 
 ### Added
 
 - Application-level rate limiting on `/api/login`, `/api/token/refresh` and `/api/logout`, returning JSON 429 with `Retry-After`; counters are shared across PHP workers through the MariaDB-backed Doctrine DBAL cache pool.
 - A strict per-response `Content-Security-Policy` with a fresh 18-byte nonce applied to the single inline Twig globals script; no `'unsafe-eval'`, remote script allowlist or inline event handlers.
 - RED-first functional coverage for the 429 contract and the CSP header/nonce behaviour, plus a real-browser smoke confirming zero CSP violations, local demo assets and no external subresource requests.
+- Makefile targets for the everyday frontend commands in `sf-node` (`npm-dev`, `npm-watch`, `npm-build`, `npm-dev-server`, `npm-install`, `npm-ci`, `typecheck`, `lint`, `test:fetch`).
 
 ### Changed
 
 - Demo product and avatar images now use local fixtures and the tutorial iframe became an external link, so the strict CSP needs no remote host allowlist.
 - ADR 0003 marks the rate-limiting and CSP gaps as mitigated; the remaining accepted and open risks are documented rather than hidden.
-- Release documentation describes the prepared 1.0.0 line: resolved versions live in the version inventory, and README/ADR 0005 state that the tag is pending.
+- Release documentation describes the 1.0.0 line: resolved versions live in the version inventory, and README/ADR 0005 point at the released annotated tag.
+- Caddy dev/prod rewrite extensionless SPA routes to `index.php` for direct deep links, and cap request bodies at 1 MiB with stalled read/write timeouts. The bundled image has no native rate/connection limiter, so proxy-level DoS protection remains partial.
+- PHPUnit uses the PHPUnit 9.6 `<coverage>` schema, the `eraseCredentials()` deprecation is attributed, and the full ESLint scope is Prettier-clean without weakening lint rules.
+
+### Removed
+
+- Lamiral-specific `ROLE_CASHIER` / `ROLE_CUSTOMER` constants and the unused `isStaff` / `isCustomer` store getters. The role model is now `ROLE_ADMIN` / `ROLE_USER`.
 
 ### Security
 
 - Login throttling allows 10 failed attempts per 15 minutes per IP + username, plus a broader IP-wide counter at 5× that limit; refresh and logout allow 30 attempts per 15 minutes per hashed client IP. This is application-level abuse protection, not DoS protection.
 - `script-src 'self' 'nonce-<nonce>'` replaces permissive inline script execution. `style-src 'unsafe-inline'` remains an accepted PrimeVue/Sakai residual, and the access token is still readable by any script that defeats CSP.
 - No JWT keys, passphrases, license key values or credentials are tracked; the auth and CSP modules each passed a staged secret scan before merge.
+- Dev-toolchain advisories are triaged in [npm-audit-triage.md](docs/security/npm-audit-triage.md): production dependencies report 0 findings; 44 dev/build findings are accepted or deferred without forced upgrades.
 
 ## [v0.2.0] - 2026-11-24
 

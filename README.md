@@ -133,10 +133,10 @@ Open http://localhost:8125 to see the captured message. With no redirect configu
 
 ## Releases
 
-`main` is prepared for **v1.0.0** (2026-11-25): the auth rate-limiting and CSP blockers are closed and the release notes are ready. The annotated `v1.0.0` tag is **pending** a separate decision and has not been created, so the latest tagged release remains **v0.2.0** (PrimeVue 5 / Sakai 5 / TypeScript / Tailwind 4 plus auth and mail). The previous starter baseline is frozen on branch `release/v0.1` and tagged **v0.1.0** (commit `84550eb`); it is not receiving further changes. The older `pre-migration` tag (`c2e19cd`) is historical only.
+`main` is released as **v1.0.0** (2026-11-25): the auth rate-limiting and CSP blockers are closed, the post-gate cleanup is applied, and the annotated tag has been created and pushed. The previous tagged release is **v0.2.0** (PrimeVue 5 / Sakai 5 / TypeScript / Tailwind 4 plus auth and mail). The starter baseline is frozen on branch `release/v0.1` and tagged **v0.1.0** (commit `84550eb`); it is not receiving further changes. The older `pre-migration` tag (`c2e19cd`) is historical only.
 
-- [CHANGELOG.md](CHANGELOG.md) — human-readable release notes, including the prepared v1.0.0 entry.
-- [docs/releases/version-inventory.md](docs/releases/version-inventory.md) — resolved framework, library and infrastructure versions for each tagged release and the prepared 1.0.0 gate.
+- [CHANGELOG.md](CHANGELOG.md) — human-readable release notes, including the v1.0.0 entry.
+- [docs/releases/version-inventory.md](docs/releases/version-inventory.md) — resolved framework, library and infrastructure versions for each tagged release, including v1.0.0.
 - [ADR 0005](docs/adr/0005-release-and-branch-strategy.md) — why the baseline is a frozen branch, why `main` was fast-forwarded instead of rewritten, and the 2026-11-25 gate note.
 
 ## Services

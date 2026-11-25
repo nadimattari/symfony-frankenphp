@@ -1,12 +1,12 @@
 # Version inventory
 
-Resolved dependency versions at each release tag, plus the prepared `v1.0.0` gate, taken from `composer.lock` and `package-lock.json` at that commit or, for the prepared gate, from the current locks on `main`. Infrastructure versions come from the Dockerfiles, `compose*.yaml` and `.env` at the same point. Version ranges declared in manifests are intentionally omitted in favour of the resolved versions that were actually locked.
+Resolved dependency versions at each release tag, taken from `composer.lock` and `package-lock.json` at that commit. Infrastructure versions come from the Dockerfiles, `compose*.yaml` and `.env` at the same point. Version ranges declared in manifests are intentionally omitted in favour of the resolved versions that were actually locked.
 
 The older lightweight tag `pre-migration` (`c2e19cd`, 2026-10-24) predates these releases and is kept only for archaeology. It is not a release.
 
-## v1.0.0 — prepared (2026-11-25), tag pending
+## v1.0.0 — released (2026-11-25)
 
-This section describes the current `main` lock files at the time the 1.0.0 gate was prepared. The annotated tag has not been created, so no tag commit hash is listed; the tag will be placed at a deliberate commit after human approval.
+This section describes the `main` lock files at the release commit. The annotated tag points to the release documentation commit; no dependency lock changed after the 1.0.0 gate was prepared.
 
 ### Backend and PHP packages
 
@@ -65,7 +65,7 @@ This section describes the current `main` lock files at the time the 1.0.0 gate 
 
 ## v0.2.0 — tagged at `be32758` (2026-11-24), previous tagged release
 
-The tag points to the release documentation commit. Lock files are unchanged from the feature tip `3423438`, so the resolved versions below describe both commits. It remains the latest tagged release while the 1.0.0 gate is prepared.
+The tag points to the release documentation commit. Lock files are unchanged from the feature tip `3423438`, so the resolved versions below describe both commits. It is the previous tagged release.
 
 ### Backend and PHP packages
 
@@ -168,4 +168,4 @@ Identical pins to v0.2.0: FrankenPHP `1-php8.2` with bundled Caddy/Mercure, Mari
 
 ## Versioning policy
 
-Both tagged releases use semantic versioning. Before 1.0, a minor bump may contain breaking changes; v0.2.0 replaces the entire frontend stack and adds auth/mail endpoints, so it is deliberately a minor rather than a patch bump. The two ADR 0003 blockers (no CSP and no auth rate limiting) are now closed, so `1.0.0` is prepared and gate ready; the remaining risks are recorded as accepted or open rather than hidden. The annotated tag is still pending a separate human decision. Branch and tag decisions are recorded in [ADR 0005](../adr/0005-release-and-branch-strategy.md).
+All three tagged releases use semantic versioning. Before 1.0, a minor bump may contain breaking changes; v0.2.0 replaces the entire frontend stack and adds auth/mail endpoints, so it is deliberately a minor rather than a patch bump. The two ADR 0003 blockers (no CSP and no auth rate limiting) are closed, so `1.0.0` is released; the remaining risks are recorded as accepted or open rather than hidden. The annotated tag was created after explicit approval. Branch and tag decisions are recorded in [ADR 0005](../adr/0005-release-and-branch-strategy.md).
