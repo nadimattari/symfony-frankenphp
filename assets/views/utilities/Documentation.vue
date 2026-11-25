@@ -36,9 +36,10 @@
         <h5>Integration with Existing Vite Applications</h5>
         <p>Only the folders that are related to the layout needs to move in to your project. We've created a short tutorial with details.</p>
 
-        <div class="video-container">
-            <iframe class="video" width="560" height="315" src="https://www.youtube.com/embed/AHeSjJFR3ZE" frameborder="0" allowfullscreen></iframe>
-        </div>
+        <p>
+            Watch the integration tutorial on
+            <a href="https://www.youtube.com/watch?v=AHeSjJFR3ZE" class="font-medium text-primary hover:underline">YouTube</a>.
+        </p>
 
         <h5>PrimeVue Theme</h5>
         <p>Sakai theming is based on the PrimeVue theme being used. Default theme is <b>lara-light-indigo</b>.</p>
@@ -59,22 +60,3 @@
         </pre>
     </div>
 </template>
-
-<style lang="scss" scoped>
-@media screen and (max-width: 991px) {
-    .video-container {
-        position: relative;
-        width: 100%;
-        height: 0;
-        padding-bottom: 56.25%;
-
-        iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-    }
-}
-</style>

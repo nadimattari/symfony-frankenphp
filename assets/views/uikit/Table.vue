@@ -183,7 +183,7 @@ const calculateCustomerTotal = (name: string): number => {
                     <Column header="Agent" filterField="representative" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" style="min-width: 14rem">
                         <template #body="slotProps">
                             <div class="flex items-center gap-2">
-                                <img :alt="(slotProps as any).data.representative.name" :src="`https://primefaces.org/cdn/primevue/images/avatar/${(slotProps as any).data.representative.image}`" style="width: 32px" />
+                                <img :alt="(slotProps as any).data.representative.name" :src="`/demo/images/avatar/${(slotProps as any).data.representative.image}`" style="width: 32px" />
                                 <span>{{ (slotProps as any).data.representative.name }}</span>
                             </div>
                         </template>
@@ -290,7 +290,7 @@ const calculateCustomerTotal = (name: string): number => {
                     <Column field="representative.name" header="Representative" style="min-width: 200px">
                         <template #body="slotProps">
                             <div class="flex items-center gap-2">
-                                <img :alt="(slotProps as any).data.representative.name" :src="`https://primefaces.org/cdn/primevue/images/avatar/${(slotProps as any).data.representative.image}`" style="width: 32px" />
+                                <img :alt="(slotProps as any).data.representative.name" :src="`/demo/images/avatar/${(slotProps as any).data.representative.image}`" style="width: 32px" />
                                 <span>{{ (slotProps as any).data.representative.name }}</span>
                             </div>
                         </template>

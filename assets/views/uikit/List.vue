@@ -109,7 +109,7 @@ const getSlotItem = (slotProps: any): any => slotProps.item;
                             <div v-for="(item, index) in items" :key="index" class="col-span-12">
                                 <div class="flex flex-col sm:flex-row sm:items-center p-4 gap-3" :class="{ 'border border-surface-200': index !== 0 }">
                                     <div class="md:w-10rem relative">
-                                        <img class="block xl:block mx-auto rounded w-full" :src="`https://primefaces.org/cdn/primevue/images/product/${item.image}`" :alt="item.name" />
+                                        <img class="block xl:block mx-auto rounded w-full" :src="`/demo/images/product/${item.image}`" :alt="item.name" />
                                         <Tag :value="item.inventoryStatus" :severity="getSeverity(item)" class="absolute" style="left: 4px; top: 4px"></Tag>
                                     </div>
                                     <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-4">
@@ -144,7 +144,7 @@ const getSlotItem = (slotProps: any): any => slotProps.item;
                                 <div class="p-4 border border-surface-200 bg-surface-0 rounded flex flex-col">
                                     <div class="bg-surface-50 flex justify-center rounded p-3">
                                         <div class="relative mx-auto">
-                                            <img class="rounded w-full" :src="`https://primefaces.org/cdn/primevue/images/product/${item.image}`" :alt="item.name" style="max-width: 300px" />
+                                            <img class="rounded w-full" :src="`/demo/images/product/${item.image}`" :alt="item.name" style="max-width: 300px" />
                                             <Tag :value="item.inventoryStatus" :severity="getSeverity(item)" class="absolute" style="left: 4px; top: 4px"></Tag>
                                         </div>
                                     </div>
