@@ -15,9 +15,9 @@
         <server name="CORS_ALLOW_ORIGIN" value="^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$"/>
         <server name="SHELL_VERBOSITY" value="-1"/>
     </php>
-    <source>
+    <coverage>
         <include>
             <directory>src</directory>
         </include>
-    </source>
+    </coverage>
 </phpunit>
