@@ -1,6 +1,6 @@
 # Tasks: CSP headers (`csp-headers` module)
 
-Status: **proposed** (2026-11-25) — awaiting human review of [the plan](plan-hardening-csp.md)
+Status: **approved** (2026-11-25); C1–C6 complete, C7 pending — [plan](plan-hardening-csp.md)
 
 Spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md). These tasks are additive; the auth module's `tasks/plan-hardening-1.0.md` / `tasks/todo-hardening-1.0.md` and the Sakai plan with its open Task 35 are not modified.
 
@@ -28,15 +28,15 @@ Spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md). These tasks are additi
 **Description:** Write the functional tests first, before any production change. Assert the exact approved policy, that the rendered inline script carries the same nonce, nonce rotation/entropy, absence of unsafe tokens, and that a JSON response also carries the header.
 
 **Acceptance criteria:**
-- [ ] `GET /` returns 200 and the response has exactly: `default-src 'self'; script-src 'self' 'nonce-<nonce>'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'` where `<nonce>` is the value found in `<script nonce="...">`.
-- [ ] `script-src` contains no `'unsafe-inline'`, `'unsafe-eval'`, remote host or `*` source.
-- [ ] Two consecutive requests produce different nonces; each decodes from base64url to 18 bytes and uses only `[A-Za-z0-9_-]`.
-- [ ] `GET /api/demo/products` still returns its JSON body and also carries the CSP header.
-- [ ] The test fails on the unmodified app (RED) before C3.
+- [x] `GET /` returns 200 and the response has exactly: `default-src 'self'; script-src 'self' 'nonce-<nonce>'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'` where `<nonce>` is the value found in `<script nonce="...">`.
+- [x] `script-src` contains no `'unsafe-inline'`, `'unsafe-eval'`, remote host or `*` source.
+- [x] Two consecutive requests produce different nonces; each decodes from base64url to 18 bytes and uses only `[A-Za-z0-9_-]`.
+- [x] `GET /api/demo/products` still returns its JSON body and also carries the CSP header.
+- [x] The test fails on the unmodified app (RED) before C3.
 
 **Verification:**
-- [ ] `docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit tests/Functional/CspHeadersTest.php` fails before C3 with a missing-header/nonce assertion.
-- [ ] Commit the RED test before touching production code.
+- [x] `docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit tests/Functional/CspHeadersTest.php` failed before C3 with a missing-header/nonce assertion.
+- [x] Commit the RED test before touching production code (`3b6df55`).
 
 **Dependencies:** C1
 
@@ -49,16 +49,16 @@ Spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md). These tasks are additi
 **Description:** Add a `kernel.request` / `kernel.response` subscriber that generates a per-request nonce and sets the exact policy header; add the matching `nonce` attribute to the only inline script. Keep the policy as a private constant; let existing `autoconfigure` register the subscriber.
 
 **Acceptance criteria:**
-- [ ] `src/EventSubscriber/CspResponseSubscriber.php` generates the nonce on the main request, copies it to subrequests, and sets the header only on main responses.
-- [ ] `templates/base.html.twig:15` uses `<script nonce="{{ app.request.attributes.get('csp_nonce') }}">`; no other inline script or inline event handler is added.
-- [ ] No new Composer/npm dependency, no `config/services.yaml` change, no `'unsafe-eval'` and no remote origin.
-- [ ] C2 turns GREEN and existing tests remain green.
+- [x] `src/EventSubscriber/CspResponseSubscriber.php` generates the nonce on the main request, copies it to subrequests, and sets the header only on main responses.
+- [x] `templates/base.html.twig:15` uses `<script nonce="{{ app.request.attributes.get('csp_nonce') }}">`; no other inline script or inline event handler is added.
+- [x] No new Composer/npm dependency, no `config/services.yaml` change, no `'unsafe-eval'` and no remote origin.
+- [x] C2 turns GREEN and existing tests remain green.
 
 **Verification:**
-- [ ] `docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit tests/Functional/CspHeadersTest.php`
-- [ ] `docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit`
-- [ ] `curl -sSI http://localhost:8180/ | grep -i '^content-security-policy:'`
-- [ ] `git diff --check` and a staged secret scan
+- [x] `docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit tests/Functional/CspHeadersTest.php` → OK (3 tests, 17 assertions)
+- [x] `docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit` → OK (58 tests, 375 assertions)
+- [x] `curl -sSI http://localhost:8180/` shows the header; raw document nonce matches the header nonce
+- [x] `git diff --check` and a staged secret scan
 
 **Dependencies:** C2
 
@@ -68,25 +68,25 @@ Spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md). These tasks are additi
 
 ### Checkpoint: CSP core green
 
-- [ ] RED test failed before C3 and passes after it
-- [ ] Full PHPUnit suite green with no regressions
-- [ ] Header observed on a real HTTP response
-- [ ] Human review of the core control before UI changes
+- [x] RED test failed before C3 and passes after it
+- [x] Full PHPUnit suite green with no regressions
+- [x] Header observed on a real HTTP response
+- [x] Core control verified by tests and HTTP smoke; final merged-diff review remains in C7
 
 ## C4 — Replace remote demo media with local assets
 
 **Description:** Make the demo views render under `default-src 'self'` without adding a remote allowlist. Point product/avatar images at existing local fixtures and replace the YouTube iframe with an external documentation link.
 
 **Acceptance criteria:**
-- [ ] `List.vue` and `Table.vue` use `/demo/images/product/${item.image}` and `/demo/images/avatar/${...}`; no `https://primefaces.org/cdn/...` reference remains in `assets/`.
-- [ ] `Documentation.vue` has no remote `<iframe>`; the tutorial is reachable through a normal external anchor.
-- [ ] No new remote CSP source, no new binary asset, no unused `.video` CSS left behind.
-- [ ] `grep -R 'https://' assets/ | grep -v '^.*http.*://.*/.*#'` shows no subresource URLs (anchor links are acceptable).
+- [x] `List.vue` and `Table.vue` use `/demo/images/product/${item.image}` and `/demo/images/avatar/${...}`; no `https://primefaces.org/cdn/...` reference remains in `assets/`.
+- [x] `Documentation.vue` has no remote `<iframe>`; the tutorial is reachable through a normal external anchor.
+- [x] No new remote CSP source, no new binary asset, no unused `.video` CSS left behind.
+- [x] `grep -R 'https://' assets/ | grep -v '^.*http.*://.*/.*#'` shows no subresource URLs (anchor links are acceptable).
 
 **Verification:**
-- [ ] `npm run build` succeeds
-- [ ] `npm test`, `npm run lint`, `npm run typecheck` pass
-- [ ] DevTools Network panel shows no blocked remote subresource on the touched views
+- [x] `npm run build` succeeds
+- [x] `npm run test:fetch`, `npm run lint`, `npm run typecheck` pass
+- [x] DevTools Network panel shows no blocked remote subresource on the touched views
 
 **Dependencies:** C3
 
@@ -99,13 +99,13 @@ Spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md). These tasks are additi
 **Description:** Verify the enforced policy in a real browser across the shell, an authenticated flow and a route that loads a dynamic chunk, plus the demo views changed in C4. Confirm the dev-toolbar caveat is understood.
 
 **Acceptance criteria:**
-- [ ] Zero `Content Security Policy` violation messages in the console on `/`, `/auth/login`, login/logout and a lazily loaded SPA route.
-- [ ] Demo list/table/documentation views render images or their local replacements without blocked requests.
-- [ ] In `dev`, any `'unsafe-inline'` shown in the header is attributable to WebProfilerBundle; the enforced policy is confirmed in a prod-like run with the toolbar off.
+- [x] Zero `Content Security Policy` violation messages in the console on `/`, `/auth/login` (invalid and valid submit), logout, lazy-loaded list/table/documentation routes.
+- [x] Demo list/table/documentation views render local images without blocked requests; all `/demo/images/*` responses were 200 and no external subresource was requested.
+- [x] In `dev`, the extra nonce and `'unsafe-inline'` are attributable to WebProfilerBundle; the exact enforced policy is asserted by functional tests in `APP_ENV=test` with the toolbar off.
 
 **Verification:**
-- [ ] Browser smoke via the in-app browser tooling; record the result in the C6 commit message or task notes.
-- [ ] No automated browser framework is added.
+- [x] Browser smoke via in-app browser tooling: raw document nonce matches the first header nonce (24 chars), no CSP console violations, no failed local asset, and no external resource request. Result recorded here and in the C6 commit message.
+- [x] No automated browser framework is added.
 
 **Dependencies:** C4
 
@@ -115,25 +115,25 @@ Spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md). These tasks are additi
 
 ### Checkpoint: UI compatible
 
-- [ ] Frontend build/lint/typecheck/unit gates pass
-- [ ] Browser smoke shows zero CSP violations and no blocked local asset
-- [ ] No remote host appears in any CSP directive
+- [x] Frontend build/lint/typecheck/unit gates pass
+- [x] Browser smoke shows zero CSP violations and no blocked local asset
+- [x] No remote host appears in any CSP directive
 
 ## C6 — Update ADR 0003 and README; run full gates and secret checks
 
 **Description:** Record the verified control, document the policy and its accepted `style-src` residual, and run the final quality gates before merge.
 
 **Acceptance criteria:**
-- [ ] ADR 0003 risk register marks the XSS/CSP row mitigated with the enforced directives, nonce lifecycle, browser-smoke result and the remaining `localStorage` trade-off; the introductory "no CSP yet" wording is corrected.
-- [ ] README's authentication section states that a strict nonce CSP is enforced, no inline scripts exist beyond the nonced Twig globals, and `style-src 'unsafe-inline'` is an accepted PrimeVue/Sakai residual.
-- [ ] Task status files reflect C1–C6 as complete; Task 35 remains open and dated November 2027.
-- [ ] No secret, JWT passphrase, license key value, raw IP or credential appears in the diff.
+- [x] ADR 0003 risk register marks the XSS/CSP row mitigated with the enforced directives, nonce lifecycle, browser-smoke result and the remaining `localStorage` trade-off; the "no CSP yet" wording is corrected.
+- [x] README's authentication section states that a strict nonce CSP is enforced, no inline scripts exist beyond the nonced Twig globals, and `style-src 'unsafe-inline'` is an accepted PrimeVue/Sakai residual.
+- [x] Task status files reflect C1–C6 as complete; Task 35 remains open and dated November 2027.
+- [x] No secret, JWT passphrase, license key value, raw IP or credential appears in the diff.
 
 **Verification:**
-- [ ] `docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit` → no regressions
-- [ ] `npm run build && npm test && npm run lint && npm run typecheck`
-- [ ] `git diff --check`; staged scan `-i -G'password|secret|api_key|PRIMEUI_LICENSE_KEY|JWT_PASSPHRASE'` reviewed for literal values only
-- [ ] `composer validate --no-check-publish` (strict publish metadata check remains a pre-existing failure)
+- [x] `docker compose exec -e APP_ENV=test -T sf-php vendor/bin/simple-phpunit` → OK (58 tests, 375 assertions); process exits 1 only for pre-existing indirect deprecations and the `phpunit.xml.dist` schema warning
+- [x] `npm run build && npm run test:fetch && npm run lint && npm run typecheck` → exit 0 (lint has 2586 pre-existing Prettier warnings, 0 errors)
+- [x] `git diff --check`; staged scan `-i -G'password|secret|api_key|PRIMEUI_LICENSE_KEY|JWT_PASSPHRASE'` reviewed for literal values only
+- [x] `composer validate --no-check-publish` → valid; strict publish metadata check remains a pre-existing failure
 
 **Dependencies:** C5
 

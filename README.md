@@ -91,9 +91,11 @@ docker compose exec -T sf-php php bin/console lexik:jwt:generate-keypair
 
 `ACCESS_TOKEN_TTL` defaults to 3600 seconds. Authentication endpoints are rate limited: `/api/login` allows 10 failed attempts per 15 minutes per IP + username (plus a broader IP-wide counter), while `/api/token/refresh` and `/api/logout` each allow 30 attempts per 15 minutes per hashed client IP. Counters live in the MariaDB-backed `cache.rate_limiter` pool so all PHP workers share them. Exceeding a limit returns `429` JSON with `Retry-After` and rate-limit headers. This is application-level abuse protection, not DoS protection.
 
+A strict nonce-based `Content-Security-Policy` is emitted on every main response: `default-src 'self'; script-src 'self' 'nonce-<nonce>'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'`. A fresh 18-byte base64url nonce is generated per request and applied to the only inline script (the Twig-provided license key globals); Encore assets load from the same origin. `script-src` permits no `'unsafe-inline'`, `'unsafe-eval'` or remote host. `style-src 'unsafe-inline'` is an accepted residual for PrimeVue/Sakai inline styles and injected style tags. In `dev`, WebProfilerBundle adds its own nonce and `'unsafe-inline'` to the displayed header; the exact enforced policy is asserted by functional tests with the toolbar off. See [spec/SPEC-csp-headers.md](spec/SPEC-csp-headers.md).
+
 API Platform docs are registered only in `dev`; other `/api` routes require `ROLE_USER`, except the intentionally public `/api/demo/*` fixtures. The dev server only serves `/`, so SPA routes such as `/auth/login` and `/pages/crud` work through client-side navigation; a real deployment needs a host rewrite to `index.php` for direct links.
 
-The accepted XSS trade-off, verification results and residual risks (no CSP yet, non-revocable access tokens, dev dependency advisories) are recorded in [ADR 0003](docs/adr/0003-auth-architecture.md). Do not expose this authentication setup to untrusted content until those items are resolved.
+The accepted XSS trade-off, verification results and residual risks (non-revocable access tokens, `style-src 'unsafe-inline'`, dev dependency advisories) are recorded in [ADR 0003](docs/adr/0003-auth-architecture.md). Do not expose this authentication setup to untrusted content until the remaining items are resolved.
 
 ### Mail
 

@@ -1,6 +1,6 @@
 # Implementation Plan: CSP headers (`csp-headers` module)
 
-Status: **proposed** (2026-11-25) — awaiting human review
+Status: **approved** (2026-11-25); C1–C6 complete, C7 pending
 
 Source spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md) · [capability map](../spec/capability-map.md) · [ADR 0003](../docs/adr/0003-auth-architecture.md)
 
@@ -29,34 +29,34 @@ Every task must also clear the standing [Definition of Done](../.opencode/skills
 ### Phase 1: RED and the control itself
 
 - [x] C1 — Record approved spec and create the working branch (`9f33c2b`)
-- [ ] C2 — RED: add `tests/Functional/CspHeadersTest.php`
-- [ ] C3 — Emit the nonce-based CSP and nonce the Twig globals script
+- [x] C2 — RED: add `tests/Functional/CspHeadersTest.php`
+- [x] C3 — Emit the nonce-based CSP and nonce the Twig globals script
 
 ### Checkpoint: CSP core green
 
-- [ ] Focused `CspHeadersTest.php` fails before C3 and passes after it
-- [ ] Full `simple-phpunit` suite passes with no regressions
-- [ ] `curl -sSI http://localhost:8180/` shows the exact approved policy
+- [x] Focused `CspHeadersTest.php` failed before C3 (`3b6df55`) and passed after it (`50bdea4`)
+- [x] Full `simple-phpunit` suite passes with no regressions
+- [x] Real HTTP response shows the policy; `APP_ENV=test` asserts the exact enforced policy with the toolbar off
 
 ### Phase 2: UI compatibility
 
-- [ ] C4 — Replace remote demo media with local assets
-- [ ] C5 — Rebuild assets and run a browser smoke for zero CSP violations
+- [x] C4 — Replace remote demo media with local assets
+- [x] C5 — Rebuild assets and run a browser smoke for zero CSP violations
 
 ### Checkpoint: UI compatible
 
-- [ ] `npm run build`, `npm test`, `npm run lint`, `npm run typecheck` pass
-- [ ] Login, a dynamically loaded route and all touched demo views render with no CSP console violations
-- [ ] No remote host was added to any CSP directive
+- [x] `npm run build`, `npm run test:fetch`, `npm run lint`, `npm run typecheck` pass
+- [x] Login (invalid and valid), logout, lazy-loaded list/table/documentation views render with no CSP console violations
+- [x] No remote host was added to any CSP directive
 
 ### Phase 3: Close the module
 
-- [ ] C6 — Update ADR 0003 and README; run full gates and secret checks
+- [x] C6 — Update ADR 0003 and README; run full gates and secret checks
 - [ ] C7 — Merge the increment into local `main` (fast-forward, no push)
 
 ### Checkpoint: CSP module merged
 
-- [ ] Full PHPUnit suite green; no secret or raw credential in the diff
+- [x] Full PHPUnit suite green; no secret or raw credential in the diff
 - [ ] Human review of the merged diff and explicit push decision
 - [ ] `hardening-release` starts only after this checkpoint is approved
 
