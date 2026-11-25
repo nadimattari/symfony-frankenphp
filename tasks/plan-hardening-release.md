@@ -28,28 +28,28 @@ Every task must also clear the standing [Definition of Done](../.opencode/skills
 
 ### Phase 1: Release metadata
 
-- [ ] R1 — Record approved plan/tasks and create the working branch
-- [ ] R2 — Curate the `v1.0.0` CHANGELOG entry
-- [ ] R3 — Add the prepared `v1.0.0` version inventory section
+- [x] R1 — Record approved plan/tasks and create the working branch
+- [x] R2 — Curate the `v1.0.0` CHANGELOG entry
+- [x] R3 — Add the prepared `v1.0.0` version inventory section
 
 ### Checkpoint: Release metadata consistent
 
-- [ ] CHANGELOG, inventory and spec agree on “prepared / gate ready / tag pending”
-- [ ] No invented tag hash or claim that `v1.0.0` exists as a ref
+- [x] CHANGELOG, inventory and spec agree on “prepared / gate ready / tag pending”
+- [x] No invented tag hash or claim that `v1.0.0` exists as a ref
 
 ### Phase 2: Status alignment
 
-- [ ] R4 — Update README release status and append the ADR 0005 note
-- [ ] R5 — Align satisfied auth/CSP review and push checkboxes
+- [x] R4 — Update README release status and append the ADR 0005 note
+- [x] R5 — Align satisfied auth/CSP review and push checkboxes
 
 ### Checkpoint: Status text consistent
 
-- [ ] README, ADR 0005 and task files describe the same release state
-- [ ] Every deferred item is still visibly open
+- [x] README, ADR 0005 and task files describe the same release state
+- [x] Every deferred item is still visibly open
 
 ### Phase 3: Gate and close
 
-- [ ] R6 — Run full backend/frontend gates and record honest results
+- [x] R6 — Run full backend/frontend gates and record honest results
 - [ ] R7 — Final hygiene, local merge and commit
 
 ### Checkpoint: Complete
