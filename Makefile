@@ -68,8 +68,10 @@ npm-dev: ## Compile assets once in development mode (sf-node)
 npm-watch: ## Rebuild assets on change in sf-node (long-running)
 	@$(NPM) run watch
 
-npm-build: ## Build production assets in sf-node
-	@$(NPM) run build
+npm-build: ## Build production assets in sf-node (pauses the dev watcher)
+	@$(DOCKER_COMP) stop sf-node >/dev/null; \
+	$(DOCKER_COMP) run --rm --no-deps -e ENCORE_OUTPUT_PATH=var/build-production sf-node sh -c 'npm ci && npm run build'; result=$$?; \
+	$(DOCKER_COMP) start sf-node >/dev/null; exit $$result
 
 npm-dev-server: ## Start the Webpack dev server in sf-node (long-running)
 	@$(NPM) run dev-server

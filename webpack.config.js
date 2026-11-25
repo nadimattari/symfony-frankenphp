@@ -8,7 +8,10 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 
 Encore
   // directory where compiled assets will be stored
-  .setOutputPath("public/build/")
+  // Local production-build checks can redirect output so the dev watcher's
+  // public/build assets are never touched. Production Compose builds use the
+  // default path.
+  .setOutputPath(process.env.ENCORE_OUTPUT_PATH || "public/build/")
   // public path used by the web server to access the output path
   .setPublicPath("/build")
   // only needed for CDN's or subdirectory deploy
@@ -58,6 +61,15 @@ Encore
 
   // enables Tailwind 4 through PostCSS
   .enablePostCssLoader()
+
+  // Tailwind 4 emits `calc(infinity * 1px)` for rounded-full, which the
+  // postcss-calc bundled with cssnano 6 cannot parse. Skip that single
+  // optimization instead of rewriting Tailwind utilities in source.
+  .configureCssMinimizerPlugin((options) => {
+    options.minimizerOptions = {
+      preset: ["default", { calc: false }],
+    };
+  })
 
   // uncomment if you use TypeScript
   .enableTypeScriptLoader((options) => {
