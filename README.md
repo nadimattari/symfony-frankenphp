@@ -97,7 +97,7 @@ A strict nonce-based `Content-Security-Policy` is emitted on every main response
 
 API Platform docs are registered only in `dev`; other `/api` routes require `ROLE_USER`, except the intentionally public `/api/demo/*` fixtures. The dev server only serves `/`, so SPA routes such as `/auth/login` and `/pages/crud` work through client-side navigation; a real deployment needs a host rewrite to `index.php` for direct links.
 
-The accepted XSS trade-off, verification results and residual risks (non-revocable access tokens, `style-src 'unsafe-inline'`, dev dependency advisories) are recorded in [ADR 0003](docs/adr/0003-auth-architecture.md). Do not expose this authentication setup to untrusted content until the remaining items are resolved.
+The accepted XSS trade-off, verification results and residual risks (non-revocable access tokens, `style-src 'unsafe-inline'`, dev dependency advisories) are recorded in [ADR 0003](docs/adr/0003-auth-architecture.md). The full dev/build toolchain audit decisions are in [npm-audit-triage.md](docs/security/npm-audit-triage.md); production dependencies remain clean. Do not expose this authentication setup to untrusted content until the remaining items are resolved.
 
 ### Mail
 
