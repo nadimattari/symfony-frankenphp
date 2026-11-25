@@ -12,7 +12,7 @@
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}
-            <script>
+            <script nonce="{{ app.request.attributes.get('csp_nonce') }}">
                 window.PRIMEUI_LICENSE_KEY = '{{ primeui_license_key|e('js') }}';
             </script>
             {{ encore_entry_script_tags('app') }}
