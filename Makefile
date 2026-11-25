@@ -3,17 +3,17 @@ DOCKER_COMP = docker compose
 
 # Docker containers
 PHP_CONT = $(DOCKER_COMP) exec sf-php
-NODE_CONT = $(DOCKER_COMP) exec sf-node
+NODE_CONT = $(DOCKER_COMP) exec -T sf-node
 
 # Executables
 PHP      = $(PHP_CONT) php
 COMPOSER = $(PHP_CONT) composer
 SYMFONY  = $(PHP) bin/console
-NPM      = $(PHP_CONT) npm
+NPM      = $(NODE_CONT) npm
 
 # Misc
 .DEFAULT_GOAL = help
-.PHONY        : help build up start down logs sh composer vendor sf cc test
+.PHONY        : help build up start down logs sh bash composer vendor sf cc test npm-dev npm-watch npm-build npm-dev-server npm-install npm-ci npm-typecheck npm-lint npm-test
 
 ## —— 🎵 🐳 The Symfony Docker Makefile 🐳 🎵 ——————————————————————————————————
 help: ## Outputs this help screen
@@ -61,5 +61,30 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 cc: c=c:c ## Clear the cache
 cc: sf
 
-## —— SakaiVue 🌊 ——————————————————————————————————————————————————————————————
-sakai: ## TODO: dev, watch, build
+## —— Frontend (Vue) 🌊 ——————————————————————————————————————————————————————————————
+npm-dev: ## Compile assets once in development mode (sf-node)
+	@$(NPM) run dev
+
+npm-watch: ## Rebuild assets on change in sf-node (long-running)
+	@$(NPM) run watch
+
+npm-build: ## Build production assets in sf-node
+	@$(NPM) run build
+
+npm-dev-server: ## Start the Webpack dev server in sf-node (long-running)
+	@$(NPM) run dev-server
+
+npm-install: ## Install frontend dependencies in sf-node
+	@$(NODE_CONT) npm install
+
+npm-ci: ## Install frontend dependencies from the lock file in sf-node
+	@$(NODE_CONT) npm ci
+
+npm-typecheck: ## Run vue-tsc --noEmit in sf-node
+	@$(NPM) run typecheck
+
+npm-lint: ## Run ESLint/Prettier in sf-node
+	@$(NPM) run lint
+
+npm-test: ## Run frontend service/guard tests in sf-node (npm run test:fetch)
+	@$(NPM) run test:fetch
