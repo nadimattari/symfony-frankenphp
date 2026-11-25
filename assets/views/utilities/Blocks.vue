@@ -201,8 +201,8 @@ const block5 =
     <div class="items-center hidden lg:flex">
         <span class="leading-6">Libero voluptatum atque exercitationem praesentium provident odit.</span>
     </div>
-    <a class="flex items-center ml-2 mr-8">
-        <a class="text-white" href="#"><span class="underline font-bold">Learn More</span></a>
+    <a class="flex items-center ml-2 mr-8 text-white" href="#">
+        <span class="underline font-bold">Learn More</span>
     </a>
     <a v-ripple class="flex items-center no-underline justify-center rounded-full text-gray-50 hover:bg-bluegray-700 cursor-pointer transition-colors transition-duration-150 p-ripple" style="width:2rem; height: 2rem">
         <i class="pi pi-times"></i>
@@ -820,10 +820,8 @@ const checked = ref(false);
                         provident odit.</span
                     >
                 </div>
-                <a class="flex items-center ml-2 mr-8">
-                    <a class="text-white" href="#"
-                        ><span class="underline font-bold">Learn More</span></a
-                    >
+                <a class="flex items-center ml-2 mr-8 text-white" href="#">
+                    <span class="underline font-bold">Learn More</span>
                 </a>
                 <a
                     v-ripple

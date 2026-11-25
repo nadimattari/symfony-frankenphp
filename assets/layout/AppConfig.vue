@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, withDefaults } from "vue";
+import { computed, ref } from "vue";
 import { $t, updatePreset, updateSurfacePalette } from "@primeuix/themes";
 import AuraCompat from "@primeuix/themes/aura-compat";
 import Aura from "@primeuix/themes/aura";
