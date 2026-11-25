@@ -50,13 +50,13 @@ Every task must also clear the standing [Definition of Done](../.opencode/skills
 ### Phase 3: Gate and close
 
 - [x] R6 — Run full backend/frontend gates and record honest results
-- [ ] R7 — Final hygiene, local merge and commit
+- [x] R7 — Final hygiene, local merge and commit
 
 ### Checkpoint: Complete
 
-- [ ] All spec success criteria are met
-- [ ] Clean working tree, no new tag, no push, origin/main unchanged
-- [ ] Human review requested before any push decision
+- [x] All spec success criteria are met
+- [x] Clean working tree, no new tag, no push, origin/main unchanged
+- [x] Human review requested before any push decision
 
 ## Risks and mitigations
 

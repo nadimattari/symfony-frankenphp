@@ -142,14 +142,14 @@ Spec: [SPEC-hardening-release.md](../spec/SPEC-hardening-release.md). These task
 **Description:** Commit the module in reviewable slices, verify no secret literal or whitespace error, merge locally without rewriting history, and stop before any push or tag.
 
 **Acceptance criteria:**
-- [ ] Staged secret scan is reviewed for literal values only; matched keywords are explained, not silently deleted.
-- [ ] Working tree is clean after the final commit and local `main` contains the module by fast-forward.
-- [ ] `origin/main` is unchanged, `git tag --list` still has only `pre-migration`, `v0.1.0` and `v0.2.0`, and no `v1.0.0` tag is created.
+- [x] Staged secret scan is reviewed for literal values only; matched keywords are explained, not silently deleted.
+- [x] Working tree is clean after the final commit and local `main` contains the module by fast-forward.
+- [x] `origin/main` is unchanged, `git tag --list` still has only `pre-migration`, `v0.1.0` and `v0.2.0`, and no `v1.0.0` tag is created.
 
 **Verification:**
-- [ ] `git diff --staged -i -G'password|secret|api_key|token|PRIMEUI_LICENSE_KEY|JWT_PASSPHRASE' --name-only`
-- [ ] `git status --short --branch`, `git tag --list`, `git log --oneline --decorate -10`
-- [ ] `git checkout main && git merge --ff-only feature/hardening-release`
+- [x] `git diff --staged -i -G'password|secret|api_key|token|PRIMEUI_LICENSE_KEY|JWT_PASSPHRASE' --name-only`
+- [x] `git status --short --branch`, `git tag --list`, `git log --oneline --decorate -10`
+- [x] `git checkout main && git merge --ff-only feature/hardening-release`
 
 **Dependencies:** R6
 
@@ -159,6 +159,6 @@ Spec: [SPEC-hardening-release.md](../spec/SPEC-hardening-release.md). These task
 
 ### Checkpoint: Complete
 
-- [ ] All spec success criteria are met and gate results are recorded truthfully
-- [ ] Clean working tree, no new tag, no push, origin/main unchanged
-- [ ] Human review requested before any push decision
+- [x] All spec success criteria are met and gate results are recorded truthfully
+- [x] Clean working tree, no new tag, no push, origin/main unchanged
+- [x] Human review requested before any push decision
