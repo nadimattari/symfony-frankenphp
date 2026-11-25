@@ -1,6 +1,6 @@
 # Tasks: CSP headers (`csp-headers` module)
 
-Status: **approved** (2026-11-25); C1–C6 complete, C7 pending — [plan](plan-hardening-csp.md)
+Status: **approved** (2026-11-25); C1–C7 complete locally, push pending — [plan](plan-hardening-csp.md)
 
 Spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md). These tasks are additive; the auth module's `tasks/plan-hardening-1.0.md` / `tasks/todo-hardening-1.0.md` and the Sakai plan with its open Task 35 are not modified.
 
@@ -146,13 +146,13 @@ Spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md). These tasks are additi
 **Description:** Fast-forward local `main` with the CSP commits. Do not push and do not rewrite history.
 
 **Acceptance criteria:**
-- [ ] `main` contains all C1–C6 commits by fast-forward.
-- [ ] Working tree is clean; no uncommitted production code.
-- [ ] No tag is cut; `hardening-release` is still pending.
+- [x] `main` contains all C1–C6 commits by fast-forward.
+- [x] Working tree is clean; no uncommitted production code.
+- [x] No tag is cut; `hardening-release` is still pending.
 
 **Verification:**
-- [ ] `git checkout main && git merge --ff-only feature/csp-headers`
-- [ ] `git log --oneline --decorate -10 && git status --short --branch`
+- [x] `git checkout main && git merge --ff-only feature/csp-headers`
+- [x] `git log --oneline --decorate -10 && git status --short --branch`
 
 **Dependencies:** C6
 
@@ -162,6 +162,6 @@ Spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md). These tasks are additi
 
 ### Checkpoint: CSP module merged
 
-- [ ] Full gates green, no secret in the diff, no push performed
+- [x] Full gates green, no secret in the diff, no push performed
 - [ ] Human review of the merged diff and explicit push decision
 - [ ] `hardening-release` (version inventory, CHANGELOG, 1.0.0 gate) starts only after approval

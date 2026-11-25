@@ -1,6 +1,6 @@
 # Implementation Plan: CSP headers (`csp-headers` module)
 
-Status: **approved** (2026-11-25); C1–C6 complete, C7 pending
+Status: **approved** (2026-11-25); C1–C7 complete locally, push pending
 
 Source spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md) · [capability map](../spec/capability-map.md) · [ADR 0003](../docs/adr/0003-auth-architecture.md)
 
@@ -52,7 +52,7 @@ Every task must also clear the standing [Definition of Done](../.opencode/skills
 ### Phase 3: Close the module
 
 - [x] C6 — Update ADR 0003 and README; run full gates and secret checks
-- [ ] C7 — Merge the increment into local `main` (fast-forward, no push)
+- [x] C7 — Merge the increment into local `main` (fast-forward, no push)
 
 ### Checkpoint: CSP module merged
 
