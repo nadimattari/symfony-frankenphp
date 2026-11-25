@@ -9,6 +9,19 @@
     root * /app/public
     encode gzip
 
+    # History-mode SPA routes: render the Twig shell for extensionless client-side
+    # paths, while leaving API, build assets, Mercure and real files untouched.
+    @spa {
+        not path /api/* /build/* /.well-known/mercure*
+        not file
+    }
+    route @spa {
+        rewrite /index.php/
+        php {
+            env REQUEST_URI /index.php
+        }
+    }
+
     # Mercure hub
     mercure {
         protocol_version_compatibility 8
