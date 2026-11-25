@@ -171,6 +171,6 @@ Status: **approved** (2026-11-24)
 
 ## Checkpoint: Auth module merged
 
-- [ ] Review the merged diff with a human
-- [ ] Decide explicitly whether to push `fff99fe` plus hardening commits
-- [ ] Open the `csp-headers` spec only after this checkpoint is approved
+- [x] Review the merged diff with a human
+- [x] Decide explicitly whether to push `fff99fe` plus hardening commits
+- [x] Open the `csp-headers` spec only after this checkpoint is approved

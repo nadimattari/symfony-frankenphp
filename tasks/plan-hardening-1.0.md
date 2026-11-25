@@ -44,9 +44,9 @@ Implement the approved hardening initiative in risk-first order: `auth-rate-limi
 
 ### Checkpoint: Auth module merged
 
-- [ ] Clean working tree (the pre-existing markdown formatting cleanup was committed separately before this branch)
-- [ ] No `symfony/lock`, no committed secret, no weakened existing auth test
-- [ ] Human review of the merged diff
+- [x] Clean working tree (the pre-existing markdown formatting cleanup was committed separately before this branch)
+- [x] No `symfony/lock`, no committed secret, no weakened existing auth test
+- [x] Human review of the merged diff
 
 ### Future modules (not actionable in this task list)
 
@@ -81,4 +81,4 @@ git diff --staged -i -G'password|secret|api_key|token|PRIMEUI_LICENSE_KEY|JWT_PA
 ## Resolved decisions
 
 - The source-verified Lexik authentication-failure subscriber correction is approved; it preserves the 429 contract without changing global exception rendering.
-- After H8, a human decides whether to push `fff99fe` plus the merged hardening commits to `origin/main`; no push occurs automatically.
+- After H8, a human decides whether to push `fff99fe` plus the merged hardening commits to `origin/main`; no push occurs automatically. This decision was approved and the push completed; no history rewrite or force-push was used.

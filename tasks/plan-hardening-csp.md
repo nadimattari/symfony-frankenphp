@@ -1,6 +1,6 @@
 # Implementation Plan: CSP headers (`csp-headers` module)
 
-Status: **approved** (2026-11-25); C1–C7 complete locally, push pending
+Status: **approved** (2026-11-25); C1–C7 complete, merged and pushed
 
 Source spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md) · [capability map](../spec/capability-map.md) · [ADR 0003](../docs/adr/0003-auth-architecture.md)
 
@@ -57,8 +57,8 @@ Every task must also clear the standing [Definition of Done](../.opencode/skills
 ### Checkpoint: CSP module merged
 
 - [x] Full PHPUnit suite green; no secret or raw credential in the diff
-- [ ] Human review of the merged diff and explicit push decision
-- [ ] `hardening-release` starts only after this checkpoint is approved
+- [x] Human review of the merged diff and explicit push decision
+- [x] `hardening-release` starts only after this checkpoint is approved
 
 ## Risks and mitigations
 

@@ -1,6 +1,6 @@
 # Tasks: CSP headers (`csp-headers` module)
 
-Status: **approved** (2026-11-25); C1–C7 complete locally, push pending — [plan](plan-hardening-csp.md)
+Status: **approved** (2026-11-25); C1–C7 complete, merged and pushed — [plan](plan-hardening-csp.md)
 
 Spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md). These tasks are additive; the auth module's `tasks/plan-hardening-1.0.md` / `tasks/todo-hardening-1.0.md` and the Sakai plan with its open Task 35 are not modified.
 
@@ -162,6 +162,6 @@ Spec: [SPEC-csp-headers.md](../spec/SPEC-csp-headers.md). These tasks are additi
 
 ### Checkpoint: CSP module merged
 
-- [x] Full gates green, no secret in the diff, no push performed
-- [ ] Human review of the merged diff and explicit push decision
-- [ ] `hardening-release` (version inventory, CHANGELOG, 1.0.0 gate) starts only after approval
+- [x] Full gates green, no secret in the diff; push performed only after explicit approval
+- [x] Human review of the merged diff and explicit push decision
+- [x] `hardening-release` (version inventory, CHANGELOG, 1.0.0 gate) starts only after approval
