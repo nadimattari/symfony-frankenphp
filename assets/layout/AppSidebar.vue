@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import AppMenu from './AppMenu.vue';
-import { useLayoutState } from './composables/layout';
+import { onBeforeUnmount, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import AppMenu from "./AppMenu.vue";
+import { useLayoutState } from "./composables/layout";
 
 const { layoutState, isDesktop, hasOpenOverlay } = useLayoutState();
 const route = useRoute();
@@ -19,7 +19,7 @@ watch(
         layoutState.staticMenuMobileActive = false;
         layoutState.menuHoverActive = false;
     },
-    { immediate: true }
+    { immediate: true },
 );
 
 watch(hasOpenOverlay, (open) => {
@@ -45,7 +45,7 @@ function bindOutsideClickListener(): void {
         }
     };
 
-    document.addEventListener('click', outsideClickListener);
+    document.addEventListener("click", outsideClickListener);
 }
 
 function unbindOutsideClickListener(): void {
@@ -53,13 +53,13 @@ function unbindOutsideClickListener(): void {
         return;
     }
 
-    document.removeEventListener('click', outsideClickListener);
+    document.removeEventListener("click", outsideClickListener);
     outsideClickListener = null;
 }
 
 function isOutsideClicked(event: Event): boolean {
     const sidebarEl = sidebarRef.value;
-    const topbarEl = document.querySelector<HTMLElement>('.layout-menu-button');
+    const topbarEl = document.querySelector<HTMLElement>(".layout-menu-button");
     const target = event.target as Node | null;
 
     return !(

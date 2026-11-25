@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import type { ChartData, ChartOptions } from 'chart.js';
-import ChartCanvas from '../../components/chart/ChartCanvas.vue';
-import { useLayout } from '../../layout/composables/layout';
+import { ref, watch } from "vue";
+import type { ChartData, ChartOptions } from "chart.js";
+import ChartCanvas from "../../components/chart/ChartCanvas.vue";
+import { useLayout } from "../../layout/composables/layout";
 
 const { layoutConfig } = useLayout();
 let documentStyle = getComputedStyle(document.documentElement);
-let textColor = documentStyle.getPropertyValue('--p-text-color');
-let textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
-let surfaceBorder = documentStyle.getPropertyValue('--p-surface-200');
+let textColor = documentStyle.getPropertyValue("--p-text-color");
+let textColorSecondary = documentStyle.getPropertyValue("--p-text-muted-color");
+let surfaceBorder = documentStyle.getPropertyValue("--p-surface-200");
 
 const lineData = ref<ChartData>({ labels: [], datasets: [] });
 const pieData = ref<ChartData>({ labels: [], datasets: [] });
@@ -24,75 +24,93 @@ const radarOptions = ref<ChartOptions>({});
 
 const setColorOptions = (): void => {
     documentStyle = getComputedStyle(document.documentElement);
-    textColor = documentStyle.getPropertyValue('--p-text-color');
-    textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
-    surfaceBorder = documentStyle.getPropertyValue('--p-surface-200');
+    textColor = documentStyle.getPropertyValue("--p-text-color");
+    textColorSecondary = documentStyle.getPropertyValue("--p-text-muted-color");
+    surfaceBorder = documentStyle.getPropertyValue("--p-surface-200");
 };
 
 const setChart = (): void => {
     barData.value = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+        ],
         datasets: [
             {
-                label: 'My First dataset',
-                backgroundColor: documentStyle.getPropertyValue('--p-primary-500'),
-                borderColor: documentStyle.getPropertyValue('--p-primary-500'),
-                data: [65, 59, 80, 81, 56, 55, 40]
+                label: "My First dataset",
+                backgroundColor:
+                    documentStyle.getPropertyValue("--p-primary-500"),
+                borderColor: documentStyle.getPropertyValue("--p-primary-500"),
+                data: [65, 59, 80, 81, 56, 55, 40],
             },
             {
-                label: 'My Second dataset',
-                backgroundColor: documentStyle.getPropertyValue('--p-primary-200'),
-                borderColor: documentStyle.getPropertyValue('--p-primary-200'),
-                data: [28, 48, 40, 19, 86, 27, 90]
-            }
-        ]
+                label: "My Second dataset",
+                backgroundColor:
+                    documentStyle.getPropertyValue("--p-primary-200"),
+                borderColor: documentStyle.getPropertyValue("--p-primary-200"),
+                data: [28, 48, 40, 19, 86, 27, 90],
+            },
+        ],
     };
     barOptions.value = {
         plugins: {
             legend: {
                 labels: {
-                    color: textColor
-                }
-            }
+                    color: textColor,
+                },
+            },
         },
         scales: {
             x: {
                 ticks: {
                     color: textColorSecondary,
                     font: {
-                        weight: 500
-                    }
+                        weight: 500,
+                    },
                 },
                 grid: {
-                    display: false
+                    display: false,
                 },
                 border: {
-                    display: false
-                }
+                    display: false,
+                },
             },
             y: {
                 ticks: {
-                    color: textColorSecondary
+                    color: textColorSecondary,
                 },
                 grid: {
-                    color: surfaceBorder
+                    color: surfaceBorder,
                 },
                 border: {
-                    display: false
-                }
-            }
-        }
+                    display: false,
+                },
+            },
+        },
     };
 
     pieData.value = {
-        labels: ['A', 'B', 'C'],
+        labels: ["A", "B", "C"],
         datasets: [
             {
                 data: [540, 325, 702],
-                backgroundColor: [documentStyle.getPropertyValue('--p-indigo-500'), documentStyle.getPropertyValue('--p-purple-500'), documentStyle.getPropertyValue('--p-teal-500')],
-                hoverBackgroundColor: [documentStyle.getPropertyValue('--p-indigo-400'), documentStyle.getPropertyValue('--p-purple-400'), documentStyle.getPropertyValue('--teal-400')]
-            }
-        ]
+                backgroundColor: [
+                    documentStyle.getPropertyValue("--p-indigo-500"),
+                    documentStyle.getPropertyValue("--p-purple-500"),
+                    documentStyle.getPropertyValue("--p-teal-500"),
+                ],
+                hoverBackgroundColor: [
+                    documentStyle.getPropertyValue("--p-indigo-400"),
+                    documentStyle.getPropertyValue("--p-purple-400"),
+                    documentStyle.getPropertyValue("--teal-400"),
+                ],
+            },
+        ],
     };
 
     pieOptions.value = {
@@ -100,135 +118,164 @@ const setChart = (): void => {
             legend: {
                 labels: {
                     usePointStyle: true,
-                    color: textColor
-                }
-            }
-        }
+                    color: textColor,
+                },
+            },
+        },
     };
 
     lineData.value = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+        ],
         datasets: [
             {
-                label: 'First Dataset',
+                label: "First Dataset",
                 data: [65, 59, 80, 81, 56, 55, 40],
                 fill: false,
-                backgroundColor: documentStyle.getPropertyValue('--p-primary-500'),
-                borderColor: documentStyle.getPropertyValue('--p-primary-500'),
-                tension: 0.4
+                backgroundColor:
+                    documentStyle.getPropertyValue("--p-primary-500"),
+                borderColor: documentStyle.getPropertyValue("--p-primary-500"),
+                tension: 0.4,
             },
             {
-                label: 'Second Dataset',
+                label: "Second Dataset",
                 data: [28, 48, 40, 19, 86, 27, 90],
                 fill: false,
-                backgroundColor: documentStyle.getPropertyValue('--p-primary-200'),
-                borderColor: documentStyle.getPropertyValue('--p-primary-200'),
-                tension: 0.4
-            }
-        ]
+                backgroundColor:
+                    documentStyle.getPropertyValue("--p-primary-200"),
+                borderColor: documentStyle.getPropertyValue("--p-primary-200"),
+                tension: 0.4,
+            },
+        ],
     };
 
     lineOptions.value = {
         plugins: {
             legend: {
                 labels: {
-                    color: textColor
-                }
-            }
+                    color: textColor,
+                },
+            },
         },
         scales: {
             x: {
                 ticks: {
-                    color: textColorSecondary
+                    color: textColorSecondary,
                 },
                 grid: {
-                    color: surfaceBorder
+                    color: surfaceBorder,
                 },
                 border: {
-                    display: false
-                }
+                    display: false,
+                },
             },
             y: {
                 ticks: {
-                    color: textColorSecondary
+                    color: textColorSecondary,
                 },
                 grid: {
-                    color: surfaceBorder
+                    color: surfaceBorder,
                 },
                 border: {
-                    display: false
-                }
-            }
-        }
+                    display: false,
+                },
+            },
+        },
     };
 
     polarData.value = {
         datasets: [
             {
                 data: [11, 16, 7, 3],
-                backgroundColor: [documentStyle.getPropertyValue('--p-indigo-500'), documentStyle.getPropertyValue('--p-purple-500'), documentStyle.getPropertyValue('--p-teal-500'), documentStyle.getPropertyValue('--p-orange-500')],
-                label: 'My dataset'
-            }
+                backgroundColor: [
+                    documentStyle.getPropertyValue("--p-indigo-500"),
+                    documentStyle.getPropertyValue("--p-purple-500"),
+                    documentStyle.getPropertyValue("--p-teal-500"),
+                    documentStyle.getPropertyValue("--p-orange-500"),
+                ],
+                label: "My dataset",
+            },
         ],
-        labels: ['Indigo', 'Purple', 'Teal', 'Orange']
+        labels: ["Indigo", "Purple", "Teal", "Orange"],
     };
 
     polarOptions.value = {
         plugins: {
             legend: {
                 labels: {
-                    color: textColor
-                }
-            }
+                    color: textColor,
+                },
+            },
         },
         scales: {
             r: {
                 grid: {
-                    color: surfaceBorder
-                }
-            }
-        }
+                    color: surfaceBorder,
+                },
+            },
+        },
     };
 
     radarData.value = {
-        labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+        labels: [
+            "Eating",
+            "Drinking",
+            "Sleeping",
+            "Designing",
+            "Coding",
+            "Cycling",
+            "Running",
+        ],
         datasets: [
             {
-                label: 'My First dataset',
-                borderColor: documentStyle.getPropertyValue('--p-indigo-400'),
-                pointBackgroundColor: documentStyle.getPropertyValue('--p-indigo-400'),
-                pointBorderColor: documentStyle.getPropertyValue('--p-indigo-400'),
+                label: "My First dataset",
+                borderColor: documentStyle.getPropertyValue("--p-indigo-400"),
+                pointBackgroundColor:
+                    documentStyle.getPropertyValue("--p-indigo-400"),
+                pointBorderColor:
+                    documentStyle.getPropertyValue("--p-indigo-400"),
                 pointHoverBackgroundColor: textColor,
-                pointHoverBorderColor: documentStyle.getPropertyValue('--p-indigo-400'),
-                data: [65, 59, 90, 81, 56, 55, 40]
+                pointHoverBorderColor:
+                    documentStyle.getPropertyValue("--p-indigo-400"),
+                data: [65, 59, 90, 81, 56, 55, 40],
             },
             {
-                label: 'My Second dataset',
-                borderColor: documentStyle.getPropertyValue('--p-purple-400'),
-                pointBackgroundColor: documentStyle.getPropertyValue('--p-purple-400'),
-                pointBorderColor: documentStyle.getPropertyValue('--p-purple-400'),
+                label: "My Second dataset",
+                borderColor: documentStyle.getPropertyValue("--p-purple-400"),
+                pointBackgroundColor:
+                    documentStyle.getPropertyValue("--p-purple-400"),
+                pointBorderColor:
+                    documentStyle.getPropertyValue("--p-purple-400"),
                 pointHoverBackgroundColor: textColor,
-                pointHoverBorderColor: documentStyle.getPropertyValue('--p-purple-400'),
-                data: [28, 48, 40, 19, 96, 27, 100]
-            }
-        ]
+                pointHoverBorderColor:
+                    documentStyle.getPropertyValue("--p-purple-400"),
+                data: [28, 48, 40, 19, 96, 27, 100],
+            },
+        ],
     };
 
     radarOptions.value = {
         plugins: {
             legend: {
                 labels: {
-                    color: textColor
-                }
-            }
+                    color: textColor,
+                },
+            },
         },
         scales: {
             r: {
                 grid: {
-                    color: textColorSecondary
-                }
-            }
-        }
+                    color: textColorSecondary,
+                },
+            },
+        },
     };
 };
 
@@ -238,7 +285,7 @@ watch(
         setColorOptions();
         setChart();
     },
-    { immediate: true }
+    { immediate: true },
 );
 </script>
 
@@ -247,37 +294,61 @@ watch(
         <div class="col-span-12 xl:col-span-6">
             <div class="card">
                 <h5>Linear Chart</h5>
-                <ChartCanvas type="line" :data="lineData" :options="lineOptions"></ChartCanvas>
+                <ChartCanvas
+                    type="line"
+                    :data="lineData"
+                    :options="lineOptions"
+                ></ChartCanvas>
             </div>
         </div>
         <div class="col-span-12 xl:col-span-6">
             <div class="card">
                 <h5>Bar Chart</h5>
-                <ChartCanvas type="bar" :data="barData" :options="barOptions"></ChartCanvas>
+                <ChartCanvas
+                    type="bar"
+                    :data="barData"
+                    :options="barOptions"
+                ></ChartCanvas>
             </div>
         </div>
         <div class="col-span-12 xl:col-span-6">
             <div class="card flex flex-col items-center">
                 <h5 class="text-left w-full">Pie Chart</h5>
-                <ChartCanvas type="pie" :data="pieData" :options="pieOptions"></ChartCanvas>
+                <ChartCanvas
+                    type="pie"
+                    :data="pieData"
+                    :options="pieOptions"
+                ></ChartCanvas>
             </div>
         </div>
         <div class="col-span-12 xl:col-span-6">
             <div class="card flex flex-col items-center">
                 <h5 class="text-left w-full">Doughnut Chart</h5>
-                <ChartCanvas type="doughnut" :data="pieData" :options="pieOptions"></ChartCanvas>
+                <ChartCanvas
+                    type="doughnut"
+                    :data="pieData"
+                    :options="pieOptions"
+                ></ChartCanvas>
             </div>
         </div>
         <div class="col-span-12 xl:col-span-6">
             <div class="card flex flex-col items-center">
                 <h5 class="text-left w-full">Polar Area Chart</h5>
-                <ChartCanvas type="polarArea" :data="polarData" :options="polarOptions"></ChartCanvas>
+                <ChartCanvas
+                    type="polarArea"
+                    :data="polarData"
+                    :options="polarOptions"
+                ></ChartCanvas>
             </div>
         </div>
         <div class="col-span-12 xl:col-span-6">
             <div class="card flex flex-col items-center">
                 <h5 class="text-left w-full">Radar Chart</h5>
-                <ChartCanvas type="radar" :data="radarData" :options="radarOptions"></ChartCanvas>
+                <ChartCanvas
+                    type="radar"
+                    :data="radarData"
+                    :options="radarOptions"
+                ></ChartCanvas>
             </div>
         </div>
     </div>

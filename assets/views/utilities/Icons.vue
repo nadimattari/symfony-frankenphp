@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import InputText from 'primevue/inputtext';
+import { computed, onMounted, ref } from "vue";
+import InputText from "primevue/inputtext";
 
 interface IconData {
     properties: { name: string };
@@ -8,21 +8,24 @@ interface IconData {
 }
 
 const icons = ref<IconData[]>([]);
-const filter = ref('');
+const filter = ref("");
 
 const filteredIcons = computed(() => {
     if (filter.value) {
-        return icons.value.filter((icon) => icon.properties.name.indexOf(filter.value.toLowerCase()) > -1);
+        return icons.value.filter(
+            (icon) =>
+                icon.properties.name.indexOf(filter.value.toLowerCase()) > -1,
+        );
     }
     return icons.value;
 });
 
 onMounted(() => {
-    fetch('/demo/data/icons.json', { headers: { 'Cache-Control': 'no-cache' } })
+    fetch("/demo/data/icons.json", { headers: { "Cache-Control": "no-cache" } })
         .then((res) => res.json())
         .then((d: { icons: IconData[] }) => {
             let data = d.icons.filter((value) => {
-                return value.icon.tags.indexOf('deprecate') === -1;
+                return value.icon.tags.indexOf("deprecate") === -1;
             });
             data.sort((icon1, icon2) => {
                 if (icon1.properties.name < icon2.properties.name) return -1;
@@ -39,17 +42,34 @@ onMounted(() => {
     <div class="card">
         <h2>Icons</h2>
         <p>
-            PrimeVue components internally use <a href="https://github.com/primefaces/primeicons" class="font-medium text-primary hover:underline">PrimeIcons</a> library, the official icons suite from
-            <a href="https://www.primetek.com.tr" class="font-medium text-primary hover:underline">PrimeTek</a>.
+            PrimeVue components internally use
+            <a
+                href="https://github.com/primefaces/primeicons"
+                class="font-medium text-primary hover:underline"
+                >PrimeIcons</a
+            >
+            library, the official icons suite from
+            <a
+                href="https://www.primetek.com.tr"
+                class="font-medium text-primary hover:underline"
+                >PrimeTek</a
+            >.
         </p>
 
         <h4>Download</h4>
-        <p>PrimeIcons is available at npm, run the following command to download it to your project.</p>
+        <p>
+            PrimeIcons is available at npm, run the following command to
+            download it to your project.
+        </p>
 
         <pre class="app-code"><code>npm install primeicons --save</code></pre>
 
         <h4>Getting Started</h4>
-        <p>PrimeIcons use the <strong>pi pi-&#123;icon&#125;</strong> syntax such as <strong>pi pi-check</strong>. A standalone icon can be displayed using an element like <i>i</i> or <i>span</i></p>
+        <p>
+            PrimeIcons use the <strong>pi pi-&#123;icon&#125;</strong> syntax
+            such as <strong>pi pi-check</strong>. A standalone icon can be
+            displayed using an element like <i>i</i> or <i>span</i>
+        </p>
 
         <pre class="app-code"><code>&lt;i class="pi pi-check"&gt;&lt;/i&gt;
 &lt;i class="pi pi-times"&gt;&lt;/i&gt;</code></pre>
@@ -60,29 +80,50 @@ onMounted(() => {
         <h4>Size</h4>
         <p>Size of the icons can easily be changed using font-size property.</p>
 
-        <pre class="app-code"><code>&lt;i class="pi pi-check"&gt;&lt;/i&gt;</code></pre>
+        <pre
+            class="app-code"
+        ><code>&lt;i class="pi pi-check"&gt;&lt;/i&gt;</code></pre>
 
         <i class="pi pi-check"></i>
 
-        <pre class="app-code"><code>&lt;i class="pi pi-check" style="font-size: 2rem"&gt;&lt;/i&gt;</code></pre>
+        <pre
+            class="app-code"
+        ><code>&lt;i class="pi pi-check" style="font-size: 2rem"&gt;&lt;/i&gt;</code></pre>
 
         <i class="pi pi-check" style="font-size: 2rem"></i>
 
         <h4>Spinning Animation</h4>
         <p>Special pi-spin class applies continuous rotation to an icon.</p>
-        <pre class="app-code"><code>&lt;i class="pi pi-spin pi-spinner" style="font-size: 2rem"&gt;&lt;/i&gt;</code></pre>
+        <pre
+            class="app-code"
+        ><code>&lt;i class="pi pi-spin pi-spinner" style="font-size: 2rem"&gt;&lt;/i&gt;</code></pre>
 
         <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
 
         <h4>List of Icons</h4>
         <p>
-            Here is the current list of PrimeIcons, more icons are added periodically. You may also <a href="https://github.com/primefaces/primeicons/issues" class="font-medium text-primary hover:underline">request new icons</a> at the issue tracker.
+            Here is the current list of PrimeIcons, more icons are added
+            periodically. You may also
+            <a
+                href="https://github.com/primefaces/primeicons/issues"
+                class="font-medium text-primary hover:underline"
+                >request new icons</a
+            >
+            at the issue tracker.
         </p>
 
-        <InputText v-model="filter" class="w-full p-3 mt-3 mb-5" placeholder="Search an icon" />
+        <InputText
+            v-model="filter"
+            class="w-full p-3 mt-3 mb-5"
+            placeholder="Search an icon"
+        />
 
         <div class="grid grid-cols-12 gap-4 icons-list text-center">
-            <div class="col-span-6 sm:col-span-4 lg:col-span-3 xl:col-span-2 pb-5" v-for="icon of filteredIcons" :key="icon.properties.name">
+            <div
+                class="col-span-6 sm:col-span-4 lg:col-span-3 xl:col-span-2 pb-5"
+                v-for="icon of filteredIcons"
+                :key="icon.properties.name"
+            >
                 <i :class="'text-2xl mb-2 pi pi-' + icon.properties.name"></i>
                 <div>pi-{{ icon.properties.name }}</div>
             </div>

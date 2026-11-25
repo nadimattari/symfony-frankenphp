@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, withDefaults } from 'vue';
-import { useLayoutState } from './composables/layout';
-import type { MenuItem } from './types/menu';
+import { computed, withDefaults } from "vue";
+import { useLayoutState } from "./composables/layout";
+import type { MenuItem } from "./types/menu";
 
 const props = withDefaults(
     defineProps<{
@@ -11,8 +11,8 @@ const props = withDefaults(
     }>(),
     {
         root: true,
-        parentPath: null
-    }
+        parentPath: null,
+    },
 );
 
 const { layoutState, isDesktop } = useLayoutState();
@@ -22,12 +22,18 @@ const fullPath = computed(() => {
         return null;
     }
 
-    return props.parentPath ? props.parentPath + props.item.path : props.item.path;
+    return props.parentPath
+        ? props.parentPath + props.item.path
+        : props.item.path;
 });
 
 const isActive = computed(() => {
     if (props.item.path) {
-        return layoutState.activePath !== null && fullPath.value !== null && layoutState.activePath.startsWith(fullPath.value);
+        return (
+            layoutState.activePath !== null &&
+            fullPath.value !== null &&
+            layoutState.activePath.startsWith(fullPath.value)
+        );
     }
 
     return layoutState.activePath === props.item.to;
@@ -43,7 +49,8 @@ function itemClick(event: Event, item: MenuItem): void {
 
     if (item.items) {
         if (isActive.value) {
-            layoutState.activePath = layoutState.activePath?.replace(item.path ?? '', '') ?? null;
+            layoutState.activePath =
+                layoutState.activePath?.replace(item.path ?? "", "") ?? null;
         } else {
             layoutState.activePath = fullPath.value;
             layoutState.menuHoverActive = true;
@@ -58,7 +65,12 @@ function itemClick(event: Event, item: MenuItem): void {
 }
 
 function onMouseEnter(): void {
-    if (isDesktop() && props.root && props.item.items && layoutState.menuHoverActive) {
+    if (
+        isDesktop() &&
+        props.root &&
+        props.item.items &&
+        layoutState.menuHoverActive
+    ) {
         layoutState.activePath = fullPath.value;
     }
 }
@@ -66,7 +78,12 @@ function onMouseEnter(): void {
 
 <template>
     <li :class="{ 'layout-root-menuitem': root, 'active-menuitem': isActive }">
-        <div v-if="root && item.visible !== false" class="layout-menuitem-root-text">{{ item.label }}</div>
+        <div
+            v-if="root && item.visible !== false"
+            class="layout-menuitem-root-text"
+        >
+            {{ item.label }}
+        </div>
         <a
             v-if="(!item.to || item.items) && item.visible !== false"
             :href="item.url"
@@ -78,7 +95,10 @@ function onMouseEnter(): void {
         >
             <i :class="item.icon" class="layout-menuitem-icon"></i>
             <span class="layout-menuitem-text">{{ item.label }}</span>
-            <i v-if="item.items" class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
+            <i
+                v-if="item.items"
+                class="pi pi-fw pi-angle-down layout-submenu-toggler"
+            ></i>
         </a>
         <router-link
             v-if="item.to && !item.items && item.visible !== false"
@@ -91,13 +111,21 @@ function onMouseEnter(): void {
         >
             <i :class="item.icon" class="layout-menuitem-icon"></i>
             <span class="layout-menuitem-text">{{ item.label }}</span>
-            <i v-if="item.items" class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
+            <i
+                v-if="item.items"
+                class="pi pi-fw pi-angle-down layout-submenu-toggler"
+            ></i>
         </router-link>
-        <Transition v-if="item.items && item.visible !== false" name="layout-submenu">
+        <Transition
+            v-if="item.items && item.visible !== false"
+            name="layout-submenu"
+        >
             <ul v-show="root ? true : isActive" class="layout-submenu">
                 <AppMenuItem
                     v-for="child in item.items"
-                    :key="child.label + '_' + String(child.to ?? child.path ?? '')"
+                    :key="
+                        child.label + '_' + String(child.to ?? child.path ?? '')
+                    "
                     :item="child"
                     :root="false"
                     :parentPath="fullPath"

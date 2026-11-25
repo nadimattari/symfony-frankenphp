@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 
 interface TimelineEvent {
     status: string;
@@ -11,33 +11,33 @@ interface TimelineEvent {
 
 const customEvents = ref<TimelineEvent[]>([
     {
-        status: 'Ordered',
-        date: '15/10/2020 10:30',
-        icon: 'pi pi-shopping-cart',
-        color: '#9C27B0',
-        image: 'game-controller.jpg'
+        status: "Ordered",
+        date: "15/10/2020 10:30",
+        icon: "pi pi-shopping-cart",
+        color: "#9C27B0",
+        image: "game-controller.jpg",
     },
     {
-        status: 'Processing',
-        date: '15/10/2020 14:00',
-        icon: 'pi pi-cog',
-        color: '#673AB7'
+        status: "Processing",
+        date: "15/10/2020 14:00",
+        icon: "pi pi-cog",
+        color: "#673AB7",
     },
     {
-        status: 'Shipped',
-        date: '15/10/2020 16:15',
-        icon: 'pi pi-envelope',
-        color: '#FF9800'
+        status: "Shipped",
+        date: "15/10/2020 16:15",
+        icon: "pi pi-envelope",
+        color: "#FF9800",
     },
     {
-        status: 'Delivered',
-        date: '16/10/2020 10:00',
-        icon: 'pi pi-check',
-        color: '#607D8B'
-    }
+        status: "Delivered",
+        date: "16/10/2020 10:00",
+        icon: "pi pi-check",
+        color: "#607D8B",
+    },
 ]);
 
-const horizontalEvents = ref<string[]>(['2020', '2021', '2022', '2023']);
+const horizontalEvents = ref<string[]>(["2020", "2021", "2022", "2023"]);
 </script>
 
 <template>
@@ -77,7 +77,9 @@ const horizontalEvents = ref<string[]>(['2020', '2021', '2022', '2023']);
                 <h5>Opposite Content</h5>
                 <Timeline :value="customEvents">
                     <template #opposite="slotProps">
-                        <small class="text-surface-500">{{ (slotProps as any).item.date }}</small>
+                        <small class="text-surface-500">{{
+                            (slotProps as any).item.date
+                        }}</small>
                     </template>
                     <template #content="slotProps">
                         {{ (slotProps as any).item.status }}
@@ -88,9 +90,16 @@ const horizontalEvents = ref<string[]>(['2020', '2021', '2022', '2023']);
     </div>
     <div class="card">
         <h5>Custom Timeline</h5>
-        <Timeline :value="customEvents" align="alternate" class="customized-timeline">
+        <Timeline
+            :value="customEvents"
+            align="alternate"
+            class="customized-timeline"
+        >
             <template #marker="slotProps">
-                <span class="flex w-[2rem] h-[2rem] items-center justify-center text-white rounded-full z-[1] shadow-md" :style="{ backgroundColor: (slotProps as any).item.color }">
+                <span
+                    class="flex w-[2rem] h-[2rem] items-center justify-center text-white rounded-full z-[1] shadow-md"
+                    :style="{ backgroundColor: (slotProps as any).item.color }"
+                >
                     <i :class="(slotProps as any).item.icon"></i>
                 </span>
             </template>
@@ -103,12 +112,27 @@ const horizontalEvents = ref<string[]>(['2020', '2021', '2022', '2023']);
                         {{ (slotProps as any).item.date }}
                     </template>
                     <template #content>
-                        <img v-if="(slotProps as any).item.image" :src="'/demo/images/product/' + (slotProps as any).item.image" :alt="(slotProps as any).item.status" width="200" class="shadow-md mb-3" />
+                        <img
+                            v-if="(slotProps as any).item.image"
+                            :src="
+                                '/demo/images/product/' +
+                                (slotProps as any).item.image
+                            "
+                            :alt="(slotProps as any).item.status"
+                            width="200"
+                            class="shadow-md mb-3"
+                        />
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate
-                            neque quas!
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Inventore sed consequuntur error repudiandae
+                            numquam deserunt quisquam repellat libero asperiores
+                            earum nam nobis, culpa ratione quam perferendis
+                            esse, cupiditate neque quas!
                         </p>
-                        <Button label="Read more" class="p-button-text"></Button>
+                        <Button
+                            label="Read more"
+                            class="p-button-text"
+                        ></Button>
                     </template>
                 </Card>
             </template>
@@ -131,7 +155,11 @@ const horizontalEvents = ref<string[]>(['2020', '2021', '2022', '2023']);
         </Timeline>
 
         <h6>Alternate Align</h6>
-        <Timeline :value="horizontalEvents" layout="horizontal" align="alternate">
+        <Timeline
+            :value="horizontalEvents"
+            layout="horizontal"
+            align="alternate"
+        >
             <template #opposite> &nbsp; </template>
             <template #content="slotProps">
                 {{ (slotProps as any).item }}

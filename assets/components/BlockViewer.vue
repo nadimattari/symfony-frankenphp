@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive, ref } from "vue";
 
-import type { HTMLAttributes, StyleValue } from 'vue';
+import type { HTMLAttributes, StyleValue } from "vue";
 
 interface Props {
     header?: string;
     code?: string;
     recent?: boolean;
     free?: boolean;
-    containerClass?: HTMLAttributes['class'];
+    containerClass?: HTMLAttributes["class"];
     previewStyle?: StyleValue;
 }
 
@@ -18,12 +18,12 @@ const props = withDefaults(defineProps<Props>(), {
     recent: false,
     free: false,
     containerClass: undefined,
-    previewStyle: undefined
+    previewStyle: undefined,
 });
 
 const BlockView = reactive({
     PREVIEW: 0,
-    CODE: 1
+    CODE: 1,
 });
 const blockView = ref(0);
 
@@ -33,7 +33,7 @@ function activateView(event: Event, blockViewValue: number): void {
 }
 
 async function copyCode(event: Event): Promise<void> {
-    await navigator.clipboard.writeText(props.code ?? '');
+    await navigator.clipboard.writeText(props.code ?? "");
     event.preventDefault();
 }
 </script>
@@ -47,15 +47,38 @@ async function copyCode(event: Event): Promise<void> {
                 <span class="badge-free" v-if="free">Free</span>
             </span>
             <div class="block-actions">
-                <a tabindex="0" :class="{ 'block-action-active': blockView === BlockView.PREVIEW }" @click="activateView($event, BlockView.PREVIEW)"><span>Preview</span></a>
-                <a :tabindex="'0'" :class="{ 'block-action-active': blockView === BlockView.CODE }" @click="activateView($event, BlockView.CODE)">
+                <a
+                    tabindex="0"
+                    :class="{
+                        'block-action-active': blockView === BlockView.PREVIEW,
+                    }"
+                    @click="activateView($event, BlockView.PREVIEW)"
+                    ><span>Preview</span></a
+                >
+                <a
+                    :tabindex="'0'"
+                    :class="{
+                        'block-action-active': blockView === BlockView.CODE,
+                    }"
+                    @click="activateView($event, BlockView.CODE)"
+                >
                     <span>Code</span>
                 </a>
-                <a :tabindex="0" class="block-action-copy" @click="copyCode($event)" v-tooltip.focus.bottom="{ value: 'Copied to clipboard' }"><i class="pi pi-copy"></i></a>
+                <a
+                    :tabindex="0"
+                    class="block-action-copy"
+                    @click="copyCode($event)"
+                    v-tooltip.focus.bottom="{ value: 'Copied to clipboard' }"
+                    ><i class="pi pi-copy"></i
+                ></a>
             </div>
         </div>
         <div class="block-content">
-            <div :class="containerClass" :style="previewStyle" v-if="blockView == BlockView.PREVIEW">
+            <div
+                :class="containerClass"
+                :style="previewStyle"
+                v-if="blockView == BlockView.PREVIEW"
+            >
                 <slot></slot>
             </div>
             <div v-if="blockView === BlockView.CODE">
@@ -156,7 +179,7 @@ async function copyCode(event: Event): Promise<void> {
     overflow: hidden;
 }
 
-pre[class*='language-'] {
+pre[class*="language-"] {
     margin: 0 !important;
 
     &:before,

@@ -10,7 +10,9 @@ export interface TreeNodeData {
 }
 
 /** Demo-only fixture endpoints served by DemoDataController. */
-export default class NodeService extends ApiService<TreeNodeData & { id?: string }> {
+export default class NodeService extends ApiService<
+  TreeNodeData & { id?: string }
+> {
   constructor(client: FetchClient = apiClient) {
     super(client, "/demo/tree-nodes");
   }

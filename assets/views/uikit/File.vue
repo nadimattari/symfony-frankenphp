@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { useToast } from 'primevue/usetoast';
-import FileUpload from 'primevue/fileupload';
+import { useToast } from "primevue/usetoast";
+import FileUpload from "primevue/fileupload";
 
 const toast = useToast();
 
 const onUpload = (): void => {
-    toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
+    toast.add({
+        severity: "info",
+        summary: "Success",
+        detail: "File Uploaded",
+        life: 3000,
+    });
 };
 </script>
 
@@ -14,10 +19,24 @@ const onUpload = (): void => {
         <div class="col-span-12">
             <div class="card">
                 <h5>Advanced</h5>
-                <FileUpload name="demo[]" @uploader="onUpload" :multiple="true" accept="image/*" :maxFileSize="1000000" customUpload />
+                <FileUpload
+                    name="demo[]"
+                    @uploader="onUpload"
+                    :multiple="true"
+                    accept="image/*"
+                    :maxFileSize="1000000"
+                    customUpload
+                />
 
                 <h5>Basic</h5>
-                <FileUpload mode="basic" name="demo[]" accept="image/*" :maxFileSize="1000000" @uploader="onUpload" customUpload />
+                <FileUpload
+                    mode="basic"
+                    name="demo[]"
+                    accept="image/*"
+                    :maxFileSize="1000000"
+                    @uploader="onUpload"
+                    customUpload
+                />
             </div>
         </div>
     </div>
