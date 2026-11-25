@@ -17,6 +17,20 @@
     root * /app/public
     encode gzip
 
+    # Bounded proxy-level abuse posture (partial; see README and ADR 0003).
+    # Mercure is excluded from write timeouts because it is a long-lived SSE stream.
+    @notMercure {
+        not path /.well-known/mercure*
+    }
+    request_body {
+        max_size 1MB
+    }
+    timeouts @notMercure {
+        read_timeout 10s
+        write_timeout 30s
+        max_write_chunk 16KiB
+    }
+
     # History-mode SPA routes: render the Twig shell for extensionless client-side
     # paths, while leaving API, build assets, Mercure and real files untouched.
     @spa {

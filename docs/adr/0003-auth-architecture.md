@@ -101,6 +101,12 @@ Risk register (updated 2026-11-25) — these are known gaps, not blockers for th
 | Dependency advisories                        | Open      | `npm audit --omit=dev` reports 0 vulnerabilities. The full dev/build toolchain reports 44 (3 critical, 20 high, 16 moderate, 5 low); triage by reachability before production, without forced upgrades.                                                                                                                                                                                                                     |
 | Test-environment secrets                     | Mitigated | PHPUnit boots the `.env` chain and reads the passphrase from gitignored `.env.test.local`; CI must provision that file (or an equivalent environment variable) before running tests.                                                                                                                                                                                                                                        |
 
+### Proxy-level abuse posture (2026-11-25)
+
+Both Caddyfiles now cap request bodies at 1 MiB and apply Caddy's `timeouts` directive to non-Mercure requests (`read_timeout 10s`, `write_timeout 30s`, `max_write_chunk 16KiB`). These are idle-stall deadlines reset by progress, not total request deadlines; `/.well-known/mercure*` is excluded because Mercure is a long-lived SSE stream. `frankenphp list-modules` confirms the bundled FrankenPHP v1.14.0 / Caddy v2.11.9 image has `http.handlers.request_body` and `http.handlers.timeouts`, but no native `rate_limit`/`limit` handler and no third-party `caddy-limit` module. No plugin, image, container or external service was added, so no request-rate or connection cap is claimed.
+
+This is a partial mitigation for oversized or stalling requests only. It does not close the DoS risk in the risk register above, and the earlier row saying proxy-level controls remain out of scope is superseded by this note. Application-level login/refresh/logout limits remain the authoritative abuse controls; a full WAF/CDN/DDoS service is still out of scope.
+
 ## Revisit
 
 Re-evaluate the `localStorage` trade-off when any of the following changes:
