@@ -39,16 +39,16 @@ A browser smoke (DevTools console: zero CSP violations across login and several 
 
 ## Project structure
 
-| Path | Change |
-|---|---|
-| `src/EventSubscriber/CspResponseSubscriber.php` | New: generate nonce on `kernel.request`, emit the policy on `kernel.response` |
-| `config/services.yaml` | Bind the policy string (or subscriber argument) if not kept as a class constant |
-| `templates/base.html.twig` | Add `nonce="{{ app.request.attributes.get('csp_nonce') }}"` to the globals `<script>` |
-| `assets/views/uikit/List.vue`, `assets/views/uikit/Table.vue`, `assets/views/utilities/Documentation.vue` | Replace remote demo media with local assets (if assumption 2 is approved) |
-| `tests/Functional/CspHeadersTest.php` | New RED-first functional coverage for directives, nonce presence/rotation and absence of unsafe tokens |
-| `spec/SPEC-csp-headers.md` | This approved delta spec (committed after approval) |
-| `tasks/plan-hardening-csp.md`, `tasks/todo-hardening-csp.md` | Dedicated plan/task files — do not overwrite `tasks/plan-sakai-primevue-ts.md` / `tasks/todo-sakai-primevue-ts.md`, which keep Task 35 open |
-| `docs/adr/0003-auth-architecture.md`, `README.md` | After verification: mark the CSP row mitigated and document the policy |
+| Path                                                                                                      | Change                                                                                                                                      |
+|-----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| `src/EventSubscriber/CspResponseSubscriber.php`                                                           | New: generate nonce on `kernel.request`, emit the policy on `kernel.response`                                                               |
+| `config/services.yaml`                                                                                    | Bind the policy string (or subscriber argument) if not kept as a class constant                                                             |
+| `templates/base.html.twig`                                                                                | Add `nonce="{{ app.request.attributes.get('csp_nonce') }}"` to the globals `<script>`                                                       |
+| `assets/views/uikit/List.vue`, `assets/views/uikit/Table.vue`, `assets/views/utilities/Documentation.vue` | Replace remote demo media with local assets (if assumption 2 is approved)                                                                   |
+| `tests/Functional/CspHeadersTest.php`                                                                     | New RED-first functional coverage for directives, nonce presence/rotation and absence of unsafe tokens                                      |
+| `spec/SPEC-csp-headers.md`                                                                                | This approved delta spec (committed after approval)                                                                                         |
+| `tasks/plan-hardening-csp.md`, `tasks/todo-hardening-csp.md`                                              | Dedicated plan/task files — do not overwrite `tasks/plan-sakai-primevue-ts.md` / `tasks/todo-sakai-primevue-ts.md`, which keep Task 35 open |
+| `docs/adr/0003-auth-architecture.md`, `README.md`                                                         | After verification: mark the CSP row mitigated and document the policy                                                                      |
 
 No change to `public/index.php`, the Caddyfiles or Apache config: the header is emitted by Symfony so it follows Twig-rendered responses and can carry the per-request nonce.
 

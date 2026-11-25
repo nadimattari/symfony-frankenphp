@@ -62,14 +62,14 @@ Every task must also clear the standing [Definition of Done](../.opencode/skills
 
 ## Risks and mitigations
 
-| Risk | Impact | Mitigation |
-|---|---|---|
-| Nonce missing on a response (e.g. error/subrequest) blocks SPA scripts | High | C2 asserts header and rendered nonce on the same response; subscriber copies master nonce to subrequests; debug error pages are explicitly out of the test matrix and documented |
-| Dev toolbar adds `'unsafe-inline'`, hiding a bad policy | Medium | Assert exact directives in `APP_ENV=test` (toolbar off); verify enforced header in prod-like smoke |
-| Strict `default-src 'self'` breaks demo images/embed | Medium | C4 replaces all four remote images and the iframe with local content/external link; C5 browser smoke covers those views |
-| `'unsafe-eval'` appears necessary from webpack runtime | High | Source-verified `globalThis` short-circuit; C2 asserts its absence; browser smoke exercises a dynamic chunk route |
-| Worker-mode nonce reuse across requests | High | Per-request Request attribute, no mutable service state; C2 asserts nonce rotation |
-| `localStorage` token remains XSS-readable even with CSP | Accepted | Documented in ADR 0003; moving it needs a new ADR and is out of scope |
+| Risk                                                                   | Impact   | Mitigation                                                                                                                                                                       |
+|------------------------------------------------------------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Nonce missing on a response (e.g. error/subrequest) blocks SPA scripts | High     | C2 asserts header and rendered nonce on the same response; subscriber copies master nonce to subrequests; debug error pages are explicitly out of the test matrix and documented |
+| Dev toolbar adds `'unsafe-inline'`, hiding a bad policy                | Medium   | Assert exact directives in `APP_ENV=test` (toolbar off); verify enforced header in prod-like smoke                                                                               |
+| Strict `default-src 'self'` breaks demo images/embed                   | Medium   | C4 replaces all four remote images and the iframe with local content/external link; C5 browser smoke covers those views                                                          |
+| `'unsafe-eval'` appears necessary from webpack runtime                 | High     | Source-verified `globalThis` short-circuit; C2 asserts its absence; browser smoke exercises a dynamic chunk route                                                                |
+| Worker-mode nonce reuse across requests                                | High     | Per-request Request attribute, no mutable service state; C2 asserts nonce rotation                                                                                               |
+| `localStorage` token remains XSS-readable even with CSP                | Accepted | Documented in ADR 0003; moving it needs a new ADR and is out of scope                                                                                                            |
 
 ## Open questions
 

@@ -31,16 +31,16 @@ No frontend commands are needed for this module.
 
 ## Project structure
 
-| Path | Change |
-|---|---|
-| `composer.json`, `composer.lock` | Add `symfony/rate-limiter` |
-| `config/packages/cache.yaml` | Configure the shared `cache.rate_limiter` DBAL pool and a stable `prefix_seed` |
-| `config/packages/rate_limiter.yaml` | Add `auth_refresh` and `auth_logout` fixed-window limiters (30 / 15 minutes) |
-| `config/packages/security.yaml` | Add `login_throttling` to the `main` firewall (10 / 15 minutes, shared pool) |
-| `src/Controller/TokenController.php` | Consume the two named limiters and return 429 JSON with `Retry-After` |
-| `tests/Functional/AuthRateLimitTest.php` | New RED-first functional coverage; clear the limiter pool in `setUp()` |
-| `docs/adr/0003-auth-architecture.md` | Mark the rate-limit row mitigated after verification (CSP row stays open until its own module) |
-| `README.md` | Document the new limits and 429 behaviour |
+| Path                                     | Change                                                                                         |
+|------------------------------------------|------------------------------------------------------------------------------------------------|
+| `composer.json`, `composer.lock`         | Add `symfony/rate-limiter`                                                                     |
+| `config/packages/cache.yaml`             | Configure the shared `cache.rate_limiter` DBAL pool and a stable `prefix_seed`                 |
+| `config/packages/rate_limiter.yaml`      | Add `auth_refresh` and `auth_logout` fixed-window limiters (30 / 15 minutes)                   |
+| `config/packages/security.yaml`          | Add `login_throttling` to the `main` firewall (10 / 15 minutes, shared pool)                   |
+| `src/Controller/TokenController.php`     | Consume the two named limiters and return 429 JSON with `Retry-After`                          |
+| `tests/Functional/AuthRateLimitTest.php` | New RED-first functional coverage; clear the limiter pool in `setUp()`                         |
+| `docs/adr/0003-auth-architecture.md`     | Mark the rate-limit row mitigated after verification (CSP row stays open until its own module) |
+| `README.md`                              | Document the new limits and 429 behaviour                                                      |
 
 ## Code style
 

@@ -34,19 +34,19 @@ This repository is a starting point for projects using the Symfony framework wit
 
 Run frontend commands in `sf-node` (Node 20); the host does not need Node or npm installed.
 
-| Task | Command |
-|------|---------|
-| Start/build containers (dev) | `docker compose up -d` |
-| Stop containers | `docker compose down` |
-| Production stack | `docker compose -f compose.yaml -f compose.prod.yaml up -d --build` |
-| Install frontend dependencies | `docker compose exec sf-node npm ci` |
-| Compile JS/CSS (dev) | `docker compose exec sf-node npm run dev` |
-| Watch JS/CSS | `docker compose exec sf-node npm run watch` |
-| Production asset build | `docker compose exec sf-node npm run build` |
-| Typecheck (`vue-tsc --noEmit`) | `docker compose exec sf-node npm run typecheck` |
-| Frontend service/guard tests | `docker compose exec sf-node npm run test:fetch` |
-| Lint (`eslint`) | `docker compose exec sf-node npm run lint` |
-| Run tests | `docker compose exec -e APP_ENV=test sf-php vendor/bin/simple-phpunit` |
+| Task                           | Command                                                                |
+|--------------------------------|------------------------------------------------------------------------|
+| Start/build containers (dev)   | `docker compose up -d`                                                 |
+| Stop containers                | `docker compose down`                                                  |
+| Production stack               | `docker compose -f compose.yaml -f compose.prod.yaml up -d --build`    |
+| Install frontend dependencies  | `docker compose exec sf-node npm ci`                                   |
+| Compile JS/CSS (dev)           | `docker compose exec sf-node npm run dev`                              |
+| Watch JS/CSS                   | `docker compose exec sf-node npm run watch`                            |
+| Production asset build         | `docker compose exec sf-node npm run build`                            |
+| Typecheck (`vue-tsc --noEmit`) | `docker compose exec sf-node npm run typecheck`                        |
+| Frontend service/guard tests   | `docker compose exec sf-node npm run test:fetch`                       |
+| Lint (`eslint`)                | `docker compose exec sf-node npm run lint`                             |
+| Run tests                      | `docker compose exec -e APP_ENV=test sf-php vendor/bin/simple-phpunit` |
 
 Run the frontend gates in order before committing asset changes:
 

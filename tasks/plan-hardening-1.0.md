@@ -55,15 +55,15 @@ Implement the approved hardening initiative in risk-first order: `auth-rate-limi
 
 ## Risks and mitigations
 
-| Risk | Impact | Mitigation |
-|---|---|---|
-| Lexik turns login throttling into 401, not 429 | High | Source-verified event subscriber in H5; RED test asserts 429 before production code |
-| DBAL cache table missing on first write | Medium | Symfony's DBAL adapter auto-creates `cache_items`; H4 verifies the pool can write/clear in the test DB |
-| Coarse `Retry-After` from Symfony's minute-based exception | Low | Document as minute-granular; do not add a custom limiter unless the user asks |
-| Successful login leaves the IP-wide counter set | Low | Accepted built-in trade-off; documented in spec and ADR |
-| Pre-existing uncommitted markdown table formatting in six files | Low | Inspect before staging; stage only hardening hunks, leave unrelated formatting untouched unless the user approves a separate commit |
-| Local `main` ahead of `origin/main` | Low | Keep local history, no rewrite; push only after explicit approval |
-| Tests pollute each other through limiter state | Medium | Clear `cache.rate_limiter` in `setUp()` before creating requests, per Symfony docs |
+| Risk                                                            | Impact | Mitigation                                                                                                                          |
+|-----------------------------------------------------------------|--------|-------------------------------------------------------------------------------------------------------------------------------------|
+| Lexik turns login throttling into 401, not 429                  | High   | Source-verified event subscriber in H5; RED test asserts 429 before production code                                                 |
+| DBAL cache table missing on first write                         | Medium | Symfony's DBAL adapter auto-creates `cache_items`; H4 verifies the pool can write/clear in the test DB                              |
+| Coarse `Retry-After` from Symfony's minute-based exception      | Low    | Document as minute-granular; do not add a custom limiter unless the user asks                                                       |
+| Successful login leaves the IP-wide counter set                 | Low    | Accepted built-in trade-off; documented in spec and ADR                                                                             |
+| Pre-existing uncommitted markdown table formatting in six files | Low    | Inspect before staging; stage only hardening hunks, leave unrelated formatting untouched unless the user approves a separate commit |
+| Local `main` ahead of `origin/main`                             | Low    | Keep local history, no rewrite; push only after explicit approval                                                                   |
+| Tests pollute each other through limiter state                  | Medium | Clear `cache.rate_limiter` in `setUp()` before creating requests, per Symfony docs                                                  |
 
 ## Verification commands
 
