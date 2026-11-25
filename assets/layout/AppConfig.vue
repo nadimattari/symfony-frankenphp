@@ -620,11 +620,11 @@ const onDarkModeChange = (value: boolean) => {
         <i class="pi pi-cog"></i>
     </button>
 
-    <Sidebar
+    <Drawer
         v-model:visible="visible"
         position="right"
         class="layout-config-sidebar w-[26rem]"
-        pt:closeButton="ml-auto"
+        :pt:pcCloseButton="{ root: 'ml-auto' }"
     >
         <div class="p-2">
             <section
@@ -783,7 +783,7 @@ const onDarkModeChange = (value: boolean) => {
                 />
             </section>
         </div>
-    </Sidebar>
+    </Drawer>
 </template>
 
 <style lang="scss" scoped></style>

@@ -63,3 +63,20 @@ test("Vue SFCs compile without compiler warnings", () => {
 
   assert.deepEqual(warnings, [], "unexpected Vue compiler warnings");
 });
+
+test("overlay panels use PrimeVue 5 Drawer instead of legacy Sidebar", () => {
+  const root = process.cwd();
+  const overlayFiles = [
+    "assets/layout/AppConfig.vue",
+    "assets/views/uikit/Overlay.vue",
+  ];
+
+  for (const file of overlayFiles) {
+    const source = fs.readFileSync(path.join(root, file), "utf8");
+    assert.doesNotMatch(source, /<Sidebar\b/, `${file} uses legacy Sidebar`);
+    assert.match(source, /<Drawer\b/, `${file} does not use Drawer`);
+  }
+
+  const appSource = fs.readFileSync(path.join(root, "assets/app.ts"), "utf8");
+  assert.match(appSource, /app\.component\("Drawer", Drawer\)/);
+});

@@ -253,41 +253,41 @@ const confirm = (event: Event): void => {
             </div>
             <div class="card">
                 <h5>Sidebar</h5>
-                <Sidebar v-model:visible="visibleLeft" :baseZIndex="1000">
+                <Drawer v-model:visible="visibleLeft" :baseZIndex="1000">
                     <h1 style="font-weight: normal">Left Sidebar</h1>
-                </Sidebar>
+                </Drawer>
 
-                <Sidebar
+                <Drawer
                     v-model:visible="visibleRight"
                     :baseZIndex="1000"
                     position="right"
                 >
                     <h1 style="font-weight: normal">Right Sidebar</h1>
-                </Sidebar>
+                </Drawer>
 
-                <Sidebar
+                <Drawer
                     v-model:visible="visibleTop"
                     :baseZIndex="1000"
                     position="top"
                 >
                     <h1 style="font-weight: normal">Top Sidebar</h1>
-                </Sidebar>
+                </Drawer>
 
-                <Sidebar
+                <Drawer
                     v-model:visible="visibleBottom"
                     :baseZIndex="1000"
                     position="bottom"
                 >
                     <h1 style="font-weight: normal">Bottom Sidebar</h1>
-                </Sidebar>
+                </Drawer>
 
-                <Sidebar
+                <Drawer
                     v-model:visible="visibleFull"
                     :baseZIndex="1000"
                     position="full"
                 >
                     <h1 style="font-weight: normal">Full Screen</h1>
-                </Sidebar>
+                </Drawer>
 
                 <Button
                     icon="pi pi-arrow-right"
